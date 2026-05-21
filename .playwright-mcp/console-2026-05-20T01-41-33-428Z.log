@@ -1,0 +1,33 @@
+[     946ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:19907
+[    1523ms] [ERROR] Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem. @ http://[::1]:5173/node_modules/.vite/deps/react-Dn94Augg.js?v=dd59f457:327
+[    1543ms] [ERROR] Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem. @ http://[::1]:5173/node_modules/.vite/deps/react-Dn94Augg.js?v=dd59f457:327
+[    1539ms] TypeError: Cannot read properties of null (reading 'useState')
+    at exports.useState (http://[::1]:5173/node_modules/.vite/deps/react-Dn94Augg.js?v=dd59f457:779:30)
+    at useUncontrolledState (http://[::1]:5173/node_modules/.vite/deps/dist-DiVuCHP1.js?v=dd59f457:62:41)
+    at useControllableState (http://[::1]:5173/node_modules/.vite/deps/dist-DiVuCHP1.js?v=dd59f457:35:63)
+    at Toggle (http://[::1]:5173/node_modules/.vite/deps/@radix-ui_react-toggle.js?v=24161b0f:15:32)
+    at Object.react_stack_bottom_frame (http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:18438:12)
+    at renderWithHooks (http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:9783:19)
+    at updateForwardRef (http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:10966:16)
+    at beginWork (http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:11774:21)
+    at runWithFiberInDEV (http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:6421:66)
+    at performUnitOfWork (http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:13999:92)
+[    1546ms] [WARNING] %s
+
+%s
+ An error occurred in the <Toggle> component. Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries. @ http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=ef32fe3d:10827
+[    5124ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=dd59f457:19907
+[  892570ms] [LOG] [vite] server connection lost. Polling for restart... @ http://[::1]:5173/@vite/client:968
+[ 8150511ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ http://[::1]:5173/@vite/client:0
+[ 8150515ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ http://[::1]:5173/resources/js/app.tsx:0
+[ 8150515ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ http://[::1]:5173/resources/js/pages/auth/login.tsx:0
+[ 8150515ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ http://[::1]:5173/@react-refresh:0

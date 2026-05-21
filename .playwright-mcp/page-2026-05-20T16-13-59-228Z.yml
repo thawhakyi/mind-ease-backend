@@ -1,0 +1,230 @@
+- generic [ref=e2]:
+  - generic [ref=e42]:
+    - generic [ref=e46]:
+      - list [ref=e48]:
+        - listitem [ref=e49]:
+          - link "Mind Ease" [ref=e50] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e52]
+            - generic [ref=e55]: Mind Ease
+      - generic [ref=e57]:
+        - generic [ref=e58]: Platform
+        - list [ref=e59]:
+          - listitem [ref=e60]:
+            - link "Dashboard" [ref=e61] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e62]
+              - generic [ref=e67]: Dashboard
+          - listitem [ref=e68]:
+            - link "Program Updates" [ref=e69] [cursor=pointer]:
+              - /url: /program-updates
+              - img [ref=e70]
+              - generic [ref=e73]: Program Updates
+            - list [ref=e74]:
+              - listitem [ref=e75]:
+                - link "Add New" [ref=e76] [cursor=pointer]:
+                  - /url: /program-updates/create
+                  - generic [ref=e77]: Add New
+              - listitem [ref=e78]:
+                - link "Country Office" [ref=e79] [cursor=pointer]:
+                  - /url: /program-updates/country-offices
+                  - generic [ref=e80]: Country Office
+              - listitem [ref=e81]:
+                - link "Location" [ref=e82] [cursor=pointer]:
+                  - /url: /program-updates/locations
+                  - generic [ref=e83]: Location
+          - listitem [ref=e84]:
+            - link "Opportunities & News" [ref=e85] [cursor=pointer]:
+              - /url: /opportunities-news
+              - img [ref=e86]
+              - generic [ref=e89]: Opportunities & News
+            - list [ref=e90]:
+              - listitem [ref=e91]:
+                - link "Add New" [ref=e92] [cursor=pointer]:
+                  - /url: /opportunities-news/create
+                  - generic [ref=e93]: Add New
+              - listitem [ref=e94]:
+                - link "Category" [ref=e95] [cursor=pointer]:
+                  - /url: /opportunities-news/categories
+                  - generic [ref=e96]: Category
+          - listitem [ref=e97]:
+            - link "Resources" [ref=e98] [cursor=pointer]:
+              - /url: /resources
+              - img [ref=e99]
+              - generic [ref=e102]: Resources
+            - list [ref=e103]:
+              - listitem [ref=e104]:
+                - link "Add New" [ref=e105] [cursor=pointer]:
+                  - /url: /resources/create
+                  - generic [ref=e106]: Add New
+              - listitem [ref=e107]:
+                - link "Category" [ref=e108] [cursor=pointer]:
+                  - /url: /resources/categories
+                  - generic [ref=e109]: Category
+              - listitem [ref=e110]:
+                - link "Language" [ref=e111] [cursor=pointer]:
+                  - /url: /resources/languages
+                  - generic [ref=e112]: Language
+          - listitem [ref=e113]:
+            - link "Counselling Providers" [ref=e114] [cursor=pointer]:
+              - /url: /counselling-providers
+              - img [ref=e115]
+              - generic [ref=e120]: Counselling Providers
+            - list [ref=e121]:
+              - listitem [ref=e122]:
+                - link "Add New" [ref=e123] [cursor=pointer]:
+                  - /url: /counselling-providers/create
+                  - generic [ref=e124]: Add New
+              - listitem [ref=e125]:
+                - link "Service Location" [ref=e126] [cursor=pointer]:
+                  - /url: /counselling-providers/service-locations
+                  - generic [ref=e127]: Service Location
+      - generic [ref=e128]:
+        - list [ref=e131]:
+          - listitem [ref=e132]:
+            - link "Repository" [ref=e133] [cursor=pointer]:
+              - /url: https://github.com/laravel/react-starter-kit
+              - img [ref=e134]
+              - generic [ref=e139]: Repository
+          - listitem [ref=e140]:
+            - link "Documentation" [ref=e141] [cursor=pointer]:
+              - /url: https://laravel.com/docs/starter-kits#react
+              - img [ref=e142]
+              - generic [ref=e144]: Documentation
+        - list [ref=e145]:
+          - listitem [ref=e146]:
+            - button "CT Codex Tester" [ref=e147] [cursor=pointer]:
+              - generic [ref=e149]: CT
+              - generic [ref=e151]: Codex Tester
+              - img [ref=e152]
+    - main [ref=e155]:
+      - generic [ref=e157]:
+        - button "Toggle sidebar" [ref=e158] [cursor=pointer]:
+          - img
+          - generic [ref=e159]: Toggle sidebar
+        - navigation "breadcrumb" [ref=e160]:
+          - list [ref=e161]:
+            - listitem [ref=e162]:
+              - link "Counselling Providers" [ref=e163] [cursor=pointer]:
+                - /url: /counselling-providers
+            - listitem [ref=e164]:
+              - img [ref=e165]
+            - listitem [ref=e167]:
+              - link "Add New" [disabled] [ref=e168]
+      - generic [ref=e169]:
+        - generic [ref=e170]:
+          - heading "Add New" [level=2] [ref=e171]
+          - paragraph [ref=e172]: Create a counselling provider profile.
+        - generic [ref=e175]:
+          - generic [ref=e176]:
+            - group [ref=e177]:
+              - generic [ref=e178]: Provider name
+              - textbox "Provider name" [ref=e179]
+            - group [ref=e180]:
+              - generic [ref=e181]: Provider Background
+              - generic [ref=e182]:
+                - generic [ref=e183]:
+                  - button "Bold" [ref=e184] [cursor=pointer]:
+                    - img
+                  - button "Italic" [ref=e185] [cursor=pointer]:
+                    - img
+                  - button "Underline" [ref=e186] [cursor=pointer]:
+                    - img
+                  - button "Strikethrough" [ref=e187] [cursor=pointer]:
+                    - img
+                  - button "Heading 1" [ref=e188] [cursor=pointer]:
+                    - img
+                  - button "Heading 2" [ref=e189] [cursor=pointer]:
+                    - img
+                  - button "Paragraph" [ref=e190] [cursor=pointer]:
+                    - img
+                  - button "Bullet list" [ref=e191] [cursor=pointer]:
+                    - img
+                  - button "Numbered list" [ref=e192] [cursor=pointer]:
+                    - img
+                  - button "Link" [ref=e193] [cursor=pointer]:
+                    - img
+                  - button "Clear formatting" [ref=e194] [cursor=pointer]:
+                    - img
+                  - button "Undo" [ref=e195] [cursor=pointer]:
+                    - img
+                  - button "Redo" [ref=e196] [cursor=pointer]:
+                    - img
+                - textbox "Write the provider background..." [ref=e197]
+            - generic [ref=e198]:
+              - group [ref=e199]:
+                - generic [ref=e200]: Number of professionals
+                - spinbutton "Number of professionals" [ref=e201]: "0"
+              - group [ref=e202]:
+                - generic [ref=e203]: Professional types
+                - textbox "Professional types" [ref=e204]:
+                  - /placeholder: Counsellors, psychologists
+            - generic [ref=e205]:
+              - group [ref=e206]:
+                - generic [ref=e207]: Languages
+                - combobox [ref=e208] [cursor=pointer]:
+                  - generic [ref=e209]: Select languages
+                  - img
+              - group [ref=e210]:
+                - generic [ref=e211]: Service locations
+                - combobox [ref=e212] [cursor=pointer]:
+                  - generic [ref=e213]: Select service locations
+                  - img
+            - generic [ref=e214]:
+              - group [ref=e215]:
+                - generic [ref=e216]: Office hours
+                - textbox "Office hours" [ref=e217]:
+                  - /placeholder: Mon-Fri 9am-5pm
+              - group [ref=e218]:
+                - generic [ref=e219]: Contact methods
+                - combobox [ref=e220] [cursor=pointer]:
+                  - generic [ref=e221]: Select contact methods
+                  - img
+            - group [ref=e222]:
+              - generic [ref=e223]:
+                - generic [ref=e224]: Phone numbers
+                - button "Add phone" [ref=e225] [cursor=pointer]:
+                  - img
+                  - text: Add phone
+              - generic [ref=e227]:
+                - textbox "Phone number 1" [ref=e228]:
+                  - /placeholder: +95...
+                - group [ref=e229]:
+                  - button "Remove phone number" [disabled]:
+                    - img
+            - generic [ref=e230]:
+              - group [ref=e231]:
+                - generic [ref=e232]: Email
+                - textbox "Email" [ref=e233]:
+                  - /placeholder: provider@example.com
+              - group [ref=e234]:
+                - generic [ref=e235]: Website URL
+                - textbox "Website URL" [ref=e236]:
+                  - /placeholder: https://example.com
+            - generic [ref=e237]:
+              - group [ref=e238]:
+                - generic [ref=e239]: Facebook Page name
+                - textbox "Facebook Page name" [ref=e240]
+              - group [ref=e241]:
+                - generic [ref=e242]: Facebook URL
+                - textbox "Facebook URL" [ref=e243]:
+                  - /placeholder: https://facebook.com/page
+            - button "Create Provider" [ref=e245] [cursor=pointer]
+          - complementary [ref=e246]:
+            - group [ref=e247]:
+              - generic [ref=e248]:
+                - img [ref=e249]
+                - generic [ref=e254]:
+                  - generic [ref=e255]: In person
+                  - paragraph [ref=e256]: Provider offers in-person support.
+              - switch [ref=e257] [cursor=pointer]
+              - checkbox
+            - group [ref=e258]:
+              - generic [ref=e259]: Sort order
+              - spinbutton "Sort order" [ref=e260]: "0"
+            - group [ref=e261]:
+              - generic [ref=e263]:
+                - img [ref=e264]
+                - text: Logo
+              - button "Logo" [ref=e268]
+  - region "Notifications alt+T"

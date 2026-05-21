@@ -1,0 +1,508 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e7]:
+        - list [ref=e9]:
+          - listitem [ref=e10]:
+            - link "Mind Ease" [ref=e11] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e13]
+              - generic [ref=e16]: Mind Ease
+        - generic [ref=e18]:
+          - generic [ref=e19]: Platform
+          - list [ref=e20]:
+            - listitem [ref=e21]:
+              - link "Dashboard" [ref=e22] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e23]
+                - generic [ref=e28]: Dashboard
+            - listitem [ref=e29]:
+              - link "Program Updates" [ref=e30] [cursor=pointer]:
+                - /url: /program-updates
+                - img [ref=e31]
+                - generic [ref=e34]: Program Updates
+              - list [ref=e35]:
+                - listitem [ref=e36]:
+                  - link "Add New" [ref=e37] [cursor=pointer]:
+                    - /url: /program-updates/create
+                    - generic [ref=e38]: Add New
+                - listitem [ref=e39]:
+                  - link "Country Office" [ref=e40] [cursor=pointer]:
+                    - /url: /program-updates/country-offices
+                    - generic [ref=e41]: Country Office
+                - listitem [ref=e42]:
+                  - link "Location" [ref=e43] [cursor=pointer]:
+                    - /url: /program-updates/locations
+                    - generic [ref=e44]: Location
+        - generic [ref=e45]:
+          - list [ref=e48]:
+            - listitem [ref=e49]:
+              - link "Repository" [ref=e50] [cursor=pointer]:
+                - /url: https://github.com/laravel/react-starter-kit
+                - img [ref=e51]
+                - generic [ref=e56]: Repository
+            - listitem [ref=e57]:
+              - link "Documentation" [ref=e58] [cursor=pointer]:
+                - /url: https://laravel.com/docs/starter-kits#react
+                - img [ref=e59]
+                - generic [ref=e61]: Documentation
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - button "CT Codex Tester" [ref=e64] [cursor=pointer]:
+                - generic [ref=e66]: CT
+                - generic [ref=e68]: Codex Tester
+                - img [ref=e69]
+      - main [ref=e72]:
+        - generic [ref=e74]:
+          - button "Toggle sidebar" [ref=e75] [cursor=pointer]:
+            - img
+            - generic [ref=e76]: Toggle sidebar
+          - navigation "breadcrumb" [ref=e77]:
+            - list [ref=e78]:
+              - listitem [ref=e79]:
+                - link "Program Updates" [ref=e80] [cursor=pointer]:
+                  - /url: /program-updates
+              - listitem [ref=e81]:
+                - img [ref=e82]
+              - listitem [ref=e84]:
+                - link "Add New" [disabled] [ref=e85]
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - heading "Add New" [level=2] [ref=e88]
+            - paragraph [ref=e89]: Create a new program update.
+          - generic [ref=e92]:
+            - generic [ref=e93]:
+              - group [ref=e94]:
+                - generic [ref=e95]: Title
+                - textbox "Title" [ref=e96]:
+                  - /placeholder: Program update title
+              - group [ref=e97]:
+                - generic [ref=e98]: Description
+                - generic [ref=e99]:
+                  - generic [ref=e100]:
+                    - button "Bold" [ref=e101] [cursor=pointer]:
+                      - img
+                    - button "Italic" [ref=e102] [cursor=pointer]:
+                      - img
+                    - button "Underline" [ref=e103] [cursor=pointer]:
+                      - img
+                    - button "Strikethrough" [ref=e104] [cursor=pointer]:
+                      - img
+                    - button "Heading 1" [ref=e105] [cursor=pointer]:
+                      - img
+                    - button "Heading 2" [ref=e106] [cursor=pointer]:
+                      - img
+                    - button "Paragraph" [ref=e107] [cursor=pointer]:
+                      - img
+                    - button "Bullet list" [ref=e108] [cursor=pointer]:
+                      - img
+                    - button "Numbered list" [ref=e109] [cursor=pointer]:
+                      - img
+                    - button "Link" [ref=e110] [cursor=pointer]:
+                      - img
+                    - button "Clear formatting" [ref=e111] [cursor=pointer]:
+                      - img
+                    - button "Undo" [ref=e112] [cursor=pointer]:
+                      - img
+                    - button "Redo" [ref=e113] [cursor=pointer]:
+                      - img
+                  - textbox "Write the program update description..." [ref=e114]
+              - generic [ref=e115]:
+                - group [ref=e116]:
+                  - generic [ref=e117]: Quarter
+                  - combobox [ref=e118] [cursor=pointer]:
+                    - generic [ref=e119]: Select quarter
+                    - img
+                - group [ref=e120]:
+                  - generic [ref=e121]: Year
+                  - spinbutton "Year" [ref=e122]
+                - group [ref=e123]:
+                  - generic [ref=e124]: Date
+                  - button "dd/mm/yyyy" [expanded] [ref=e125] [cursor=pointer]:
+                    - generic [ref=e126]: dd/mm/yyyy
+                    - img
+              - group [ref=e127]:
+                - generic [ref=e128]: Country Offices
+                - combobox [ref=e129] [cursor=pointer]:
+                  - generic [ref=e130]: Select country offices
+                  - img
+              - generic [ref=e131]:
+                - group [ref=e132]:
+                  - generic [ref=e133]: Facilitator
+                  - textbox "Facilitator" [ref=e134]:
+                    - /placeholder: Facilitator name
+                - group [ref=e135]:
+                  - generic [ref=e136]: Event Type
+                  - combobox [ref=e137] [cursor=pointer]:
+                    - generic [ref=e138]: Select event type
+                    - img
+              - group "Activity Details" [ref=e139]:
+                - generic [ref=e140]: Activity Details
+                - generic [ref=e141]:
+                  - generic [ref=e142]:
+                    - generic [ref=e144]: Activity 1
+                    - generic [ref=e145]:
+                      - group [ref=e146]:
+                        - generic [ref=e147]: Start Date
+                        - button "dd/mm/yyyy" [ref=e148] [cursor=pointer]:
+                          - generic [ref=e149]: dd/mm/yyyy
+                          - img
+                      - group [ref=e150]:
+                        - generic [ref=e151]: End Date
+                        - button "dd/mm/yyyy" [ref=e152] [cursor=pointer]:
+                          - generic [ref=e153]: dd/mm/yyyy
+                          - img
+                    - group [ref=e154]:
+                      - generic [ref=e155]: Country Office
+                      - combobox [ref=e156] [cursor=pointer]:
+                        - generic [ref=e157]: Select country offices
+                        - img
+                    - group [ref=e159]:
+                      - generic [ref=e160]: Event Type
+                      - combobox [ref=e161] [cursor=pointer]:
+                        - generic [ref=e162]: Select event type
+                        - img
+                    - group [ref=e163]:
+                      - generic [ref=e164]: Location
+                      - combobox [ref=e165] [cursor=pointer]:
+                        - generic [ref=e166]: Select locations
+                        - img
+                  - button "Add Activity" [ref=e168] [cursor=pointer]:
+                    - img
+                    - text: Add Activity
+            - button "Create Update" [ref=e170] [cursor=pointer]
+    - region "Notifications alt+T"
+  - dialog [ref=e172]:
+    - generic [ref=e174]:
+      - navigation "Navigation bar" [ref=e175]:
+        - button "Go to the Previous Month" [active] [ref=e176] [cursor=pointer]:
+          - img
+        - button "Go to the Next Month" [ref=e177] [cursor=pointer]:
+          - img
+      - generic [ref=e178]:
+        - generic [ref=e180]:
+          - generic [ref=e181]:
+            - combobox "Choose the Month" [ref=e182]:
+              - option "Jan"
+              - option "Feb"
+              - option "Mar"
+              - option "Apr"
+              - option "May" [selected]
+              - option "Jun"
+              - option "Jul"
+              - option "Aug"
+              - option "Sep"
+              - option "Oct"
+              - option "Nov"
+              - option "Dec"
+            - generic [ref=e183]:
+              - text: May
+              - img [ref=e184]
+          - generic [ref=e186]:
+            - combobox "Choose the Year" [ref=e187]:
+              - option "1900"
+              - option "1901"
+              - option "1902"
+              - option "1903"
+              - option "1904"
+              - option "1905"
+              - option "1906"
+              - option "1907"
+              - option "1908"
+              - option "1909"
+              - option "1910"
+              - option "1911"
+              - option "1912"
+              - option "1913"
+              - option "1914"
+              - option "1915"
+              - option "1916"
+              - option "1917"
+              - option "1918"
+              - option "1919"
+              - option "1920"
+              - option "1921"
+              - option "1922"
+              - option "1923"
+              - option "1924"
+              - option "1925"
+              - option "1926"
+              - option "1927"
+              - option "1928"
+              - option "1929"
+              - option "1930"
+              - option "1931"
+              - option "1932"
+              - option "1933"
+              - option "1934"
+              - option "1935"
+              - option "1936"
+              - option "1937"
+              - option "1938"
+              - option "1939"
+              - option "1940"
+              - option "1941"
+              - option "1942"
+              - option "1943"
+              - option "1944"
+              - option "1945"
+              - option "1946"
+              - option "1947"
+              - option "1948"
+              - option "1949"
+              - option "1950"
+              - option "1951"
+              - option "1952"
+              - option "1953"
+              - option "1954"
+              - option "1955"
+              - option "1956"
+              - option "1957"
+              - option "1958"
+              - option "1959"
+              - option "1960"
+              - option "1961"
+              - option "1962"
+              - option "1963"
+              - option "1964"
+              - option "1965"
+              - option "1966"
+              - option "1967"
+              - option "1968"
+              - option "1969"
+              - option "1970"
+              - option "1971"
+              - option "1972"
+              - option "1973"
+              - option "1974"
+              - option "1975"
+              - option "1976"
+              - option "1977"
+              - option "1978"
+              - option "1979"
+              - option "1980"
+              - option "1981"
+              - option "1982"
+              - option "1983"
+              - option "1984"
+              - option "1985"
+              - option "1986"
+              - option "1987"
+              - option "1988"
+              - option "1989"
+              - option "1990"
+              - option "1991"
+              - option "1992"
+              - option "1993"
+              - option "1994"
+              - option "1995"
+              - option "1996"
+              - option "1997"
+              - option "1998"
+              - option "1999"
+              - option "2000"
+              - option "2001"
+              - option "2002"
+              - option "2003"
+              - option "2004"
+              - option "2005"
+              - option "2006"
+              - option "2007"
+              - option "2008"
+              - option "2009"
+              - option "2010"
+              - option "2011"
+              - option "2012"
+              - option "2013"
+              - option "2014"
+              - option "2015"
+              - option "2016"
+              - option "2017"
+              - option "2018"
+              - option "2019"
+              - option "2020"
+              - option "2021"
+              - option "2022"
+              - option "2023"
+              - option "2024"
+              - option "2025"
+              - option "2026" [selected]
+              - option "2027"
+              - option "2028"
+              - option "2029"
+              - option "2030"
+              - option "2031"
+              - option "2032"
+              - option "2033"
+              - option "2034"
+              - option "2035"
+              - option "2036"
+              - option "2037"
+              - option "2038"
+              - option "2039"
+              - option "2040"
+              - option "2041"
+              - option "2042"
+              - option "2043"
+              - option "2044"
+              - option "2045"
+              - option "2046"
+              - option "2047"
+              - option "2048"
+              - option "2049"
+              - option "2050"
+              - option "2051"
+              - option "2052"
+              - option "2053"
+              - option "2054"
+              - option "2055"
+              - option "2056"
+              - option "2057"
+              - option "2058"
+              - option "2059"
+              - option "2060"
+              - option "2061"
+              - option "2062"
+              - option "2063"
+              - option "2064"
+              - option "2065"
+              - option "2066"
+              - option "2067"
+              - option "2068"
+              - option "2069"
+              - option "2070"
+              - option "2071"
+              - option "2072"
+              - option "2073"
+              - option "2074"
+              - option "2075"
+              - option "2076"
+              - option "2077"
+              - option "2078"
+              - option "2079"
+              - option "2080"
+              - option "2081"
+              - option "2082"
+              - option "2083"
+              - option "2084"
+              - option "2085"
+              - option "2086"
+              - option "2087"
+              - option "2088"
+              - option "2089"
+              - option "2090"
+              - option "2091"
+              - option "2092"
+              - option "2093"
+              - option "2094"
+              - option "2095"
+              - option "2096"
+              - option "2097"
+              - option "2098"
+              - option "2099"
+              - option "2100"
+            - generic [ref=e188]:
+              - text: "2026"
+              - img [ref=e189]
+          - status [ref=e191]: May 2026
+        - grid "May 2026" [ref=e192]:
+          - rowgroup [ref=e193]:
+            - row [ref=e194]:
+              - columnheader [ref=e195]: Su
+              - columnheader [ref=e196]: Mo
+              - columnheader [ref=e197]: Tu
+              - columnheader [ref=e198]: We
+              - columnheader [ref=e199]: Th
+              - columnheader [ref=e200]: Fr
+              - columnheader [ref=e201]: Sa
+          - rowgroup [ref=e202]:
+            - row "Sunday, April 26th, 2026 Monday, April 27th, 2026 Tuesday, April 28th, 2026 Wednesday, April 29th, 2026 Thursday, April 30th, 2026 Friday, May 1st, 2026 Saturday, May 2nd, 2026" [ref=e203]:
+              - gridcell "Sunday, April 26th, 2026" [ref=e204]:
+                - button "Sunday, April 26th, 2026" [ref=e205] [cursor=pointer]: "26"
+              - gridcell "Monday, April 27th, 2026" [ref=e206]:
+                - button "Monday, April 27th, 2026" [ref=e207] [cursor=pointer]: "27"
+              - gridcell "Tuesday, April 28th, 2026" [ref=e208]:
+                - button "Tuesday, April 28th, 2026" [ref=e209] [cursor=pointer]: "28"
+              - gridcell "Wednesday, April 29th, 2026" [ref=e210]:
+                - button "Wednesday, April 29th, 2026" [ref=e211] [cursor=pointer]: "29"
+              - gridcell "Thursday, April 30th, 2026" [ref=e212]:
+                - button "Thursday, April 30th, 2026" [ref=e213] [cursor=pointer]: "30"
+              - gridcell "Friday, May 1st, 2026" [ref=e214]:
+                - button "Friday, May 1st, 2026" [ref=e215] [cursor=pointer]: "1"
+              - gridcell "Saturday, May 2nd, 2026" [ref=e216]:
+                - button "Saturday, May 2nd, 2026" [ref=e217] [cursor=pointer]: "2"
+            - row "Sunday, May 3rd, 2026 Monday, May 4th, 2026 Tuesday, May 5th, 2026 Wednesday, May 6th, 2026 Thursday, May 7th, 2026 Friday, May 8th, 2026 Saturday, May 9th, 2026" [ref=e218]:
+              - gridcell "Sunday, May 3rd, 2026" [ref=e219]:
+                - button "Sunday, May 3rd, 2026" [ref=e220] [cursor=pointer]: "3"
+              - gridcell "Monday, May 4th, 2026" [ref=e221]:
+                - button "Monday, May 4th, 2026" [ref=e222] [cursor=pointer]: "4"
+              - gridcell "Tuesday, May 5th, 2026" [ref=e223]:
+                - button "Tuesday, May 5th, 2026" [ref=e224] [cursor=pointer]: "5"
+              - gridcell "Wednesday, May 6th, 2026" [ref=e225]:
+                - button "Wednesday, May 6th, 2026" [ref=e226] [cursor=pointer]: "6"
+              - gridcell "Thursday, May 7th, 2026" [ref=e227]:
+                - button "Thursday, May 7th, 2026" [ref=e228] [cursor=pointer]: "7"
+              - gridcell "Friday, May 8th, 2026" [ref=e229]:
+                - button "Friday, May 8th, 2026" [ref=e230] [cursor=pointer]: "8"
+              - gridcell "Saturday, May 9th, 2026" [ref=e231]:
+                - button "Saturday, May 9th, 2026" [ref=e232] [cursor=pointer]: "9"
+            - row "Sunday, May 10th, 2026 Monday, May 11th, 2026 Tuesday, May 12th, 2026 Wednesday, May 13th, 2026 Thursday, May 14th, 2026 Friday, May 15th, 2026 Saturday, May 16th, 2026" [ref=e233]:
+              - gridcell "Sunday, May 10th, 2026" [ref=e234]:
+                - button "Sunday, May 10th, 2026" [ref=e235] [cursor=pointer]: "10"
+              - gridcell "Monday, May 11th, 2026" [ref=e236]:
+                - button "Monday, May 11th, 2026" [ref=e237] [cursor=pointer]: "11"
+              - gridcell "Tuesday, May 12th, 2026" [ref=e238]:
+                - button "Tuesday, May 12th, 2026" [ref=e239] [cursor=pointer]: "12"
+              - gridcell "Wednesday, May 13th, 2026" [ref=e240]:
+                - button "Wednesday, May 13th, 2026" [ref=e241] [cursor=pointer]: "13"
+              - gridcell "Thursday, May 14th, 2026" [ref=e242]:
+                - button "Thursday, May 14th, 2026" [ref=e243] [cursor=pointer]: "14"
+              - gridcell "Friday, May 15th, 2026" [ref=e244]:
+                - button "Friday, May 15th, 2026" [ref=e245] [cursor=pointer]: "15"
+              - gridcell "Saturday, May 16th, 2026" [ref=e246]:
+                - button "Saturday, May 16th, 2026" [ref=e247] [cursor=pointer]: "16"
+            - row "Sunday, May 17th, 2026 Monday, May 18th, 2026 Tuesday, May 19th, 2026 Today, Wednesday, May 20th, 2026 Thursday, May 21st, 2026 Friday, May 22nd, 2026 Saturday, May 23rd, 2026" [ref=e248]:
+              - gridcell "Sunday, May 17th, 2026" [ref=e249]:
+                - button "Sunday, May 17th, 2026" [ref=e250] [cursor=pointer]: "17"
+              - gridcell "Monday, May 18th, 2026" [ref=e251]:
+                - button "Monday, May 18th, 2026" [ref=e252] [cursor=pointer]: "18"
+              - gridcell "Tuesday, May 19th, 2026" [ref=e253]:
+                - button "Tuesday, May 19th, 2026" [ref=e254] [cursor=pointer]: "19"
+              - gridcell "Today, Wednesday, May 20th, 2026" [ref=e255]:
+                - button "Today, Wednesday, May 20th, 2026" [ref=e256] [cursor=pointer]: "20"
+              - gridcell "Thursday, May 21st, 2026" [ref=e257]:
+                - button "Thursday, May 21st, 2026" [ref=e258] [cursor=pointer]: "21"
+              - gridcell "Friday, May 22nd, 2026" [ref=e259]:
+                - button "Friday, May 22nd, 2026" [ref=e260] [cursor=pointer]: "22"
+              - gridcell "Saturday, May 23rd, 2026" [ref=e261]:
+                - button "Saturday, May 23rd, 2026" [ref=e262] [cursor=pointer]: "23"
+            - row "Sunday, May 24th, 2026 Monday, May 25th, 2026 Tuesday, May 26th, 2026 Wednesday, May 27th, 2026 Thursday, May 28th, 2026 Friday, May 29th, 2026 Saturday, May 30th, 2026" [ref=e263]:
+              - gridcell "Sunday, May 24th, 2026" [ref=e264]:
+                - button "Sunday, May 24th, 2026" [ref=e265] [cursor=pointer]: "24"
+              - gridcell "Monday, May 25th, 2026" [ref=e266]:
+                - button "Monday, May 25th, 2026" [ref=e267] [cursor=pointer]: "25"
+              - gridcell "Tuesday, May 26th, 2026" [ref=e268]:
+                - button "Tuesday, May 26th, 2026" [ref=e269] [cursor=pointer]: "26"
+              - gridcell "Wednesday, May 27th, 2026" [ref=e270]:
+                - button "Wednesday, May 27th, 2026" [ref=e271] [cursor=pointer]: "27"
+              - gridcell "Thursday, May 28th, 2026" [ref=e272]:
+                - button "Thursday, May 28th, 2026" [ref=e273] [cursor=pointer]: "28"
+              - gridcell "Friday, May 29th, 2026" [ref=e274]:
+                - button "Friday, May 29th, 2026" [ref=e275] [cursor=pointer]: "29"
+              - gridcell "Saturday, May 30th, 2026" [ref=e276]:
+                - button "Saturday, May 30th, 2026" [ref=e277] [cursor=pointer]: "30"
+            - row "Sunday, May 31st, 2026 Monday, June 1st, 2026 Tuesday, June 2nd, 2026 Wednesday, June 3rd, 2026 Thursday, June 4th, 2026 Friday, June 5th, 2026 Saturday, June 6th, 2026" [ref=e278]:
+              - gridcell "Sunday, May 31st, 2026" [ref=e279]:
+                - button "Sunday, May 31st, 2026" [ref=e280] [cursor=pointer]: "31"
+              - gridcell "Monday, June 1st, 2026" [ref=e281]:
+                - button "Monday, June 1st, 2026" [ref=e282] [cursor=pointer]: "1"
+              - gridcell "Tuesday, June 2nd, 2026" [ref=e283]:
+                - button "Tuesday, June 2nd, 2026" [ref=e284] [cursor=pointer]: "2"
+              - gridcell "Wednesday, June 3rd, 2026" [ref=e285]:
+                - button "Wednesday, June 3rd, 2026" [ref=e286] [cursor=pointer]: "3"
+              - gridcell "Thursday, June 4th, 2026" [ref=e287]:
+                - button "Thursday, June 4th, 2026" [ref=e288] [cursor=pointer]: "4"
+              - gridcell "Friday, June 5th, 2026" [ref=e289]:
+                - button "Friday, June 5th, 2026" [ref=e290] [cursor=pointer]: "5"
+              - gridcell "Saturday, June 6th, 2026" [ref=e291]:
+                - button "Saturday, June 6th, 2026" [ref=e292] [cursor=pointer]: "6"

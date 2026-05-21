@@ -1,0 +1,199 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e7]:
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Mind Ease" [ref=e11] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e13]
+            - generic [ref=e16]: Mind Ease
+      - generic [ref=e18]:
+        - generic [ref=e19]: Platform
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - link "Dashboard" [ref=e22] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e23]
+              - generic [ref=e28]: Dashboard
+          - listitem [ref=e29]:
+            - link "Program Updates" [ref=e30] [cursor=pointer]:
+              - /url: /program-updates
+              - img [ref=e31]
+              - generic [ref=e34]: Program Updates
+            - list [ref=e35]:
+              - listitem [ref=e36]:
+                - link "Add New" [ref=e37] [cursor=pointer]:
+                  - /url: /program-updates/create
+                  - generic [ref=e38]: Add New
+              - listitem [ref=e39]:
+                - link "Country Office" [ref=e40] [cursor=pointer]:
+                  - /url: /program-updates/country-offices
+                  - generic [ref=e41]: Country Office
+              - listitem [ref=e42]:
+                - link "Location" [ref=e43] [cursor=pointer]:
+                  - /url: /program-updates/locations
+                  - generic [ref=e44]: Location
+      - generic [ref=e45]:
+        - list [ref=e48]:
+          - listitem [ref=e49]:
+            - link "Repository" [ref=e50] [cursor=pointer]:
+              - /url: https://github.com/laravel/react-starter-kit
+              - img [ref=e51]
+              - generic [ref=e56]: Repository
+          - listitem [ref=e57]:
+            - link "Documentation" [ref=e58] [cursor=pointer]:
+              - /url: https://laravel.com/docs/starter-kits#react
+              - img [ref=e59]
+              - generic [ref=e61]: Documentation
+        - list [ref=e62]:
+          - listitem [ref=e63]:
+            - button "CT Codex Tester" [ref=e64] [cursor=pointer]:
+              - generic [ref=e66]: CT
+              - generic [ref=e68]: Codex Tester
+              - img [ref=e69]
+    - main [ref=e72]:
+      - generic [ref=e74]:
+        - button "Toggle sidebar" [ref=e75] [cursor=pointer]:
+          - img
+          - generic [ref=e76]: Toggle sidebar
+        - navigation "breadcrumb" [ref=e77]:
+          - list [ref=e78]:
+            - listitem [ref=e79]:
+              - link "Program Updates" [ref=e80] [cursor=pointer]:
+                - /url: /program-updates
+            - listitem [ref=e81]:
+              - img [ref=e82]
+            - listitem [ref=e84]:
+              - link "Add New" [disabled] [ref=e85]
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - heading "Add New" [level=2] [ref=e88]
+          - paragraph [ref=e89]: Create a new program update.
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - generic [ref=e94]:
+              - group [ref=e95]:
+                - generic [ref=e96]: Title
+                - textbox "Title" [ref=e97]:
+                  - /placeholder: Program update title
+              - group [ref=e98]:
+                - generic [ref=e99]: Description
+                - generic [ref=e100]:
+                  - generic [ref=e101]:
+                    - button "Bold" [ref=e102] [cursor=pointer]:
+                      - img
+                    - button "Italic" [ref=e103] [cursor=pointer]:
+                      - img
+                    - button "Underline" [ref=e104] [cursor=pointer]:
+                      - img
+                    - button "Strikethrough" [ref=e105] [cursor=pointer]:
+                      - img
+                    - button "Heading 1" [ref=e106] [cursor=pointer]:
+                      - img
+                    - button "Heading 2" [ref=e107] [cursor=pointer]:
+                      - img
+                    - button "Paragraph" [ref=e108] [cursor=pointer]:
+                      - img
+                    - button "Bullet list" [ref=e109] [cursor=pointer]:
+                      - img
+                    - button "Numbered list" [ref=e110] [cursor=pointer]:
+                      - img
+                    - button "Link" [ref=e111] [cursor=pointer]:
+                      - img
+                    - button "Clear formatting" [ref=e112] [cursor=pointer]:
+                      - img
+                    - button "Undo" [ref=e113] [cursor=pointer]:
+                      - img
+                    - button "Redo" [ref=e114] [cursor=pointer]:
+                      - img
+                  - textbox "Write the program update description..." [ref=e115]
+              - generic [ref=e116]:
+                - group [ref=e117]:
+                  - generic [ref=e118]: Quarter
+                  - combobox [ref=e119] [cursor=pointer]:
+                    - generic [ref=e120]: Select quarter
+                    - img
+                - group [ref=e121]:
+                  - generic [ref=e122]: Year
+                  - spinbutton "Year" [ref=e123]
+                - group [ref=e124]:
+                  - generic [ref=e125]: Date
+                  - button "dd/mm/yyyy" [ref=e126] [cursor=pointer]:
+                    - generic [ref=e127]: dd/mm/yyyy
+                    - img
+              - group [ref=e128]:
+                - generic [ref=e129]: Country Offices
+                - combobox [ref=e130] [cursor=pointer]:
+                  - generic [ref=e131]: Select country offices
+                  - img
+              - generic [ref=e132]:
+                - group [ref=e133]:
+                  - generic [ref=e134]: Facilitator
+                  - textbox "Facilitator" [ref=e135]:
+                    - /placeholder: Facilitator name
+                - group [ref=e136]:
+                  - generic [ref=e137]: Event Type
+                  - combobox [ref=e138] [cursor=pointer]:
+                    - generic [ref=e139]: Select event type
+                    - img
+              - group "Activity Details" [ref=e140]:
+                - generic [ref=e141]: Activity Details
+                - generic [ref=e142]:
+                  - generic [ref=e143]:
+                    - generic [ref=e145]: Activity 1
+                    - generic [ref=e146]:
+                      - group [ref=e147]:
+                        - generic [ref=e148]: Start Date
+                        - button "dd/mm/yyyy" [ref=e149] [cursor=pointer]:
+                          - generic [ref=e150]: dd/mm/yyyy
+                          - img
+                      - group [ref=e151]:
+                        - generic [ref=e152]: End Date
+                        - button "dd/mm/yyyy" [ref=e153] [cursor=pointer]:
+                          - generic [ref=e154]: dd/mm/yyyy
+                          - img
+                    - group [ref=e155]:
+                      - generic [ref=e156]: Country Office
+                      - combobox [ref=e157] [cursor=pointer]:
+                        - generic [ref=e158]: Select country offices
+                        - img
+                    - group [ref=e160]:
+                      - generic [ref=e161]: Event Type
+                      - combobox [ref=e162] [cursor=pointer]:
+                        - generic [ref=e163]: Select event type
+                        - img
+                    - group [ref=e164]:
+                      - generic [ref=e165]: Location
+                      - combobox [ref=e166] [cursor=pointer]:
+                        - generic [ref=e167]: Select locations
+                        - img
+                  - button "Add Activity" [ref=e169] [cursor=pointer]:
+                    - img
+                    - text: Add Activity
+            - complementary [ref=e170]:
+              - group "Publishing" [ref=e171]:
+                - generic [ref=e172]: Publishing
+                - generic [ref=e173]:
+                  - group [ref=e174]:
+                    - generic [ref=e175]: Publish
+                    - switch "Publish" [ref=e176] [cursor=pointer]
+                    - checkbox
+                  - group [ref=e177]:
+                    - generic [ref=e178]: Order
+                    - spinbutton "Order" [ref=e179]: "0"
+              - group "Feature Image" [ref=e180]:
+                - generic [ref=e181]: Feature Image
+                - group [ref=e183]:
+                  - generic [ref=e185]:
+                    - img [ref=e186]
+                    - text: Image
+                  - button "Image" [ref=e190]
+              - group "Gallery" [ref=e191]:
+                - generic [ref=e192]: Gallery
+                - group [ref=e194]:
+                  - generic [ref=e196]:
+                    - img [ref=e197]
+                    - text: Images
+                  - button "Images" [ref=e200]
+          - button "Create Update" [ref=e202] [cursor=pointer]
+  - region "Notifications alt+T"

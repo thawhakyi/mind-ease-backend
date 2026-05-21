@@ -1,0 +1,2 @@
+[     241ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=dd59f457:19907
+[  214098ms] [ERROR] Invalid ARIA attribute `%s`. Did you mean `%s`? ariaInvalid aria-invalid @ http://[::1]:5173/node_modules/.vite/deps/@inertiajs_react.js?v=dd59f457:7426

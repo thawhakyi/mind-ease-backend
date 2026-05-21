@@ -1,0 +1,134 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e7]:
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Mind Ease" [ref=e11] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e13]
+            - generic [ref=e16]: Mind Ease
+      - generic [ref=e18]:
+        - generic [ref=e19]: Platform
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - link "Dashboard" [ref=e22] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e23]
+              - generic [ref=e28]: Dashboard
+          - listitem [ref=e29]:
+            - link "Program Updates" [ref=e30] [cursor=pointer]:
+              - /url: /program-updates
+              - img [ref=e31]
+              - generic [ref=e34]: Program Updates
+            - list [ref=e35]:
+              - listitem [ref=e36]:
+                - link "Add New" [ref=e37] [cursor=pointer]:
+                  - /url: /program-updates/create
+                  - generic [ref=e38]: Add New
+              - listitem [ref=e39]:
+                - link "Country Office" [ref=e40] [cursor=pointer]:
+                  - /url: /program-updates/country-offices
+                  - generic [ref=e41]: Country Office
+              - listitem [ref=e42]:
+                - link "Location" [ref=e43] [cursor=pointer]:
+                  - /url: /program-updates/locations
+                  - generic [ref=e44]: Location
+          - listitem [ref=e45]:
+            - link "Opportunities & News" [ref=e46] [cursor=pointer]:
+              - /url: /opportunities-news
+              - img [ref=e47]
+              - generic [ref=e50]: Opportunities & News
+            - list [ref=e51]:
+              - listitem [ref=e52]:
+                - link "Add New" [ref=e53] [cursor=pointer]:
+                  - /url: /opportunities-news/create
+                  - generic [ref=e54]: Add New
+              - listitem [ref=e55]:
+                - link "Category" [ref=e56] [cursor=pointer]:
+                  - /url: /opportunities-news/categories
+                  - generic [ref=e57]: Category
+          - listitem [ref=e58]:
+            - link "Resources" [ref=e59] [cursor=pointer]:
+              - /url: /resources
+              - img [ref=e60]
+              - generic [ref=e63]: Resources
+            - list [ref=e64]:
+              - listitem [ref=e65]:
+                - link "Add New" [ref=e66] [cursor=pointer]:
+                  - /url: /resources/create
+                  - generic [ref=e67]: Add New
+              - listitem [ref=e68]:
+                - link "Category" [ref=e69] [cursor=pointer]:
+                  - /url: /resources/categories
+                  - generic [ref=e70]: Category
+              - listitem [ref=e71]:
+                - link "Language" [ref=e72] [cursor=pointer]:
+                  - /url: /resources/languages
+                  - generic [ref=e73]: Language
+          - listitem [ref=e74]:
+            - link "Counselling Providers" [ref=e75] [cursor=pointer]:
+              - /url: /counselling-providers
+              - img [ref=e76]
+              - generic [ref=e81]: Counselling Providers
+            - list [ref=e82]:
+              - listitem [ref=e83]:
+                - link "Add New" [ref=e84] [cursor=pointer]:
+                  - /url: /counselling-providers/create
+                  - generic [ref=e85]: Add New
+              - listitem [ref=e86]:
+                - link "Service Location" [ref=e87] [cursor=pointer]:
+                  - /url: /counselling-providers/service-locations
+                  - generic [ref=e88]: Service Location
+      - generic [ref=e89]:
+        - list [ref=e92]:
+          - listitem [ref=e93]:
+            - link "Repository" [ref=e94] [cursor=pointer]:
+              - /url: https://github.com/laravel/react-starter-kit
+              - img [ref=e95]
+              - generic [ref=e100]: Repository
+          - listitem [ref=e101]:
+            - link "Documentation" [ref=e102] [cursor=pointer]:
+              - /url: https://laravel.com/docs/starter-kits#react
+              - img [ref=e103]
+              - generic [ref=e105]: Documentation
+        - list [ref=e106]:
+          - listitem [ref=e107]:
+            - button "CT Codex Tester" [ref=e108] [cursor=pointer]:
+              - generic [ref=e110]: CT
+              - generic [ref=e112]: Codex Tester
+              - img [ref=e113]
+    - main [ref=e116]:
+      - generic [ref=e118]:
+        - button "Toggle sidebar" [ref=e119] [cursor=pointer]:
+          - img
+          - generic [ref=e120]: Toggle sidebar
+        - navigation "breadcrumb" [ref=e121]:
+          - list [ref=e122]:
+            - listitem [ref=e123]:
+              - link "Counselling Providers" [ref=e124] [cursor=pointer]:
+                - /url: /counselling-providers
+            - listitem [ref=e125]:
+              - img [ref=e126]
+            - listitem [ref=e128]:
+              - link "Service Location" [disabled] [ref=e129]
+      - generic [ref=e130]:
+        - generic [ref=e131]:
+          - heading "Service Location" [level=2] [ref=e132]
+          - paragraph [ref=e133]: Manage counselling provider service locations.
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - generic [ref=e137]: Add service location
+              - generic [ref=e138]: Create a location for provider coverage.
+            - generic [ref=e140]:
+              - group [ref=e142]:
+                - generic [ref=e143]: Name
+                - textbox "Name" [ref=e144]:
+                  - /placeholder: Service location
+              - button "Add Service Location" [ref=e145] [cursor=pointer]
+          - generic [ref=e146]:
+            - generic [ref=e148]: Service locations
+            - generic [ref=e151]:
+              - generic [ref=e152]: No service locations
+              - generic [ref=e153]: Add a location to start assigning providers.
+  - region "Notifications alt+T"

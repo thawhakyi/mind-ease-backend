@@ -1,0 +1,131 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e7]:
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Mind Ease" [ref=e11] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e13]
+            - generic [ref=e16]: Mind Ease
+      - generic [ref=e18]:
+        - generic [ref=e19]: Platform
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - link "Dashboard" [ref=e22] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e23]
+              - generic [ref=e28]: Dashboard
+          - listitem [ref=e29]:
+            - link "Program Updates" [ref=e30] [cursor=pointer]:
+              - /url: /program-updates
+              - img [ref=e31]
+              - generic [ref=e34]: Program Updates
+            - list [ref=e35]:
+              - listitem [ref=e36]:
+                - link "Add New" [ref=e37] [cursor=pointer]:
+                  - /url: /program-updates/create
+                  - generic [ref=e38]: Add New
+              - listitem [ref=e39]:
+                - link "Country Office" [ref=e40] [cursor=pointer]:
+                  - /url: /program-updates/country-offices
+                  - generic [ref=e41]: Country Office
+              - listitem [ref=e42]:
+                - link "Location" [ref=e43] [cursor=pointer]:
+                  - /url: /program-updates/locations
+                  - generic [ref=e44]: Location
+      - generic [ref=e45]:
+        - list [ref=e48]:
+          - listitem [ref=e49]:
+            - link "Repository" [ref=e50] [cursor=pointer]:
+              - /url: https://github.com/laravel/react-starter-kit
+              - img [ref=e51]
+              - generic [ref=e56]: Repository
+          - listitem [ref=e57]:
+            - link "Documentation" [ref=e58] [cursor=pointer]:
+              - /url: https://laravel.com/docs/starter-kits#react
+              - img [ref=e59]
+              - generic [ref=e61]: Documentation
+        - list [ref=e62]:
+          - listitem [ref=e63]:
+            - button "CT Codex Tester" [ref=e64] [cursor=pointer]:
+              - generic [ref=e66]: CT
+              - generic [ref=e68]: Codex Tester
+              - img [ref=e69]
+    - main [ref=e72]:
+      - generic [ref=e74]:
+        - button "Toggle sidebar" [ref=e75] [cursor=pointer]:
+          - img
+          - generic [ref=e76]: Toggle sidebar
+        - navigation "breadcrumb" [ref=e77]:
+          - list [ref=e78]:
+            - listitem [ref=e79]:
+              - link "Program Updates" [ref=e80] [cursor=pointer]:
+                - /url: /program-updates
+            - listitem [ref=e81]:
+              - img [ref=e82]
+            - listitem [ref=e84]:
+              - link "Location" [disabled] [ref=e85]
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - heading "Location" [level=2] [ref=e88]
+          - paragraph [ref=e89]: Manage locations for program updates.
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e93]: Add location
+              - generic [ref=e94]: Create a location inside a country office.
+            - generic [ref=e96]:
+              - generic [ref=e97]:
+                - group [ref=e98]:
+                  - generic [ref=e99]: Country Office
+                  - combobox [ref=e100] [cursor=pointer]:
+                    - generic [ref=e101]: Select country office
+                    - img
+                - group [ref=e102]:
+                  - generic [ref=e103]: Name
+                  - textbox "Name" [ref=e104]:
+                    - /placeholder: Location name
+              - button "Add Location" [ref=e105] [cursor=pointer]
+          - generic [ref=e106]:
+            - generic [ref=e108]: Locations
+            - table [ref=e111]:
+              - rowgroup [ref=e112]:
+                - row "Country Office Location Actions" [ref=e113]:
+                  - columnheader "Country Office" [ref=e114]
+                  - columnheader "Location" [ref=e115]
+                  - columnheader "Actions" [ref=e116]
+              - rowgroup [ref=e117]:
+                - row "Bangkok" [ref=e118]:
+                  - cell [ref=e119]:
+                    - combobox [ref=e121] [cursor=pointer]:
+                      - generic [ref=e122]: Thailand
+                      - img
+                  - cell "Bangkok" [ref=e123]:
+                    - textbox "Location" [ref=e124]: Bangkok
+                  - cell [ref=e125]:
+                    - group [ref=e126]:
+                      - button "Save" [ref=e127] [cursor=pointer]
+                      - button "Delete" [ref=e128] [cursor=pointer]
+                - row "Chiang Mai" [ref=e129]:
+                  - cell [ref=e130]:
+                    - combobox [ref=e132] [cursor=pointer]:
+                      - generic [ref=e133]: Thailand
+                      - img
+                  - cell "Chiang Mai" [ref=e134]:
+                    - textbox "Location" [ref=e135]: Chiang Mai
+                  - cell [ref=e136]:
+                    - group [ref=e137]:
+                      - button "Save" [ref=e138] [cursor=pointer]
+                      - button "Delete" [ref=e139] [cursor=pointer]
+                - row "Mae Sot" [ref=e140]:
+                  - cell [ref=e141]:
+                    - combobox [ref=e143] [cursor=pointer]:
+                      - generic [ref=e144]: Thailand
+                      - img
+                  - cell "Mae Sot" [ref=e145]:
+                    - textbox "Location" [ref=e146]: Mae Sot
+                  - cell [ref=e147]:
+                    - group [ref=e148]:
+                      - button "Save" [ref=e149] [cursor=pointer]
+                      - button "Delete" [ref=e150] [cursor=pointer]
+  - region "Notifications alt+T"

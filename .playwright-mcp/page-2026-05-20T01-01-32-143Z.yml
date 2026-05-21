@@ -1,0 +1,75 @@
+- generic [ref=e2]:
+  - generic [ref=e42]:
+    - generic [ref=e46]:
+      - list [ref=e48]:
+        - listitem [ref=e49]:
+          - link "Mind Ease" [ref=e50] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e52]
+            - generic [ref=e55]: Mind Ease
+      - generic [ref=e57]:
+        - generic [ref=e58]: Platform
+        - list [ref=e59]:
+          - listitem [ref=e60]:
+            - link "Dashboard" [ref=e61] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e62]
+              - generic [ref=e67]: Dashboard
+          - listitem [ref=e68]:
+            - link "Program Updates" [ref=e69] [cursor=pointer]:
+              - /url: /program-updates
+              - img [ref=e70]
+              - generic [ref=e73]: Program Updates
+            - list [ref=e74]:
+              - listitem [ref=e75]:
+                - link "Add New" [ref=e76] [cursor=pointer]:
+                  - /url: /program-updates/create
+                  - generic [ref=e77]: Add New
+              - listitem [ref=e78]:
+                - link "Country Office" [ref=e79] [cursor=pointer]:
+                  - /url: /program-updates/country-offices
+                  - generic [ref=e80]: Country Office
+              - listitem [ref=e81]:
+                - link "Location" [ref=e82] [cursor=pointer]:
+                  - /url: /program-updates/locations
+                  - generic [ref=e83]: Location
+      - generic [ref=e84]:
+        - list [ref=e87]:
+          - listitem [ref=e88]:
+            - link "Repository" [ref=e89] [cursor=pointer]:
+              - /url: https://github.com/laravel/react-starter-kit
+              - img [ref=e90]
+              - generic [ref=e95]: Repository
+          - listitem [ref=e96]:
+            - link "Documentation" [ref=e97] [cursor=pointer]:
+              - /url: https://laravel.com/docs/starter-kits#react
+              - img [ref=e98]
+              - generic [ref=e100]: Documentation
+        - list [ref=e101]:
+          - listitem [ref=e102]:
+            - button "CT Codex Tester" [ref=e103] [cursor=pointer]:
+              - generic [ref=e105]: CT
+              - generic [ref=e107]: Codex Tester
+              - img [ref=e108]
+    - main [ref=e111]:
+      - generic [ref=e113]:
+        - button "Toggle sidebar" [ref=e114] [cursor=pointer]:
+          - img
+          - generic [ref=e115]: Toggle sidebar
+        - navigation "breadcrumb" [ref=e116]:
+          - list [ref=e117]:
+            - listitem [ref=e118]:
+              - link "Program Updates" [disabled] [ref=e119]
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - heading "Program Updates" [level=2] [ref=e123]
+            - paragraph [ref=e124]: Manage program updates by country office and location.
+          - link "Add New" [ref=e125] [cursor=pointer]:
+            - /url: /program-updates/create
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: Updates
+            - generic [ref=e129]: Latest program updates for field reporting.
+          - paragraph [ref=e132]: No program updates have been created yet.
+  - region "Notifications alt+T"
