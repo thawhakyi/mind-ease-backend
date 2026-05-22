@@ -92,7 +92,7 @@ class OpportunityNewsController extends Controller
     }
 
     /**
-     * @return array{title: string, description?: string|null, category_ids?: array<int, int>, featured_image_path?: string, internal_members_only: bool, is_published: bool}
+     * @return array{title: string, description?: string|null, category_ids?: array<int, int>, featured_image_path?: string|null, internal_members_only: bool, is_published: bool}
      */
     private function validatedAttributes(Request $request): array
     {
@@ -102,14 +102,20 @@ class OpportunityNewsController extends Controller
             'category_ids' => ['nullable', 'array'],
             'category_ids.*' => ['integer', Rule::exists('opportunity_news_categories', 'id')],
             'featured_image' => ['nullable', 'image', 'max:5120'],
+            'remove_featured_image' => ['nullable', 'boolean'],
             'internal_members_only' => ['nullable', 'boolean'],
             'is_published' => ['nullable', 'boolean'],
         ]);
 
         unset($validated['featured_image']);
+        unset($validated['remove_featured_image']);
 
         $validated['internal_members_only'] = $request->boolean('internal_members_only');
         $validated['is_published'] = $request->boolean('is_published');
+
+        if ($request->boolean('remove_featured_image')) {
+            $validated['featured_image_path'] = null;
+        }
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image_path'] = $request

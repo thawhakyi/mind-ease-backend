@@ -1,11 +1,7 @@
 import { useForm } from '@inertiajs/react';
-import {
-    ChevronsUpDownIcon,
-    ImageIcon,
-    LockIcon,
-    RadioIcon,
-} from 'lucide-react';
+import { ChevronsUpDownIcon, LockIcon, RadioIcon } from 'lucide-react';
 import type { ComponentType } from 'react';
+import { FeatureImageUpload } from '@/components/feature-image-upload';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -45,6 +41,7 @@ type FormValues = {
     internal_members_only: boolean;
     is_published: boolean;
     featured_image: File | null;
+    remove_featured_image: boolean;
 };
 
 type Props = {
@@ -76,6 +73,7 @@ export default function OpportunityNewsForm({
         internal_members_only: item?.internal_members_only ?? false,
         is_published: item?.is_published ?? false,
         featured_image: null,
+        remove_featured_image: false,
     });
     const errors = form.errors as Record<string, string | undefined>;
 
@@ -186,46 +184,31 @@ export default function OpportunityNewsForm({
                     </FieldGroup>
                 </FieldSet>
 
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Featured Image</FieldLegend>
-                    <FieldGroup>
-                        {item?.featured_image_path && (
-                            <img
-                                src={`/storage/${item.featured_image_path}`}
-                                alt=""
-                                className="aspect-video w-full rounded-md border object-cover"
-                            />
-                        )}
-                        <Field data-invalid={!!form.errors.featured_image}>
-                            <FieldLabel htmlFor="featured_image">
-                                <span className="inline-flex items-center gap-2">
-                                    <ImageIcon className="size-4" />
-                                    Image
-                                </span>
-                            </FieldLabel>
-                            <Input
-                                id="featured_image"
-                                type="file"
-                                accept="image/*"
-                                onChange={(event) =>
-                                    form.setData(
-                                        'featured_image',
-                                        event.target.files?.[0] ?? null,
-                                    )
-                                }
-                                aria-invalid={!!form.errors.featured_image}
-                            />
-                            {form.data.featured_image && (
-                                <div className="text-sm text-muted-foreground">
-                                    {form.data.featured_image.name}
-                                </div>
-                            )}
-                            <FieldError
-                                errors={fieldErrors(errors, 'featured_image')}
-                            />
-                        </Field>
-                    </FieldGroup>
-                </FieldSet>
+                <FeatureImageUpload
+                    error={errors.featured_image}
+                    file={form.data.featured_image}
+                    imagePath={
+                        form.data.remove_featured_image
+                            ? null
+                            : (item?.featured_image_path ?? null)
+                    }
+                    inputId="featured_image"
+                    legend="Featured Image"
+                    onChange={(file) =>
+                        form.setData((data) => ({
+                            ...data,
+                            featured_image: file,
+                            remove_featured_image: false,
+                        }))
+                    }
+                    onRemove={() =>
+                        form.setData((data) => ({
+                            ...data,
+                            featured_image: null,
+                            remove_featured_image: true,
+                        }))
+                    }
+                />
             </aside>
         </form>
     );

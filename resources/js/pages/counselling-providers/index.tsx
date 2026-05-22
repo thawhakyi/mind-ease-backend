@@ -99,11 +99,6 @@ export default function CounsellingProvidersIndex({
                                                 <div className="font-medium">
                                                     {provider.provider_name}
                                                 </div>
-                                                <p className="mt-1 line-clamp-2 text-muted-foreground">
-                                                    {
-                                                        provider.provider_background
-                                                    }
-                                                </p>
                                             </TableCell>
                                             <TableCell>
                                                 {provider.service_locations}

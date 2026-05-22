@@ -1,384 +1,174 @@
-"use client"
+'use client';
 
-import { useCallback, useState } from "react"
 import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/reui/alert"
+    CircleAlertIcon,
+    CloudUploadIcon,
+    ImageIcon,
+    PencilIcon,
+    XIcon,
+} from 'lucide-react';
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { XIcon, CloudUploadIcon, ImageIcon, CircleXIcon, CircleAlertIcon } from "lucide-react"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/reui/alert';
+import { formatBytes, useFileUpload } from '@/hooks/use-file-upload';
+import type { FileMetadata } from '@/hooks/use-file-upload';
 
-interface ImageFile {
-  id: string
-  file: File
-  preview: string
-  progress: number
-  status: "uploading" | "completed" | "error"
-  error?: string
-}
-
-interface ImageUploadProps {
-  maxFiles?: number
-  maxSize?: number
-  accept?: string
-  className?: string
-  onImagesChange?: (images: ImageFile[]) => void
-  onUploadComplete?: (images: ImageFile[]) => void
-}
+type FeaturedImageUploadProps = {
+    accept?: string;
+    className?: string;
+    defaultImagePath?: string | null;
+    maxSize?: number;
+    onFileChange?: (file: File | null) => void;
+};
 
 export function Pattern({
-  maxFiles = 10,
-  maxSize = 2 * 1024 * 1024, // 2MB
-  accept = "image/*",
-  className,
-  onImagesChange,
-  onUploadComplete,
-}: ImageUploadProps) {
-  const [images, setImages] = useState<ImageFile[]>([])
-  const [isDragging, setIsDragging] = useState(false)
-  const [errors, setErrors] = useState<string[]>([])
-  const [visibleDefaultImages, setVisibleDefaultImages] = useState([
-    {
-      id: "default-1",
-      src: "https://picsum.photos/1000/800?grayscale&random=4",
-      alt: "Product view 1",
-    },
-    {
-      id: "default-2",
-      src: "https://picsum.photos/1000/800?grayscale&random=5",
-      alt: "Product view 2",
-    },
-    {
-      id: "default-3",
-      src: "https://picsum.photos/1000/800?grayscale&random=6",
-      alt: "Product view 3",
-    },
-    {
-      id: "default-4",
-      src: "https://picsum.photos/1000/800?grayscale&random=7",
-      alt: "Product view 4",
-    },
-  ])
+    accept = 'image/*',
+    className,
+    defaultImagePath,
+    maxSize = 2 * 1024 * 1024,
+    onFileChange,
+}: FeaturedImageUploadProps) {
+    const initialFiles: FileMetadata[] = defaultImagePath
+        ? [
+              {
+                  id: 'current-feature-image',
+                  name: 'Current feature image',
+                  size: 0,
+                  type: 'image/*',
+                  url: defaultImagePath,
+              },
+          ]
+        : [];
 
-  const validateFile = (file: File): string | null => {
-    if (!file.type.startsWith("image/")) {
-      return "File must be an image"
-    }
-    if (file.size > maxSize) {
-      return `File size must be less than ${(maxSize / 1024 / 1024).toFixed(1)}MB`
-    }
-    if (images.length >= maxFiles) {
-      return `Maximum ${maxFiles} files allowed`
-    }
-    return null
-  }
+    const [
+        { files, isDragging, errors },
+        {
+            getInputProps,
+            handleDragEnter,
+            handleDragLeave,
+            handleDragOver,
+            handleDrop,
+            openFileDialog,
+            removeFile,
+        },
+    ] = useFileUpload({
+        accept,
+        initialFiles,
+        maxSize,
+        multiple: false,
+        onFilesChange: (updatedFiles) => {
+            const file = updatedFiles[0]?.file;
 
-  const addImages = useCallback(
-    (files: FileList | File[]) => {
-      const newImages: ImageFile[] = []
-      const newErrors: string[] = []
+            onFileChange?.(file instanceof File ? file : null);
+        },
+    });
 
-      Array.from(files).forEach((file) => {
-        const error = validateFile(file)
-        if (error) {
-          newErrors.push(`${file.name}: ${error}`)
-          return
+    const selectedFile = files[0];
+
+    function removeSelectedFile() {
+        if (!selectedFile) {
+            return;
         }
 
-        const imageFile: ImageFile = {
-          id: `${Date.now()}-${Math.random()}`,
-          file,
-          preview: URL.createObjectURL(file),
-          progress: 0,
-          status: "uploading",
-        }
-
-        newImages.push(imageFile)
-      })
-
-      if (newErrors.length > 0) {
-        setErrors((prev) => [...prev, ...newErrors])
-      }
-
-      if (newImages.length > 0) {
-        const updatedImages = [...images, ...newImages]
-        setImages(updatedImages)
-        onImagesChange?.(updatedImages)
-
-        // Simulate upload progress
-        newImages.forEach((imageFile) => {
-          simulateUpload(imageFile)
-        })
-      }
-    },
-    [images, maxSize, maxFiles, onImagesChange]
-  )
-
-  const simulateUpload = (imageFile: ImageFile) => {
-    let progress = 0
-    const interval = setInterval(() => {
-      progress += Math.random() * 20
-      if (progress >= 100) {
-        progress = 100
-        clearInterval(interval)
-
-        setImages((prev) =>
-          prev.map((img) =>
-            img.id === imageFile.id
-              ? { ...img, progress: 100, status: "completed" as const }
-              : img
-          )
-        )
-
-        // Check if all uploads are complete
-        const updatedImages = images.map((img) =>
-          img.id === imageFile.id
-            ? { ...img, progress: 100, status: "completed" as const }
-            : img
-        )
-
-        if (updatedImages.every((img) => img.status === "completed")) {
-          onUploadComplete?.(updatedImages)
-        }
-      } else {
-        setImages((prev) =>
-          prev.map((img) =>
-            img.id === imageFile.id ? { ...img, progress } : img
-          )
-        )
-      }
-    }, 100)
-  }
-
-  const removeImage = useCallback((id: string) => {
-    // If it's a default image, remove it from visible defaults
-    if (id.startsWith("default-")) {
-      setVisibleDefaultImages((prev) => prev.filter((img) => img.id !== id))
-      return
+        removeFile(selectedFile.id);
     }
 
-    // Remove uploaded image
-    setImages((prev) => {
-      const image = prev.find((img) => img.id === id)
-      if (image) {
-        URL.revokeObjectURL(image.preview)
-      }
-      return prev.filter((img) => img.id !== id)
-    })
-  }, [])
-
-  const handleDragEnter = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(true)
-  }, [])
-
-  const handleDragLeave = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(false)
-  }, [])
-
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-  }, [])
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      setIsDragging(false)
-
-      const files = e.dataTransfer.files
-      if (files.length > 0) {
-        addImages(files)
-      }
-    },
-    [addImages]
-  )
-
-  const openFileDialog = useCallback(() => {
-    const input = document.createElement("input")
-    input.type = "file"
-    input.multiple = true
-    input.accept = accept
-    input.onchange = (e) => {
-      const target = e.target as HTMLInputElement
-      if (target.files) {
-        addImages(target.files)
-      }
+    function replaceSelectedFile() {
+        openFileDialog();
     }
-    input.click()
-  }, [accept, addImages])
 
-  const formatBytes = (bytes: number): string => {
-    if (bytes === 0) return "0 Bytes"
-    const k = 1024
-    const sizes = ["Bytes", "KB", "MB", "GB"]
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i]
-  }
-
-  return (
-    <div className={cn("w-full max-w-4xl", className)}>
-      {/* Image Grid - Moved to top */}
-      <div className="mb-6">
-        <div className="grid grid-cols-4 gap-2.5">
-          {/* Always show all visible default images first */}
-          {visibleDefaultImages.map((defaultImg) => (
+    return (
+        <div className={cn('w-full max-w-4xl', className)}>
             <Card
-              key={defaultImg.id}
-              className="bg-accent/50 group/item rounded-md relative flex shrink-0 items-center justify-center p-0 shadow-none"
+                className={cn(
+                    'rounded-md border-dashed shadow-none transition-colors',
+                    isDragging
+                        ? 'border-primary bg-primary/5'
+                        : 'border-muted-foreground/25 hover:border-muted-foreground/50',
+                )}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
             >
-              <img
-                src={defaultImg.src}
-                className="rounded-md h-[120px] w-full object-cover"
-                alt={defaultImg.alt}
-              />
-
-              {/* Remove Button Overlay for default images too */}
-              <Button
-                onClick={() => removeImage(defaultImg.id)}
-                variant="outline"
-                size="icon"
-                className="absolute end-1 top-1 size-6 rounded-full opacity-0 shadow-sm group-hover/item:opacity-100 dark:bg-zinc-800 hover:dark:bg-zinc-700"
-              >
-                <XIcon className="size-3.5" />
-              </Button>
-            </Card>
-          ))}
-        </div>
-
-        {/* Show uploaded images in a separate grid below */}
-        {images.length > 0 && (
-          <div className="mt-4 grid grid-cols-4 gap-2.5">
-            {images.map((imageFile, index) => (
-              <Card
-                key={imageFile.id}
-                className="bg-accent/50 group/item relative flex shrink-0 items-center justify-center rounded-md p-0 shadow-none"
-              >
-                <img
-                  src={imageFile.preview}
-                  className="h-[120px] w-full rounded-md object-cover"
-                  alt={`Product view ${index + 1}`}
-                />
-
-                {/* Remove Button Overlay */}
-                <Button
-                  onClick={() => removeImage(imageFile.id)}
-                  variant="outline"
-                  size="icon"
-                  className="absolute end-2 top-2 size-6 rounded-full opacity-0 shadow-sm group-hover/item:opacity-100 dark:bg-zinc-800 hover:dark:bg-zinc-700"
-                >
-                  <XIcon className="size-3.5" />
-                </Button>
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Upload Area */}
-      <Card
-        className={cn(
-          "rounded-md border-dashed shadow-none transition-colors",
-          isDragging
-            ? "border-primary bg-primary/5"
-            : "border-muted-foreground/25 hover:border-muted-foreground/50"
-        )}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-      >
-        <CardContent className="text-center">
-          <div className="border-border mx-auto mb-3 flex size-[32px] items-center justify-center rounded-full border">
-            <CloudUploadIcon className="size-4" />
-          </div>
-          <h3 className="text-2sm text-foreground mb-0.5 font-semibold">
-            Choose a file or drag & drop here.
-          </h3>
-          <span className="text-secondary-foreground mb-3 block text-xs font-normal">
-            JPEG, PNG, up to {formatBytes(maxSize)}.
-          </span>
-          <Button size="sm" onClick={openFileDialog}>
-            Browse File
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* Upload Progress Cards */}
-      {images.length > 0 && (
-        <div className="mt-6 space-y-3">
-          {images.map((imageFile) => (
-            <Card
-              key={imageFile.id}
-              className="rounded-md p-0 shadow-none"
-            >
-              <CardContent className="flex items-center gap-2 p-3">
-                <div className="border-border rounded-md flex size-[32px] shrink-0 items-center justify-center border">
-                  <ImageIcon className="text-muted-foreground size-4" />
-                </div>
-                <div className="flex w-full flex-col gap-1.5">
-                  <div className="-mt-2 flex w-full items-center justify-between gap-2.5">
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-foreground text-xs leading-none font-medium">
-                        {imageFile.file.name}
-                      </span>
-                      <span className="text-muted-foreground text-xs leading-none font-normal">
-                        {formatBytes(imageFile.file.size)}
-                      </span>
-                      {imageFile.status === "uploading" && (
-                        <p className="text-muted-foreground text-xs">
-                          Uploading... {Math.round(imageFile.progress)}%
-                        </p>
-                      )}
+                <CardContent className="text-center">
+                    <input {...getInputProps()} className="sr-only" />
+                    <div className="mx-auto mb-3 flex size-8 items-center justify-center rounded-full border border-border">
+                        <CloudUploadIcon />
                     </div>
-                    <Button
-                      onClick={() => removeImage(imageFile.id)}
-                      variant="ghost"
-                      size="icon"
-                      className="size-6"
-                    >
-                      <CircleXIcon className="size-3.5" />
+                    <h3 className="mb-2 text-sm font-semibold text-foreground">
+                        Choose a file or drag & drop here.
+                    </h3>
+                    <span className="mb-3 block text-xs font-normal text-secondary-foreground">
+                        JPEG, PNG, up to {formatBytes(maxSize, 1)}.
+                    </span>
+                    <Button size="sm" type="button" onClick={openFileDialog}>
+                        Browse File
                     </Button>
-                  </div>
-
-                  <Progress
-                    value={imageFile.progress}
-                    className={cn(
-                      "h-1 transition-all duration-300",
-                      "[&>div]:bg-zinc-950 dark:[&>div]:bg-zinc-50"
-                    )}
-                  />
-                </div>
-              </CardContent>
+                </CardContent>
             </Card>
-          ))}
-        </div>
-      )}
 
-      {/* Error Messages */}
-      {errors.length > 0 && (
-        <Alert variant="destructive" className="mt-5">
-          <CircleAlertIcon
-          />
-          <AlertTitle>File upload error(s)</AlertTitle>
-          <AlertDescription>
-            {errors.map((error, index) => (
-              <p key={index} className="last:mb-0">
-                {error}
-              </p>
-            ))}
-          </AlertDescription>
-        </Alert>
-      )}
-    </div>
-  )
+            {selectedFile && (
+                <Card className="mt-4 rounded-md p-0 shadow-none">
+                    <CardContent className="grid gap-3 p-3 sm:grid-cols-[8rem_minmax(0,1fr)_auto] sm:items-center">
+                        <div className="flex aspect-video items-center justify-center overflow-hidden rounded-md border bg-muted">
+                            {selectedFile.preview ? (
+                                <img
+                                    src={selectedFile.preview}
+                                    alt={selectedFile.file.name}
+                                    className="size-full object-cover"
+                                />
+                            ) : (
+                                <ImageIcon className="text-muted-foreground" />
+                            )}
+                        </div>
+                        <div className="min-w-0">
+                            <p className="truncate text-sm font-medium">
+                                {selectedFile.file.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                                {formatBytes(selectedFile.file.size)}
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={replaceSelectedFile}
+                            >
+                                <PencilIcon data-icon="inline-start" />
+                                Edit
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={removeSelectedFile}
+                            >
+                                <XIcon data-icon="inline-start" />
+                                Delete
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
+            {errors.length > 0 && (
+                <Alert variant="destructive" className="mt-5">
+                    <CircleAlertIcon />
+                    <AlertTitle>File upload error(s)</AlertTitle>
+                    <AlertDescription>
+                        {errors.map((error) => (
+                            <p key={error} className="last:mb-0">
+                                {error}
+                            </p>
+                        ))}
+                    </AlertDescription>
+                </Alert>
+            )}
+        </div>
+    );
 }

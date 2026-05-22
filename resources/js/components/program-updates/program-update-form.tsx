@@ -3,15 +3,16 @@ import { format, parse } from 'date-fns';
 import {
     CalendarIcon,
     ChevronsUpDownIcon,
-    ImageIcon,
     LockIcon,
+    PencilIcon,
     PlusIcon,
     RadioIcon,
     Trash2Icon,
     UploadIcon,
+    XIcon,
 } from 'lucide-react';
-import type { ComponentType } from 'react';
-import { useState } from 'react';
+import type { ComponentType, DragEvent } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -75,6 +76,9 @@ type ProgramUpdateFormValues = {
     event_type: string;
     feature_image: File | null;
     gallery_images: File[];
+    remove_feature_image: boolean;
+    existing_gallery_image_paths: string[];
+    sync_gallery_images: boolean;
     internal_members_only: boolean;
     is_published: boolean;
     sort_order: string;
@@ -133,6 +137,9 @@ export default function ProgramUpdateForm({
         event_type: programUpdate?.event_type ?? '',
         feature_image: null,
         gallery_images: [],
+        remove_feature_image: false,
+        existing_gallery_image_paths: programUpdate?.gallery_image_paths ?? [],
+        sync_gallery_images: true,
         internal_members_only: programUpdate?.internal_members_only ?? false,
         is_published: programUpdate?.is_published ?? false,
         sort_order: programUpdate?.sort_order?.toString() ?? '0',
@@ -741,111 +748,46 @@ export default function ProgramUpdateForm({
                         </FieldGroup>
                     </FieldSet>
 
-                    <FieldSet className="rounded-lg border p-4">
-                        <FieldLegend>Feature Image</FieldLegend>
-                        <FieldGroup>
-                            {programUpdate?.feature_image_path && (
-                                <img
-                                    src={storageUrl(
-                                        programUpdate.feature_image_path,
-                                    )}
-                                    alt=""
-                                    className="aspect-video w-full rounded-md border object-cover"
-                                />
-                            )}
-                            <Field data-invalid={!!form.errors.feature_image}>
-                                <FieldLabel htmlFor="feature_image">
-                                    <span className="inline-flex items-center gap-2">
-                                        <ImageIcon className="size-4" />
-                                        Image
-                                    </span>
-                                </FieldLabel>
-                                <Input
-                                    id="feature_image"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(event) =>
-                                        form.setData(
-                                            'feature_image',
-                                            event.target.files?.[0] ?? null,
-                                        )
-                                    }
-                                    aria-invalid={!!form.errors.feature_image}
-                                />
-                                {form.data.feature_image && (
-                                    <div className="text-sm text-muted-foreground">
-                                        {form.data.feature_image.name}
-                                    </div>
-                                )}
-                                <FieldError
-                                    errors={fieldErrors(
-                                        errors,
-                                        'feature_image',
-                                    )}
-                                />
-                            </Field>
-                        </FieldGroup>
-                    </FieldSet>
+                    <FeaturedImageUpload
+                        error={errors.feature_image}
+                        file={form.data.feature_image}
+                        imagePath={
+                            form.data.remove_feature_image
+                                ? null
+                                : (programUpdate?.feature_image_path ?? null)
+                        }
+                        onChange={(file) =>
+                            form.setData((data) => ({
+                                ...data,
+                                feature_image: file,
+                                remove_feature_image: false,
+                            }))
+                        }
+                        onRemove={() =>
+                            form.setData((data) => ({
+                                ...data,
+                                feature_image: null,
+                                remove_feature_image: true,
+                            }))
+                        }
+                    />
 
-                    <FieldSet className="rounded-lg border p-4">
-                        <FieldLegend>Gallery</FieldLegend>
-                        <FieldGroup>
-                            {programUpdate?.gallery_image_paths?.length ? (
-                                <div className="grid grid-cols-2 gap-2">
-                                    {programUpdate.gallery_image_paths.map(
-                                        (path) => (
-                                            <img
-                                                key={path}
-                                                src={storageUrl(path)}
-                                                alt=""
-                                                className="aspect-square w-full rounded-md border object-cover"
-                                            />
-                                        ),
-                                    )}
-                                </div>
-                            ) : null}
-                            <Field data-invalid={!!form.errors.gallery_images}>
-                                <FieldLabel htmlFor="gallery_images">
-                                    <span className="inline-flex items-center gap-2">
-                                        <UploadIcon className="size-4" />
-                                        Images
-                                    </span>
-                                </FieldLabel>
-                                <Input
-                                    id="gallery_images"
-                                    type="file"
-                                    accept="image/*"
-                                    multiple
-                                    onChange={(event) =>
-                                        form.setData(
-                                            'gallery_images',
-                                            Array.from(
-                                                event.target.files ?? [],
-                                            ),
-                                        )
-                                    }
-                                    aria-invalid={!!form.errors.gallery_images}
-                                />
-                                {form.data.gallery_images.length > 0 && (
-                                    <div className="space-y-1 text-sm text-muted-foreground">
-                                        {form.data.gallery_images.map(
-                                            (image) => (
-                                                <div key={image.name}>
-                                                    {image.name}
-                                                </div>
-                                            ),
-                                        )}
-                                    </div>
-                                )}
-                                <FieldError
-                                    errors={
-                                        fieldErrors(errors, 'gallery_images') ??
-                                        fieldErrors(errors, 'gallery_images.0')
-                                    }
-                                />
-                            </Field>
-                        </FieldGroup>
-                    </FieldSet>
+                    <GalleryUpload
+                        errors={
+                            fieldErrors(errors, 'gallery_images') ??
+                            fieldErrors(errors, 'gallery_images.0')
+                        }
+                        existingImagePaths={
+                            form.data.existing_gallery_image_paths
+                        }
+                        files={form.data.gallery_images}
+                        onExistingImagesChange={(paths) =>
+                            form.setData('existing_gallery_image_paths', paths)
+                        }
+                        onFilesChange={(files) =>
+                            form.setData('gallery_images', files)
+                        }
+                    />
                 </aside>
             </div>
 
@@ -862,6 +804,328 @@ function storageUrl(path: string) {
 
 function fieldErrors(errors: Record<string, string | undefined>, key: string) {
     return errors[key] ? [{ message: errors[key] }] : undefined;
+}
+
+function FeaturedImageUpload({
+    error,
+    file,
+    imagePath,
+    onChange,
+    onRemove,
+}: {
+    error?: string;
+    file: File | null;
+    imagePath: string | null;
+    onChange: (file: File) => void;
+    onRemove: () => void;
+}) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const previewUrl = file ? URL.createObjectURL(file) : null;
+    const imageUrl = previewUrl ?? (imagePath ? storageUrl(imagePath) : null);
+
+    function selectFile(files: FileList | null) {
+        const selectedFile = files?.[0];
+
+        if (selectedFile) {
+            onChange(selectedFile);
+        }
+    }
+
+    return (
+        <FieldSet className="rounded-lg border p-4">
+            <FieldLegend>Feature Image</FieldLegend>
+            <FieldGroup>
+                <Input
+                    ref={inputRef}
+                    id="feature_image"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(event) => selectFile(event.target.files)}
+                />
+
+                {imageUrl ? (
+                    <ImagePreviewCard
+                        alt="Featured image preview"
+                        imageUrl={imageUrl}
+                        title={file?.name ?? imagePath?.split('/').pop()}
+                        onEdit={() => inputRef.current?.click()}
+                        onRemove={onRemove}
+                    />
+                ) : (
+                    <UploadDropzone
+                        description="JPEG, PNG, up to 5 MB."
+                        label="Choose a file or drag & drop here."
+                        onBrowse={() => inputRef.current?.click()}
+                        onDrop={(files) => selectFile(files)}
+                    />
+                )}
+
+                <FieldError errors={error ? [{ message: error }] : undefined} />
+            </FieldGroup>
+        </FieldSet>
+    );
+}
+
+function GalleryUpload({
+    errors,
+    existingImagePaths,
+    files,
+    onExistingImagesChange,
+    onFilesChange,
+}: {
+    errors?: { message: string }[];
+    existingImagePaths: string[];
+    files: File[];
+    onExistingImagesChange: (paths: string[]) => void;
+    onFilesChange: (files: File[]) => void;
+}) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const imageCount = existingImagePaths.length + files.length;
+
+    function addFiles(selectedFiles: FileList | null) {
+        const imageFiles = Array.from(selectedFiles ?? []).filter((file) =>
+            file.type.startsWith('image/'),
+        );
+
+        if (imageFiles.length) {
+            onFilesChange([...files, ...imageFiles]);
+        }
+    }
+
+    function replaceFile(index: number, selectedFiles: FileList | null) {
+        const selectedFile = selectedFiles?.[0];
+
+        if (!selectedFile) {
+            return;
+        }
+
+        onFilesChange(
+            files.map((file, fileIndex) =>
+                fileIndex === index ? selectedFile : file,
+            ),
+        );
+    }
+
+    function replaceExistingImage(path: string) {
+        const replacementInput = document.createElement('input');
+        replacementInput.type = 'file';
+        replacementInput.accept = 'image/*';
+        replacementInput.onchange = () => {
+            const selectedFile = replacementInput.files?.[0];
+
+            if (!selectedFile) {
+                return;
+            }
+
+            onExistingImagesChange(
+                existingImagePaths.filter((imagePath) => imagePath !== path),
+            );
+            onFilesChange([...files, selectedFile]);
+        };
+        replacementInput.click();
+    }
+
+    return (
+        <FieldSet className="rounded-lg border p-4">
+            <FieldLegend>Gallery</FieldLegend>
+            <FieldGroup>
+                <Input
+                    ref={inputRef}
+                    id="gallery_images"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={(event) => addFiles(event.target.files)}
+                />
+
+                <UploadDropzone
+                    description="PNG, JPG, GIF up to 5 MB each."
+                    label="Upload images to gallery"
+                    onBrowse={() => inputRef.current?.click()}
+                    onDrop={(selectedFiles) => addFiles(selectedFiles)}
+                />
+
+                {imageCount > 0 && (
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between gap-3">
+                            <FieldLabel>Gallery ({imageCount})</FieldLabel>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    onExistingImagesChange([]);
+                                    onFilesChange([]);
+                                }}
+                            >
+                                Clear all
+                            </Button>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            {existingImagePaths.map((path) => (
+                                <ImagePreviewCard
+                                    key={path}
+                                    alt="Gallery image preview"
+                                    imageUrl={storageUrl(path)}
+                                    title={path.split('/').pop()}
+                                    onEdit={() => replaceExistingImage(path)}
+                                    onRemove={() =>
+                                        onExistingImagesChange(
+                                            existingImagePaths.filter(
+                                                (imagePath) =>
+                                                    imagePath !== path,
+                                            ),
+                                        )
+                                    }
+                                />
+                            ))}
+
+                            {files.map((file, index) => (
+                                <SelectedImagePreview
+                                    key={`${file.name}-${file.lastModified}-${index}`}
+                                    file={file}
+                                    onEdit={(selectedFiles) =>
+                                        replaceFile(index, selectedFiles)
+                                    }
+                                    onRemove={() =>
+                                        onFilesChange(
+                                            files.filter(
+                                                (_file, fileIndex) =>
+                                                    fileIndex !== index,
+                                            ),
+                                        )
+                                    }
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <FieldError errors={errors} />
+            </FieldGroup>
+        </FieldSet>
+    );
+}
+
+function UploadDropzone({
+    description,
+    label,
+    onBrowse,
+    onDrop,
+}: {
+    description: string;
+    label: string;
+    onBrowse: () => void;
+    onDrop: (files: FileList | null) => void;
+}) {
+    function handleDrop(event: DragEvent<HTMLDivElement>) {
+        event.preventDefault();
+        onDrop(event.dataTransfer.files);
+    }
+
+    return (
+        <div
+            className="flex min-h-36 flex-col items-center justify-center rounded-lg border border-dashed p-5 text-center"
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={handleDrop}
+        >
+            <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-muted">
+                <UploadIcon className="size-5 text-muted-foreground" />
+            </div>
+            <FieldLabel>{label}</FieldLabel>
+            <FieldDescription>{description}</FieldDescription>
+            <Button type="button" size="sm" className="mt-3" onClick={onBrowse}>
+                <UploadIcon data-icon="start" />
+                Browse File
+            </Button>
+        </div>
+    );
+}
+
+function SelectedImagePreview({
+    file,
+    onEdit,
+    onRemove,
+}: {
+    file: File;
+    onEdit: (files: FileList | null) => void;
+    onRemove: () => void;
+}) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [previewUrl] = useState(() => URL.createObjectURL(file));
+
+    return (
+        <>
+            <Input
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(event) => onEdit(event.target.files)}
+            />
+            <ImagePreviewCard
+                alt={file.name}
+                imageUrl={previewUrl}
+                title={file.name}
+                onEdit={() => inputRef.current?.click()}
+                onRemove={onRemove}
+            />
+        </>
+    );
+}
+
+function ImagePreviewCard({
+    alt,
+    imageUrl,
+    onEdit,
+    onRemove,
+    title,
+}: {
+    alt: string;
+    imageUrl: string;
+    onEdit: () => void;
+    onRemove: () => void;
+    title?: string;
+}) {
+    return (
+        <div className="group relative overflow-hidden rounded-md border bg-muted">
+            <img
+                src={imageUrl}
+                alt={alt}
+                className="aspect-square w-full object-cover"
+            />
+            <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-background/90 p-2 backdrop-blur">
+                <span className="min-w-0 truncate text-xs font-medium">
+                    {title ?? 'Image'}
+                </span>
+                <div className="flex shrink-0 gap-1">
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        size="icon"
+                        className="size-7"
+                        onClick={onEdit}
+                        aria-label="Edit image"
+                    >
+                        <PencilIcon className="size-3.5" />
+                    </Button>
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        size="icon"
+                        className="size-7"
+                        onClick={onRemove}
+                        aria-label="Remove image"
+                    >
+                        <XIcon className="size-3.5" />
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 function SwitchField({
@@ -937,6 +1201,9 @@ function DatePickerField({
                     endMonth={new Date(2100, 11)}
                     onSelect={(date) => {
                         if (!date) {
+                            onChange('');
+                            setOpen(false);
+
                             return;
                         }
 
@@ -1008,7 +1275,7 @@ function SingleSelectCombobox({
                                         value={option}
                                         data-checked={isSelected}
                                         onSelect={() => {
-                                            onChange(option);
+                                            onChange(isSelected ? '' : option);
                                             setOpen(false);
                                         }}
                                     >

@@ -1,11 +1,7 @@
 import { useForm } from '@inertiajs/react';
-import {
-    ChevronsUpDownIcon,
-    ImageIcon,
-    LockIcon,
-    RadioIcon,
-} from 'lucide-react';
+import { ChevronsUpDownIcon, LockIcon, RadioIcon } from 'lucide-react';
 import type { ComponentType, FormEvent } from 'react';
+import { FeatureImageUpload } from '@/components/feature-image-upload';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -54,6 +50,7 @@ type FormValues = {
     is_published: boolean;
     sort_order: string;
     feature_image: File | null;
+    remove_feature_image: boolean;
 };
 
 type Props = {
@@ -95,6 +92,7 @@ export default function ResourceForm({
         is_published: resource?.is_published ?? false,
         sort_order: resource?.sort_order?.toString() ?? '0',
         feature_image: null,
+        remove_feature_image: false,
     });
     const errors = form.errors as Record<string, string | undefined>;
 
@@ -289,46 +287,31 @@ export default function ResourceForm({
                     </FieldGroup>
                 </FieldSet>
 
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Feature Image</FieldLegend>
-                    <FieldGroup>
-                        {resource?.feature_image_path && (
-                            <img
-                                src={`/storage/${resource.feature_image_path}`}
-                                alt=""
-                                className="aspect-video w-full rounded-md border object-cover"
-                            />
-                        )}
-                        <Field data-invalid={!!form.errors.feature_image}>
-                            <FieldLabel htmlFor="feature_image">
-                                <span className="inline-flex items-center gap-2">
-                                    <ImageIcon className="size-4" />
-                                    Image
-                                </span>
-                            </FieldLabel>
-                            <Input
-                                id="feature_image"
-                                type="file"
-                                accept="image/*"
-                                onChange={(event) =>
-                                    form.setData(
-                                        'feature_image',
-                                        event.target.files?.[0] ?? null,
-                                    )
-                                }
-                                aria-invalid={!!form.errors.feature_image}
-                            />
-                            {form.data.feature_image && (
-                                <FieldDescription>
-                                    {form.data.feature_image.name}
-                                </FieldDescription>
-                            )}
-                            <FieldError
-                                errors={fieldErrors(errors, 'feature_image')}
-                            />
-                        </Field>
-                    </FieldGroup>
-                </FieldSet>
+                <FeatureImageUpload
+                    error={errors.feature_image}
+                    file={form.data.feature_image}
+                    imagePath={
+                        form.data.remove_feature_image
+                            ? null
+                            : (resource?.feature_image_path ?? null)
+                    }
+                    inputId="feature_image"
+                    legend="Feature Image"
+                    onChange={(file) =>
+                        form.setData((data) => ({
+                            ...data,
+                            feature_image: file,
+                            remove_feature_image: false,
+                        }))
+                    }
+                    onRemove={() =>
+                        form.setData((data) => ({
+                            ...data,
+                            feature_image: null,
+                            remove_feature_image: true,
+                        }))
+                    }
+                />
             </aside>
         </form>
     );

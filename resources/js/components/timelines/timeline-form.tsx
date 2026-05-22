@@ -1,10 +1,9 @@
 import { useForm } from '@inertiajs/react';
-import { ImageIcon } from 'lucide-react';
 import type { FormEvent } from 'react';
+import { FeatureImageUpload } from '@/components/feature-image-upload';
 import { Button } from '@/components/ui/button';
 import {
     Field,
-    FieldDescription,
     FieldError,
     FieldGroup,
     FieldLabel,
@@ -20,6 +19,7 @@ type FormValues = {
     description: string;
     sort_order: string;
     featured_image: File | null;
+    remove_featured_image: boolean;
 };
 
 type Props = {
@@ -47,6 +47,7 @@ export default function TimelineForm({
         description: timeline?.description ?? '',
         sort_order: timeline?.sort_order?.toString() ?? '0',
         featured_image: null,
+        remove_featured_image: false,
     });
     const errors = form.errors as Record<string, string | undefined>;
 
@@ -153,46 +154,31 @@ export default function TimelineForm({
                     </FieldGroup>
                 </FieldSet>
 
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Featured Image</FieldLegend>
-                    <FieldGroup>
-                        {timeline?.featured_image_path && (
-                            <img
-                                src={`/storage/${timeline.featured_image_path}`}
-                                alt=""
-                                className="aspect-video w-full rounded-md border object-cover"
-                            />
-                        )}
-                        <Field data-invalid={!!form.errors.featured_image}>
-                            <FieldLabel htmlFor="featured_image">
-                                <span className="inline-flex items-center gap-2">
-                                    <ImageIcon className="size-4" />
-                                    Image
-                                </span>
-                            </FieldLabel>
-                            <Input
-                                id="featured_image"
-                                type="file"
-                                accept="image/*"
-                                onChange={(event) =>
-                                    form.setData(
-                                        'featured_image',
-                                        event.target.files?.[0] ?? null,
-                                    )
-                                }
-                                aria-invalid={!!form.errors.featured_image}
-                            />
-                            {form.data.featured_image && (
-                                <FieldDescription>
-                                    {form.data.featured_image.name}
-                                </FieldDescription>
-                            )}
-                            <FieldError
-                                errors={fieldErrors(errors, 'featured_image')}
-                            />
-                        </Field>
-                    </FieldGroup>
-                </FieldSet>
+                <FeatureImageUpload
+                    error={errors.featured_image}
+                    file={form.data.featured_image}
+                    imagePath={
+                        form.data.remove_featured_image
+                            ? null
+                            : (timeline?.featured_image_path ?? null)
+                    }
+                    inputId="featured_image"
+                    legend="Featured Image"
+                    onChange={(file) =>
+                        form.setData((data) => ({
+                            ...data,
+                            featured_image: file,
+                            remove_featured_image: false,
+                        }))
+                    }
+                    onRemove={() =>
+                        form.setData((data) => ({
+                            ...data,
+                            featured_image: null,
+                            remove_featured_image: true,
+                        }))
+                    }
+                />
             </aside>
         </form>
     );

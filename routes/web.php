@@ -12,6 +12,7 @@ use App\Http\Controllers\ProgramUpdates\ProgramUpdateController;
 use App\Http\Controllers\Resources\CategoryController as ResourceCategoryController;
 use App\Http\Controllers\Resources\LanguageController as ResourceLanguageController;
 use App\Http\Controllers\Resources\ResourceController;
+use App\Http\Controllers\Settings\SiteSettingController;
 use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,8 @@ Route::prefix('api/v1')->name('api.v1.')->group(function (): void {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
-    Route::inertia('site-settings', 'site-settings')->name('site-settings');
+    Route::get('site-settings', [SiteSettingController::class, 'edit'])->name('site-settings');
+    Route::put('site-settings', [SiteSettingController::class, 'update'])->name('site-settings.update');
 
     Route::prefix('program-updates')
         ->name('program-updates.')

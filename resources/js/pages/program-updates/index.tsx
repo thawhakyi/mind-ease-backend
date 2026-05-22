@@ -93,13 +93,6 @@ export default function ProgramUpdatesIndex({
                                                 <div className="font-medium">
                                                     {programUpdate.title}
                                                 </div>
-                                                {programUpdate.description && (
-                                                    <p className="mt-1 line-clamp-2 text-muted-foreground">
-                                                        {
-                                                            programUpdate.description
-                                                        }
-                                                    </p>
-                                                )}
                                             </TableCell>
                                             <TableCell>
                                                 {[

@@ -6,7 +6,6 @@ import {
     HeartHandshake,
     LayoutGrid,
     Newspaper,
-    Settings,
     SlidersHorizontal,
     Timer,
 } from 'lucide-react';
@@ -110,11 +109,6 @@ const mainNavItems: NavItem[] = [
                 href: '/timelines/create',
             },
         ],
-    },
-    {
-        title: 'Settings',
-        href: '/settings/profile',
-        icon: Settings,
     },
     {
         title: 'Site Settings',

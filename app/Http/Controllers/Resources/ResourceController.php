@@ -99,7 +99,7 @@ class ResourceController extends Controller
      *     internal_members_only: bool,
      *     is_published: bool,
      *     sort_order: int,
-     *     feature_image_path?: string
+     *     feature_image_path?: string|null
      * }
      */
     private function validatedAttributes(Request $request): array
@@ -115,13 +115,19 @@ class ResourceController extends Controller
             'is_published' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'feature_image' => ['nullable', 'image', 'max:5120'],
+            'remove_feature_image' => ['nullable', 'boolean'],
         ]);
 
         unset($validated['feature_image']);
+        unset($validated['remove_feature_image']);
 
         $validated['internal_members_only'] = $request->boolean('internal_members_only');
         $validated['is_published'] = $request->boolean('is_published');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+
+        if ($request->boolean('remove_feature_image')) {
+            $validated['feature_image_path'] = null;
+        }
 
         if ($request->hasFile('feature_image')) {
             $validated['feature_image_path'] = $request

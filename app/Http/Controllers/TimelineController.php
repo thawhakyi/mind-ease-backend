@@ -70,7 +70,7 @@ class TimelineController extends Controller
     }
 
     /**
-     * @return array{title: string, year?: string|null, description?: string|null, sort_order: int, featured_image_path?: string}
+     * @return array{title: string, year?: string|null, description?: string|null, sort_order: int, featured_image_path?: string|null}
      */
     private function validatedAttributes(Request $request): array
     {
@@ -80,11 +80,17 @@ class TimelineController extends Controller
             'description' => ['nullable', 'string'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'featured_image' => ['nullable', 'image', 'max:5120'],
+            'remove_featured_image' => ['nullable', 'boolean'],
         ]);
 
         unset($validated['featured_image']);
+        unset($validated['remove_featured_image']);
 
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+
+        if ($request->boolean('remove_featured_image')) {
+            $validated['featured_image_path'] = null;
+        }
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image_path'] = $request

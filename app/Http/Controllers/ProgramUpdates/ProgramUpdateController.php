@@ -128,7 +128,7 @@ class ProgramUpdateController extends Controller
 
     public function update(Request $request, ProgramUpdate $programUpdate): RedirectResponse
     {
-        $validated = $this->validatedAttributes($request);
+        $validated = $this->validatedAttributes($request, $programUpdate);
         $countryOfficeIds = $validated['country_office_ids'] ?? [];
         $activityDetails = $validated['activity_details'] ?? [];
         unset($validated['country_office_ids']);
@@ -151,9 +151,9 @@ class ProgramUpdateController extends Controller
     }
 
     /**
-     * @return array{title: string, description?: string|null, quarter?: string|null, year?: int|null, date?: string|null, country_office_ids?: array<int, int>, facilitator?: string|null, event_type?: string|null, feature_image_path?: string, gallery_image_paths?: array<int, string>, internal_members_only: bool, is_published: bool, sort_order: int, activity_details?: array<int, array{start_date: string|null, end_date: string|null, country_office_ids: array<int, int>, event_type: string|null, event_link: string|null, location_ids: array<int, int>}>}
+     * @return array{title: string, description?: string|null, quarter?: string|null, year?: int|null, date?: string|null, country_office_ids?: array<int, int>, facilitator?: string|null, event_type?: string|null, feature_image_path?: string|null, gallery_image_paths?: array<int, string>, internal_members_only: bool, is_published: bool, sort_order: int, activity_details?: array<int, array{start_date: string|null, end_date: string|null, country_office_ids: array<int, int>, event_type: string|null, event_link: string|null, location_ids: array<int, int>}>}
      */
-    private function validatedAttributes(Request $request): array
+    private function validatedAttributes(Request $request, ?ProgramUpdate $programUpdate = null): array
     {
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string', 'max:255'],
@@ -168,6 +168,10 @@ class ProgramUpdateController extends Controller
             'feature_image' => ['nullable', 'image', 'max:5120'],
             'gallery_images' => ['nullable', 'array'],
             'gallery_images.*' => ['image', 'max:5120'],
+            'remove_feature_image' => ['nullable', 'boolean'],
+            'existing_gallery_image_paths' => ['nullable', 'array'],
+            'existing_gallery_image_paths.*' => ['string'],
+            'sync_gallery_images' => ['nullable', 'boolean'],
             'internal_members_only' => ['nullable', 'boolean'],
             'is_published' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
@@ -204,8 +208,28 @@ class ProgramUpdateController extends Controller
         $validated['is_published'] = $request->boolean('is_published');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
 
+        $removeFeatureImage = $request->boolean('remove_feature_image');
+        $shouldSyncGalleryImages = $request->boolean('sync_gallery_images');
+        $retainedGalleryImagePaths = collect($validated['existing_gallery_image_paths'] ?? [])
+            ->filter(fn ($path): bool => is_string($path))
+            ->values();
+
+        if ($programUpdate) {
+            $currentGalleryImagePaths = collect($programUpdate->gallery_image_paths ?? []);
+            $retainedGalleryImagePaths = $retainedGalleryImagePaths
+                ->filter(fn (string $path): bool => $currentGalleryImagePaths->contains($path))
+                ->values();
+        }
+
         unset($validated['feature_image']);
         unset($validated['gallery_images']);
+        unset($validated['remove_feature_image']);
+        unset($validated['existing_gallery_image_paths']);
+        unset($validated['sync_gallery_images']);
+
+        if ($removeFeatureImage) {
+            $validated['feature_image_path'] = null;
+        }
 
         if ($request->hasFile('feature_image')) {
             $validated['feature_image_path'] = $request
@@ -213,9 +237,17 @@ class ProgramUpdateController extends Controller
                 ->store('program-updates/features', 'public');
         }
 
+        $uploadedGalleryImagePaths = collect();
+
         if ($request->hasFile('gallery_images')) {
-            $validated['gallery_image_paths'] = collect($request->file('gallery_images'))
+            $uploadedGalleryImagePaths = collect($request->file('gallery_images'))
                 ->map(fn ($image): string => $image->store('program-updates/gallery', 'public'))
+                ->values();
+        }
+
+        if ($shouldSyncGalleryImages || $uploadedGalleryImagePaths->isNotEmpty()) {
+            $validated['gallery_image_paths'] = $retainedGalleryImagePaths
+                ->merge($uploadedGalleryImagePaths)
                 ->all();
         }
 

@@ -396,7 +396,11 @@ function CountryOfficeCombobox({
                                         value={countryOffice.name}
                                         data-checked={isSelected}
                                         onSelect={() => {
-                                            onChange(countryOfficeId);
+                                            onChange(
+                                                isSelected
+                                                    ? ''
+                                                    : countryOfficeId,
+                                            );
                                             setOpen(false);
                                         }}
                                     >

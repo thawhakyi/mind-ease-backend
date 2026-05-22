@@ -87,11 +87,6 @@ export default function TimelinesIndex({
                                                 <div className="font-medium">
                                                     {timeline.title}
                                                 </div>
-                                                {timeline.description && (
-                                                    <p className="mt-1 line-clamp-2 text-muted-foreground">
-                                                        {timeline.description}
-                                                    </p>
-                                                )}
                                             </TableCell>
                                             <TableCell>
                                                 {timeline.year}
