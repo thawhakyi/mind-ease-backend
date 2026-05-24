@@ -32,6 +32,7 @@ Route::prefix('api/v1')->name('api.v1.')->group(function (): void {
     Route::get('resources', [PublicContentController::class, 'resources'])->name('resources');
     Route::get('counselling-providers', [PublicContentController::class, 'counsellingProviders'])->name('counselling-providers');
     Route::get('timelines', [PublicContentController::class, 'timelines'])->name('timelines');
+    Route::get('site-settings', [PublicContentController::class, 'siteSettings'])->name('site-settings');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

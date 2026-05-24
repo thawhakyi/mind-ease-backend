@@ -84,7 +84,7 @@ class CounsellingProviderController extends Controller
                     'number_of_professionals',
                     'professional_types',
                     'languages',
-                    'in_person',
+                    'service_modes',
                     'office_hours',
                     'contact_methods',
                     'phone_numbers',
@@ -134,7 +134,7 @@ class CounsellingProviderController extends Controller
      *     professional_types?: string|null,
      *     languages?: array<int, string>|null,
      *     service_location_ids?: array<int, int>,
-     *     in_person: bool,
+     *     service_modes?: array<int, string>|null,
      *     office_hours?: string|null,
      *     contact_methods?: array<int, string>|null,
      *     phone_numbers?: array<int, string>|null,
@@ -159,7 +159,8 @@ class CounsellingProviderController extends Controller
             'languages.*' => ['string', Rule::in(self::LANGUAGES)],
             'service_location_ids' => ['nullable', 'array'],
             'service_location_ids.*' => ['integer', Rule::exists('service_locations', 'id')],
-            'in_person' => ['nullable', 'boolean'],
+            'service_modes' => ['nullable', 'array'],
+            'service_modes.*' => ['string', Rule::in(['In Person', 'Online'])],
             'office_hours' => ['nullable', 'string', 'max:255'],
             'contact_methods' => ['nullable', 'array'],
             'contact_methods.*' => ['string', Rule::in(self::CONTACT_METHODS)],
@@ -199,3 +200,4 @@ class CounsellingProviderController extends Controller
             ->get(['id', 'name']);
     }
 }
+

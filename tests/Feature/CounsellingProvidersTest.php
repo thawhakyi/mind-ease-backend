@@ -55,7 +55,7 @@ test('authenticated users can create update and delete a counselling provider', 
         'professional_types' => 'Counsellors, psychologists',
         'languages' => ['Myanmar', 'English'],
         'service_location_ids' => [$yangon->id, $maeSot->id],
-        'in_person' => '1',
+        'service_modes' => ['In Person', 'Online'],
         'office_hours' => 'Mon-Fri 9am-5pm',
         'contact_methods' => ['Call', 'Email', 'Signal'],
         'phone_numbers' => ['+959123456789', '+66612345678'],
@@ -78,7 +78,7 @@ test('authenticated users can create update and delete a counselling provider', 
         ->and($provider->languages)->toEqualCanonicalizing(['Myanmar', 'English'])
         ->and($provider->serviceLocations()->pluck('service_locations.id')->all())
         ->toEqualCanonicalizing([$yangon->id, $maeSot->id])
-        ->and($provider->in_person)->toBeTrue()
+        ->and($provider->service_modes)->toEqualCanonicalizing(['In Person', 'Online'])
         ->and($provider->office_hours)->toBe('Mon-Fri 9am-5pm')
         ->and($provider->contact_methods)->toEqualCanonicalizing(['Call', 'Email', 'Signal'])
         ->and($provider->phone_numbers)->toEqualCanonicalizing(['+959123456789', '+66612345678'])
@@ -100,7 +100,7 @@ test('authenticated users can create update and delete a counselling provider', 
         'professional_types' => 'Clinical counsellors',
         'languages' => ['Thai'],
         'service_location_ids' => [$maeSot->id],
-        'in_person' => '0',
+        'service_modes' => ['Online'],
         'office_hours' => 'Weekends',
         'contact_methods' => ['Line', 'WhatsApp'],
         'phone_numbers' => ['+66000000000'],
@@ -119,7 +119,7 @@ test('authenticated users can create update and delete a counselling provider', 
         ->and($provider->languages)->toEqualCanonicalizing(['Thai'])
         ->and($provider->serviceLocations()->pluck('service_locations.id')->all())
         ->toEqualCanonicalizing([$maeSot->id])
-        ->and($provider->in_person)->toBeFalse()
+        ->and($provider->service_modes)->toEqualCanonicalizing(['Online'])
         ->and($provider->contact_methods)->toEqualCanonicalizing(['Line', 'WhatsApp'])
         ->and($provider->phone_numbers)->toEqualCanonicalizing(['+66000000000'])
         ->and($provider->sort_order)->toBe(7)
@@ -173,3 +173,4 @@ test('authenticated users can manage service locations', function () {
 
     expect(ServiceLocation::query()->count())->toBe(0);
 });
+

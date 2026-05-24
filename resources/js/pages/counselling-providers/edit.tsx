@@ -1,13 +1,6 @@
 import { Head } from '@inertiajs/react';
 import CounsellingProviderForm from '@/components/counselling-providers/counselling-provider-form';
 import Heading from '@/components/heading';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 
 type ServiceLocation = {
     id: number;
@@ -55,26 +48,15 @@ export default function EditCounsellingProvider({
                     description="Update counselling provider details."
                 />
 
-                <Card>
-                    <CardHeader className="border-b pb-6">
-                        <CardTitle>Provider details</CardTitle>
-                        <CardDescription>
-                            Keep service, contact, publishing, and display
-                            settings current.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <CounsellingProviderForm
-                            action={`/counselling-providers/${provider.id}`}
-                            contactMethodOptions={contactMethodOptions}
-                            languageOptions={languageOptions}
-                            method="patch"
-                            provider={provider}
-                            serviceLocations={serviceLocations}
-                            submitLabel="Save Provider"
-                        />
-                    </CardContent>
-                </Card>
+                <CounsellingProviderForm
+                    action={`/counselling-providers/${provider.id}`}
+                    contactMethodOptions={contactMethodOptions}
+                    languageOptions={languageOptions}
+                    method="patch"
+                    provider={provider}
+                    serviceLocations={serviceLocations}
+                    submitLabel="Save Provider"
+                />
             </div>
         </>
     );

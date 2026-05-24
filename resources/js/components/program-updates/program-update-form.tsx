@@ -208,490 +208,515 @@ export default function ProgramUpdateForm({
     return (
         <form onSubmit={submit} className="flex flex-col gap-6">
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-                <FieldGroup>
-                    <Field data-invalid={!!form.errors.title}>
-                        <FieldLabel htmlFor="title">Title</FieldLabel>
-                        <Input
-                            id="title"
-                            value={form.data.title}
-                            onChange={(event) =>
-                                form.setData('title', event.target.value)
-                            }
-                            required
-                            aria-invalid={!!form.errors.title}
-                            placeholder="Program update title"
-                        />
-                        <FieldError
-                            errors={
-                                form.errors.title
-                                    ? [{ message: form.errors.title }]
-                                    : undefined
-                            }
-                        />
-                    </Field>
-
-                    <Field data-invalid={!!form.errors.description}>
-                        <FieldLabel htmlFor="description">
-                            Description
-                        </FieldLabel>
-                        <RichTextEditor
-                            id="description"
-                            value={form.data.description}
-                            onChange={(value) =>
-                                form.setData('description', value)
-                            }
-                            aria-invalid={!!form.errors.description}
-                            placeholder="Write the program update description..."
-                        />
-                        <FieldError
-                            errors={
-                                form.errors.description
-                                    ? [{ message: form.errors.description }]
-                                    : undefined
-                            }
-                        />
-                    </Field>
-
-                    <div className="grid gap-4 md:grid-cols-3">
-                        <Field data-invalid={!!form.errors.quarter}>
-                            <FieldLabel>Quarter</FieldLabel>
-                            <SingleSelectCombobox
-                                emptyLabel="No quarter found."
-                                options={quarters}
-                                placeholder="Select quarter"
-                                searchPlaceholder="Search quarter..."
-                                value={form.data.quarter}
-                                ariaInvalid={!!form.errors.quarter}
-                                onChange={(value) =>
-                                    form.setData('quarter', value)
-                                }
-                            />
-                            <FieldError
-                                errors={
-                                    form.errors.quarter
-                                        ? [{ message: form.errors.quarter }]
-                                        : undefined
-                                }
-                            />
-                        </Field>
-
-                        <Field data-invalid={!!form.errors.year}>
-                            <FieldLabel htmlFor="year">Year</FieldLabel>
+                <div>
+                    <FieldGroup className="rounded-lg border border-border bg-card p-4">
+                        <Field data-invalid={!!form.errors.title}>
+                            <FieldLabel htmlFor="title">Title</FieldLabel>
                             <Input
-                                id="year"
-                                type="number"
-                                inputMode="numeric"
-                                min={1900}
-                                max={2100}
-                                value={form.data.year}
+                                id="title"
+                                value={form.data.title}
                                 onChange={(event) =>
-                                    form.setData('year', event.target.value)
+                                    form.setData('title', event.target.value)
                                 }
-                                aria-invalid={!!form.errors.year}
-                                placeholder="2026"
+                                required
+                                aria-invalid={!!form.errors.title}
+                                placeholder="Program update title"
                             />
                             <FieldError
                                 errors={
-                                    form.errors.year
-                                        ? [{ message: form.errors.year }]
+                                    form.errors.title
+                                        ? [{ message: form.errors.title }]
                                         : undefined
                                 }
                             />
                         </Field>
 
-                        <Field data-invalid={!!form.errors.date}>
-                            <FieldLabel>Date</FieldLabel>
-                            <DatePickerField
-                                value={form.data.date}
-                                ariaInvalid={!!form.errors.date}
-                                placeholder="dd/mm/yyyy"
-                                onChange={(value) =>
-                                    form.setData('date', value)
-                                }
-                            />
-                            <FieldError
-                                errors={
-                                    form.errors.date
-                                        ? [{ message: form.errors.date }]
-                                        : undefined
-                                }
-                            />
-                        </Field>
-                    </div>
-
-                    <Field data-invalid={!!form.errors.country_office_ids}>
-                        <FieldLabel>Country Offices</FieldLabel>
-                        <MultiSelectCombobox
-                            emptyLabel="No country office found."
-                            options={countryOffices}
-                            placeholder="Select country offices"
-                            searchPlaceholder="Search country office..."
-                            selectedIds={form.data.country_office_ids}
-                            onChange={(selectedIds) =>
-                                form.setData('country_office_ids', selectedIds)
-                            }
-                        />
-                        <FieldError
-                            errors={
-                                form.errors.country_office_ids
-                                    ? [
-                                          {
-                                              message:
-                                                  form.errors
-                                                      .country_office_ids,
-                                          },
-                                      ]
-                                    : undefined
-                            }
-                        />
-                    </Field>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <Field data-invalid={!!form.errors.facilitator}>
-                            <FieldLabel htmlFor="facilitator">
-                                Facilitator
+                        <Field data-invalid={!!form.errors.description}>
+                            <FieldLabel htmlFor="description">
+                                Description
                             </FieldLabel>
-                            <Input
-                                id="facilitator"
-                                value={form.data.facilitator}
-                                onChange={(event) =>
+                            <RichTextEditor
+                                id="description"
+                                value={form.data.description}
+                                onChange={(value) =>
+                                    form.setData('description', value)
+                                }
+                                aria-invalid={!!form.errors.description}
+                                placeholder="Write the program update description..."
+                            />
+                            <FieldError
+                                errors={
+                                    form.errors.description
+                                        ? [{ message: form.errors.description }]
+                                        : undefined
+                                }
+                            />
+                        </Field>
+
+                        <div className="grid gap-4 md:grid-cols-3">
+                            <Field data-invalid={!!form.errors.quarter}>
+                                <FieldLabel>Quarter</FieldLabel>
+                                <SingleSelectCombobox
+                                    emptyLabel="No quarter found."
+                                    options={quarters}
+                                    placeholder="Select quarter"
+                                    searchPlaceholder="Search quarter..."
+                                    value={form.data.quarter}
+                                    ariaInvalid={!!form.errors.quarter}
+                                    onChange={(value) =>
+                                        form.setData('quarter', value)
+                                    }
+                                />
+                                <FieldError
+                                    errors={
+                                        form.errors.quarter
+                                            ? [{ message: form.errors.quarter }]
+                                            : undefined
+                                    }
+                                />
+                            </Field>
+
+                            <Field data-invalid={!!form.errors.year}>
+                                <FieldLabel htmlFor="year">Year</FieldLabel>
+                                <Input
+                                    id="year"
+                                    type="number"
+                                    inputMode="numeric"
+                                    min={1900}
+                                    max={2100}
+                                    value={form.data.year}
+                                    onChange={(event) =>
+                                        form.setData('year', event.target.value)
+                                    }
+                                    aria-invalid={!!form.errors.year}
+                                    placeholder="2026"
+                                />
+                                <FieldError
+                                    errors={
+                                        form.errors.year
+                                            ? [{ message: form.errors.year }]
+                                            : undefined
+                                    }
+                                />
+                            </Field>
+
+                            <Field data-invalid={!!form.errors.date}>
+                                <FieldLabel>Date</FieldLabel>
+                                <DatePickerField
+                                    value={form.data.date}
+                                    ariaInvalid={!!form.errors.date}
+                                    placeholder="dd/mm/yyyy"
+                                    onChange={(value) =>
+                                        form.setData('date', value)
+                                    }
+                                />
+                                <FieldError
+                                    errors={
+                                        form.errors.date
+                                            ? [{ message: form.errors.date }]
+                                            : undefined
+                                    }
+                                />
+                            </Field>
+                        </div>
+
+                        <Field data-invalid={!!form.errors.country_office_ids}>
+                            <FieldLabel>Country Offices</FieldLabel>
+                            <MultiSelectCombobox
+                                emptyLabel="No country office found."
+                                options={countryOffices}
+                                placeholder="Select country offices"
+                                searchPlaceholder="Search country office..."
+                                selectedIds={form.data.country_office_ids}
+                                onChange={(selectedIds) =>
                                     form.setData(
-                                        'facilitator',
-                                        event.target.value,
+                                        'country_office_ids',
+                                        selectedIds,
                                     )
                                 }
-                                aria-invalid={!!form.errors.facilitator}
-                                placeholder="Facilitator name"
                             />
                             <FieldError
                                 errors={
-                                    form.errors.facilitator
-                                        ? [{ message: form.errors.facilitator }]
+                                    form.errors.country_office_ids
+                                        ? [
+                                              {
+                                                  message:
+                                                      form.errors
+                                                          .country_office_ids,
+                                              },
+                                          ]
                                         : undefined
                                 }
                             />
                         </Field>
 
-                        <Field data-invalid={!!form.errors.event_type}>
-                            <FieldLabel>Event Type</FieldLabel>
-                            <SingleSelectCombobox
-                                emptyLabel="No event type found."
-                                options={eventTypes}
-                                placeholder="Select event type"
-                                searchPlaceholder="Search event type..."
-                                value={form.data.event_type}
-                                ariaInvalid={!!form.errors.event_type}
-                                onChange={(value) =>
-                                    form.setData('event_type', value)
-                                }
-                            />
-                            <FieldError
-                                errors={
-                                    form.errors.event_type
-                                        ? [{ message: form.errors.event_type }]
-                                        : undefined
-                                }
-                            />
-                        </Field>
-                    </div>
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <Field data-invalid={!!form.errors.facilitator}>
+                                <FieldLabel htmlFor="facilitator">
+                                    Facilitator
+                                </FieldLabel>
+                                <Input
+                                    id="facilitator"
+                                    value={form.data.facilitator}
+                                    onChange={(event) =>
+                                        form.setData(
+                                            'facilitator',
+                                            event.target.value,
+                                        )
+                                    }
+                                    aria-invalid={!!form.errors.facilitator}
+                                    placeholder="Facilitator name"
+                                />
+                                <FieldError
+                                    errors={
+                                        form.errors.facilitator
+                                            ? [
+                                                  {
+                                                      message:
+                                                          form.errors
+                                                              .facilitator,
+                                                  },
+                                              ]
+                                            : undefined
+                                    }
+                                />
+                            </Field>
 
-                    <FieldSet className="rounded-lg border p-4">
-                        <FieldLegend>Activity Details</FieldLegend>
-                        <FieldGroup>
-                            {form.data.activity_details.map(
-                                (activityDetail, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex flex-col gap-4 rounded-md border bg-muted/20 p-4"
-                                    >
-                                        <div className="flex items-center justify-between gap-3">
-                                            <div className="text-sm font-medium">
-                                                Activity {index + 1}
+                            <Field data-invalid={!!form.errors.event_type}>
+                                <FieldLabel>Event Type</FieldLabel>
+                                <SingleSelectCombobox
+                                    emptyLabel="No event type found."
+                                    options={eventTypes}
+                                    placeholder="Select event type"
+                                    searchPlaceholder="Search event type..."
+                                    value={form.data.event_type}
+                                    ariaInvalid={!!form.errors.event_type}
+                                    onChange={(value) =>
+                                        form.setData('event_type', value)
+                                    }
+                                />
+                                <FieldError
+                                    errors={
+                                        form.errors.event_type
+                                            ? [
+                                                  {
+                                                      message:
+                                                          form.errors
+                                                              .event_type,
+                                                  },
+                                              ]
+                                            : undefined
+                                    }
+                                />
+                            </Field>
+                        </div>
+
+                        <FieldSet className="rounded-lg border p-4">
+                            <FieldLegend>Activity Details</FieldLegend>
+                            <FieldGroup>
+                                {form.data.activity_details.map(
+                                    (activityDetail, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex flex-col gap-4 rounded-md border bg-muted/20 p-4"
+                                        >
+                                            <div className="flex items-center justify-between gap-3">
+                                                <div className="text-sm font-medium">
+                                                    Activity {index + 1}
+                                                </div>
+                                                {form.data.activity_details
+                                                    .length > 1 && (
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            removeActivityDetail(
+                                                                index,
+                                                            )
+                                                        }
+                                                    >
+                                                        <Trash2Icon data-icon="start" />
+                                                        Remove
+                                                    </Button>
+                                                )}
                                             </div>
-                                            {form.data.activity_details.length >
-                                                1 && (
-                                                <Button
-                                                    type="button"
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() =>
-                                                        removeActivityDetail(
-                                                            index,
-                                                        )
-                                                    }
-                                                >
-                                                    <Trash2Icon data-icon="start" />
-                                                    Remove
-                                                </Button>
-                                            )}
-                                        </div>
 
-                                        <div className="grid gap-4 md:grid-cols-2">
-                                            <Field
-                                                data-invalid={
-                                                    !!errors[
-                                                        `activity_details.${index}.start_date`
-                                                    ]
-                                                }
-                                            >
-                                                <FieldLabel
-                                                    htmlFor={`activity_details_${index}_start_date`}
-                                                >
-                                                    Start Date
-                                                </FieldLabel>
-                                                <DatePickerField
-                                                    value={
-                                                        activityDetail.start_date
-                                                    }
-                                                    ariaInvalid={
+                                            <div className="grid gap-4 md:grid-cols-2">
+                                                <Field
+                                                    data-invalid={
                                                         !!errors[
                                                             `activity_details.${index}.start_date`
                                                         ]
                                                     }
-                                                    placeholder="dd/mm/yyyy"
-                                                    onChange={(value) =>
-                                                        updateActivityDetail(
-                                                            index,
-                                                            {
-                                                                start_date:
-                                                                    value,
-                                                            },
-                                                        )
-                                                    }
-                                                />
-                                                <FieldError
-                                                    errors={fieldErrors(
-                                                        errors,
-                                                        `activity_details.${index}.start_date`,
-                                                    )}
-                                                />
-                                            </Field>
-
-                                            <Field
-                                                data-invalid={
-                                                    !!errors[
-                                                        `activity_details.${index}.end_date`
-                                                    ]
-                                                }
-                                            >
-                                                <FieldLabel
-                                                    htmlFor={`activity_details_${index}_end_date`}
-                                                >
-                                                    End Date
-                                                </FieldLabel>
-                                                <DatePickerField
-                                                    value={
-                                                        activityDetail.end_date
-                                                    }
-                                                    ariaInvalid={
-                                                        !!errors[
-                                                            `activity_details.${index}.end_date`
-                                                        ]
-                                                    }
-                                                    placeholder="dd/mm/yyyy"
-                                                    onChange={(value) =>
-                                                        updateActivityDetail(
-                                                            index,
-                                                            {
-                                                                end_date: value,
-                                                            },
-                                                        )
-                                                    }
-                                                />
-                                                <FieldError
-                                                    errors={fieldErrors(
-                                                        errors,
-                                                        `activity_details.${index}.end_date`,
-                                                    )}
-                                                />
-                                            </Field>
-                                        </div>
-
-                                        <Field
-                                            data-invalid={
-                                                !!errors[
-                                                    `activity_details.${index}.country_office_ids`
-                                                ]
-                                            }
-                                        >
-                                            <FieldLabel>
-                                                Country Office
-                                            </FieldLabel>
-                                            <MultiSelectCombobox
-                                                emptyLabel="No country office found."
-                                                options={countryOffices}
-                                                placeholder="Select country offices"
-                                                searchPlaceholder="Search country office..."
-                                                selectedIds={
-                                                    activityDetail.country_office_ids
-                                                }
-                                                onChange={(selectedIds) =>
-                                                    updateActivityDetail(
-                                                        index,
-                                                        {
-                                                            country_office_ids:
-                                                                selectedIds,
-                                                        },
-                                                    )
-                                                }
-                                            />
-                                            <FieldError
-                                                errors={fieldErrors(
-                                                    errors,
-                                                    `activity_details.${index}.country_office_ids`,
-                                                )}
-                                            />
-                                        </Field>
-
-                                        <div className="grid gap-4 md:grid-cols-2">
-                                            <Field
-                                                data-invalid={
-                                                    !!errors[
-                                                        `activity_details.${index}.event_type`
-                                                    ]
-                                                }
-                                            >
-                                                <FieldLabel>
-                                                    Event Type
-                                                </FieldLabel>
-                                                <SingleSelectCombobox
-                                                    emptyLabel="No event type found."
-                                                    options={eventTypes}
-                                                    placeholder="Select event type"
-                                                    searchPlaceholder="Search event type..."
-                                                    value={
-                                                        activityDetail.event_type
-                                                    }
-                                                    aria-invalid={
-                                                        !!errors[
-                                                            `activity_details.${index}.event_type`
-                                                        ]
-                                                    }
-                                                    onChange={(eventType) => {
-                                                        updateActivityDetail(
-                                                            index,
-                                                            {
-                                                                event_type:
-                                                                    eventType,
-                                                                event_link:
-                                                                    eventType ===
-                                                                    'Online'
-                                                                        ? activityDetail.event_link
-                                                                        : '',
-                                                            },
-                                                        );
-                                                    }}
-                                                />
-                                                <FieldError
-                                                    errors={fieldErrors(
-                                                        errors,
-                                                        `activity_details.${index}.event_type`,
-                                                    )}
-                                                />
-                                            </Field>
-
-                                            {activityDetail.event_type ===
-                                                'Online' && (
-                                                <Field
-                                                    data-invalid={
-                                                        !!errors[
-                                                            `activity_details.${index}.event_link`
-                                                        ]
-                                                    }
                                                 >
                                                     <FieldLabel
-                                                        htmlFor={`activity_details_${index}_event_link`}
+                                                        htmlFor={`activity_details_${index}_start_date`}
                                                     >
-                                                        Event Link
+                                                        Start Date
                                                     </FieldLabel>
-                                                    <Input
-                                                        id={`activity_details_${index}_event_link`}
-                                                        type="url"
+                                                    <DatePickerField
                                                         value={
-                                                            activityDetail.event_link
+                                                            activityDetail.start_date
                                                         }
-                                                        onChange={(event) =>
+                                                        ariaInvalid={
+                                                            !!errors[
+                                                                `activity_details.${index}.start_date`
+                                                            ]
+                                                        }
+                                                        placeholder="dd/mm/yyyy"
+                                                        onChange={(value) =>
                                                             updateActivityDetail(
                                                                 index,
                                                                 {
-                                                                    event_link:
-                                                                        event
-                                                                            .target
-                                                                            .value,
+                                                                    start_date:
+                                                                        value,
                                                                 },
                                                             )
                                                         }
-                                                        aria-invalid={
-                                                            !!errors[
-                                                                `activity_details.${index}.event_link`
-                                                            ]
-                                                        }
-                                                        placeholder="https://example.com/event"
                                                     />
                                                     <FieldError
                                                         errors={fieldErrors(
                                                             errors,
-                                                            `activity_details.${index}.event_link`,
+                                                            `activity_details.${index}.start_date`,
                                                         )}
                                                     />
                                                 </Field>
-                                            )}
-                                        </div>
 
-                                        <Field
-                                            data-invalid={
-                                                !!errors[
-                                                    `activity_details.${index}.location_ids`
-                                                ]
-                                            }
-                                        >
-                                            <FieldLabel>Location</FieldLabel>
-                                            <MultiSelectCombobox
-                                                emptyLabel="No location found."
-                                                options={locationOptions}
-                                                placeholder="Select locations"
-                                                searchPlaceholder="Search location..."
-                                                selectedIds={
-                                                    activityDetail.location_ids
+                                                <Field
+                                                    data-invalid={
+                                                        !!errors[
+                                                            `activity_details.${index}.end_date`
+                                                        ]
+                                                    }
+                                                >
+                                                    <FieldLabel
+                                                        htmlFor={`activity_details_${index}_end_date`}
+                                                    >
+                                                        End Date
+                                                    </FieldLabel>
+                                                    <DatePickerField
+                                                        value={
+                                                            activityDetail.end_date
+                                                        }
+                                                        ariaInvalid={
+                                                            !!errors[
+                                                                `activity_details.${index}.end_date`
+                                                            ]
+                                                        }
+                                                        placeholder="dd/mm/yyyy"
+                                                        onChange={(value) =>
+                                                            updateActivityDetail(
+                                                                index,
+                                                                {
+                                                                    end_date:
+                                                                        value,
+                                                                },
+                                                            )
+                                                        }
+                                                    />
+                                                    <FieldError
+                                                        errors={fieldErrors(
+                                                            errors,
+                                                            `activity_details.${index}.end_date`,
+                                                        )}
+                                                    />
+                                                </Field>
+                                            </div>
+
+                                            <Field
+                                                data-invalid={
+                                                    !!errors[
+                                                        `activity_details.${index}.country_office_ids`
+                                                    ]
                                                 }
-                                                onChange={(selectedIds) =>
-                                                    updateActivityDetail(
-                                                        index,
-                                                        {
-                                                            location_ids:
-                                                                selectedIds,
-                                                        },
-                                                    )
-                                                }
-                                            />
-                                            <FieldError
-                                                errors={fieldErrors(
-                                                    errors,
-                                                    `activity_details.${index}.location_ids`,
+                                            >
+                                                <FieldLabel>
+                                                    Country Office
+                                                </FieldLabel>
+                                                <MultiSelectCombobox
+                                                    emptyLabel="No country office found."
+                                                    options={countryOffices}
+                                                    placeholder="Select country offices"
+                                                    searchPlaceholder="Search country office..."
+                                                    selectedIds={
+                                                        activityDetail.country_office_ids
+                                                    }
+                                                    onChange={(selectedIds) =>
+                                                        updateActivityDetail(
+                                                            index,
+                                                            {
+                                                                country_office_ids:
+                                                                    selectedIds,
+                                                            },
+                                                        )
+                                                    }
+                                                />
+                                                <FieldError
+                                                    errors={fieldErrors(
+                                                        errors,
+                                                        `activity_details.${index}.country_office_ids`,
+                                                    )}
+                                                />
+                                            </Field>
+
+                                            <div className="grid gap-4 md:grid-cols-2">
+                                                <Field
+                                                    data-invalid={
+                                                        !!errors[
+                                                            `activity_details.${index}.event_type`
+                                                        ]
+                                                    }
+                                                >
+                                                    <FieldLabel>
+                                                        Event Type
+                                                    </FieldLabel>
+                                                    <SingleSelectCombobox
+                                                        emptyLabel="No event type found."
+                                                        options={eventTypes}
+                                                        placeholder="Select event type"
+                                                        searchPlaceholder="Search event type..."
+                                                        value={
+                                                            activityDetail.event_type
+                                                        }
+                                                        aria-invalid={
+                                                            !!errors[
+                                                                `activity_details.${index}.event_type`
+                                                            ]
+                                                        }
+                                                        onChange={(
+                                                            eventType,
+                                                        ) => {
+                                                            updateActivityDetail(
+                                                                index,
+                                                                {
+                                                                    event_type:
+                                                                        eventType,
+                                                                    event_link:
+                                                                        eventType ===
+                                                                        'Online'
+                                                                            ? activityDetail.event_link
+                                                                            : '',
+                                                                },
+                                                            );
+                                                        }}
+                                                    />
+                                                    <FieldError
+                                                        errors={fieldErrors(
+                                                            errors,
+                                                            `activity_details.${index}.event_type`,
+                                                        )}
+                                                    />
+                                                </Field>
+
+                                                {activityDetail.event_type ===
+                                                    'Online' && (
+                                                    <Field
+                                                        data-invalid={
+                                                            !!errors[
+                                                                `activity_details.${index}.event_link`
+                                                            ]
+                                                        }
+                                                    >
+                                                        <FieldLabel
+                                                            htmlFor={`activity_details_${index}_event_link`}
+                                                        >
+                                                            Event Link
+                                                        </FieldLabel>
+                                                        <Input
+                                                            id={`activity_details_${index}_event_link`}
+                                                            type="url"
+                                                            value={
+                                                                activityDetail.event_link
+                                                            }
+                                                            onChange={(event) =>
+                                                                updateActivityDetail(
+                                                                    index,
+                                                                    {
+                                                                        event_link:
+                                                                            event
+                                                                                .target
+                                                                                .value,
+                                                                    },
+                                                                )
+                                                            }
+                                                            aria-invalid={
+                                                                !!errors[
+                                                                    `activity_details.${index}.event_link`
+                                                                ]
+                                                            }
+                                                            placeholder="https://example.com/event"
+                                                        />
+                                                        <FieldError
+                                                            errors={fieldErrors(
+                                                                errors,
+                                                                `activity_details.${index}.event_link`,
+                                                            )}
+                                                        />
+                                                    </Field>
                                                 )}
-                                            />
-                                        </Field>
-                                    </div>
-                                ),
-                            )}
+                                            </div>
 
-                            <FieldError
-                                errors={fieldErrors(errors, 'activity_details')}
-                            />
+                                            <Field
+                                                data-invalid={
+                                                    !!errors[
+                                                        `activity_details.${index}.location_ids`
+                                                    ]
+                                                }
+                                            >
+                                                <FieldLabel>
+                                                    Location
+                                                </FieldLabel>
+                                                <MultiSelectCombobox
+                                                    emptyLabel="No location found."
+                                                    options={locationOptions}
+                                                    placeholder="Select locations"
+                                                    searchPlaceholder="Search location..."
+                                                    selectedIds={
+                                                        activityDetail.location_ids
+                                                    }
+                                                    onChange={(selectedIds) =>
+                                                        updateActivityDetail(
+                                                            index,
+                                                            {
+                                                                location_ids:
+                                                                    selectedIds,
+                                                            },
+                                                        )
+                                                    }
+                                                />
+                                                <FieldError
+                                                    errors={fieldErrors(
+                                                        errors,
+                                                        `activity_details.${index}.location_ids`,
+                                                    )}
+                                                />
+                                            </Field>
+                                        </div>
+                                    ),
+                                )}
 
-                            <div>
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={addActivityDetail}
-                                >
-                                    <PlusIcon data-icon="start" />
-                                    Add Activity
-                                </Button>
-                            </div>
-                        </FieldGroup>
-                    </FieldSet>
-                </FieldGroup>
+                                <FieldError
+                                    errors={fieldErrors(
+                                        errors,
+                                        'activity_details',
+                                    )}
+                                />
+
+                                <div>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={addActivityDetail}
+                                    >
+                                        <PlusIcon data-icon="start" />
+                                        Add Activity
+                                    </Button>
+                                </div>
+                            </FieldGroup>
+                        </FieldSet>
+                    </FieldGroup>
+                </div>
 
                 <aside className="flex flex-col gap-4">
                     <FieldSet className="rounded-lg border p-4">

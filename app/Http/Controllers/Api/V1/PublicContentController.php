@@ -162,6 +162,7 @@ class PublicContentController extends Controller
                         'id' => $location->id,
                         'name' => $location->name,
                     ])->values(),
+                    'service_modes' => $provider->service_modes ?? [],
                     'in_person' => $provider->in_person,
                     'office_hours' => $provider->office_hours,
                     'contact_methods' => $provider->contact_methods ?? [],
@@ -222,5 +223,20 @@ class PublicContentController extends Controller
         }
 
         return url(Storage::disk('public')->url($path));
+    }
+    public function siteSettings(): JsonResponse
+    {
+        return response()->json([
+            'data' => \App\Models\SiteSetting::current()->only([
+                'site_name',
+                'tagline',
+                'description',
+                'email',
+                'phone',
+                'viber_channel_number',
+                'goal',
+                'objectives',
+            ]),
+        ]);
     }
 }

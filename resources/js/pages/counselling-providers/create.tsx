@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react';
 import CounsellingProviderForm from '@/components/counselling-providers/counselling-provider-form';
 import Heading from '@/components/heading';
-import { Card, CardContent } from '@/components/ui/card';
 
 type ServiceLocation = {
     id: number;
@@ -27,17 +26,13 @@ export default function CreateCounsellingProvider({
                     description="Create a counselling provider profile."
                 />
 
-                <Card>
-                    <CardContent>
-                        <CounsellingProviderForm
-                            action="/counselling-providers"
-                            contactMethodOptions={contactMethodOptions}
-                            languageOptions={languageOptions}
-                            serviceLocations={serviceLocations}
-                            submitLabel="Create Provider"
-                        />
-                    </CardContent>
-                </Card>
+                <CounsellingProviderForm
+                    action="/counselling-providers"
+                    contactMethodOptions={contactMethodOptions}
+                    languageOptions={languageOptions}
+                    serviceLocations={serviceLocations}
+                    submitLabel="Create Provider"
+                />
             </div>
         </>
     );

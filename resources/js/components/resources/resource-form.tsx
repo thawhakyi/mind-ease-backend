@@ -124,72 +124,82 @@ export default function ResourceForm({
             onSubmit={submit}
             className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]"
         >
-            <FieldGroup>
-                <Field data-invalid={!!form.errors.title}>
-                    <FieldLabel htmlFor="title">Title</FieldLabel>
-                    <Input
-                        id="title"
-                        value={form.data.title}
-                        onChange={(event) =>
-                            form.setData('title', event.target.value)
-                        }
-                        required
-                        aria-invalid={!!form.errors.title}
-                        placeholder="Resource title"
-                    />
-                    <FieldError errors={fieldErrors(errors, 'title')} />
-                </Field>
-
-                <Field data-invalid={!!form.errors.description}>
-                    <FieldLabel htmlFor="description">Description</FieldLabel>
-                    <RichTextEditor
-                        id="description"
-                        value={form.data.description}
-                        onChange={(value) => form.setData('description', value)}
-                        aria-invalid={!!form.errors.description}
-                        placeholder="Write the resource details..."
-                    />
-                    <FieldError errors={fieldErrors(errors, 'description')} />
-                </Field>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field data-invalid={!!form.errors.year}>
-                        <FieldLabel htmlFor="year">Year</FieldLabel>
+            <div>
+                <FieldGroup className="rounded-lg border border-border bg-card p-4">
+                    <Field data-invalid={!!form.errors.title}>
+                        <FieldLabel htmlFor="title">Title</FieldLabel>
                         <Input
-                            id="year"
-                            type="number"
-                            min={1900}
-                            max={2100}
-                            value={form.data.year}
+                            id="title"
+                            value={form.data.title}
                             onChange={(event) =>
-                                form.setData('year', event.target.value)
+                                form.setData('title', event.target.value)
                             }
-                            aria-invalid={!!form.errors.year}
-                            placeholder="2026"
+                            required
+                            aria-invalid={!!form.errors.title}
+                            placeholder="Resource title"
                         />
-                        <FieldError errors={fieldErrors(errors, 'year')} />
+                        <FieldError errors={fieldErrors(errors, 'title')} />
                     </Field>
 
-                    <Field data-invalid={!!form.errors.url}>
-                        <FieldLabel htmlFor="url">URL</FieldLabel>
-                        <Input
-                            id="url"
-                            type="url"
-                            value={form.data.url}
-                            onChange={(event) =>
-                                form.setData('url', event.target.value)
+                    <Field data-invalid={!!form.errors.description}>
+                        <FieldLabel htmlFor="description">
+                            Description
+                        </FieldLabel>
+                        <RichTextEditor
+                            id="description"
+                            value={form.data.description}
+                            onChange={(value) =>
+                                form.setData('description', value)
                             }
-                            aria-invalid={!!form.errors.url}
-                            placeholder="https://example.com/resource"
+                            aria-invalid={!!form.errors.description}
+                            placeholder="Write the resource details..."
                         />
-                        <FieldError errors={fieldErrors(errors, 'url')} />
+                        <FieldError
+                            errors={fieldErrors(errors, 'description')}
+                        />
                     </Field>
-                </div>
 
-                <div>
-                    <Button disabled={form.processing}>{submitLabel}</Button>
-                </div>
-            </FieldGroup>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <Field data-invalid={!!form.errors.year}>
+                            <FieldLabel htmlFor="year">Year</FieldLabel>
+                            <Input
+                                id="year"
+                                type="number"
+                                min={1900}
+                                max={2100}
+                                value={form.data.year}
+                                onChange={(event) =>
+                                    form.setData('year', event.target.value)
+                                }
+                                aria-invalid={!!form.errors.year}
+                                placeholder="2026"
+                            />
+                            <FieldError errors={fieldErrors(errors, 'year')} />
+                        </Field>
+
+                        <Field data-invalid={!!form.errors.url}>
+                            <FieldLabel htmlFor="url">URL</FieldLabel>
+                            <Input
+                                id="url"
+                                type="url"
+                                value={form.data.url}
+                                onChange={(event) =>
+                                    form.setData('url', event.target.value)
+                                }
+                                aria-invalid={!!form.errors.url}
+                                placeholder="https://drive.google.com/resource"
+                            />
+                            <FieldError errors={fieldErrors(errors, 'url')} />
+                        </Field>
+                    </div>
+
+                    <div>
+                        <Button disabled={form.processing}>
+                            {submitLabel}
+                        </Button>
+                    </div>
+                </FieldGroup>
+            </div>
 
             <aside className="flex flex-col gap-4">
                 <FieldSet className="rounded-lg border p-4">

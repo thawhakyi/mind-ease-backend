@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
+    ExternalLinkIcon,
     FileText,
     Folder,
     HeartHandshake,
@@ -138,9 +139,9 @@ const mainNavItems: NavItem[] = [
 
 const rightNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        title: 'Go to Website',
+        href: 'https://mind-ease.vercel.app',
+        icon: ExternalLinkIcon,
     },
     {
         title: 'Documentation',

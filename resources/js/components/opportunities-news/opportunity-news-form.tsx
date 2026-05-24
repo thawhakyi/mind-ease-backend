@@ -105,38 +105,48 @@ export default function OpportunityNewsForm({
             onSubmit={submit}
             className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]"
         >
-            <FieldGroup>
-                <Field data-invalid={!!form.errors.title}>
-                    <FieldLabel htmlFor="title">Title</FieldLabel>
-                    <Input
-                        id="title"
-                        value={form.data.title}
-                        onChange={(event) =>
-                            form.setData('title', event.target.value)
-                        }
-                        required
-                        aria-invalid={!!form.errors.title}
-                        placeholder="Opportunity or news title"
-                    />
-                    <FieldError errors={fieldErrors(errors, 'title')} />
-                </Field>
+            <div>
+                <FieldGroup className="rounded-lg border border-border bg-card p-4">
+                    <Field data-invalid={!!form.errors.title}>
+                        <FieldLabel htmlFor="title">Title</FieldLabel>
+                        <Input
+                            id="title"
+                            value={form.data.title}
+                            onChange={(event) =>
+                                form.setData('title', event.target.value)
+                            }
+                            required
+                            aria-invalid={!!form.errors.title}
+                            placeholder="Opportunity or news title"
+                        />
+                        <FieldError errors={fieldErrors(errors, 'title')} />
+                    </Field>
 
-                <Field data-invalid={!!form.errors.description}>
-                    <FieldLabel htmlFor="description">Description</FieldLabel>
-                    <RichTextEditor
-                        id="description"
-                        value={form.data.description}
-                        onChange={(value) => form.setData('description', value)}
-                        aria-invalid={!!form.errors.description}
-                        placeholder="Write the opportunity or news details..."
-                    />
-                    <FieldError errors={fieldErrors(errors, 'description')} />
-                </Field>
+                    <Field data-invalid={!!form.errors.description}>
+                        <FieldLabel htmlFor="description">
+                            Description
+                        </FieldLabel>
+                        <RichTextEditor
+                            id="description"
+                            value={form.data.description}
+                            onChange={(value) =>
+                                form.setData('description', value)
+                            }
+                            aria-invalid={!!form.errors.description}
+                            placeholder="Write the opportunity or news details..."
+                        />
+                        <FieldError
+                            errors={fieldErrors(errors, 'description')}
+                        />
+                    </Field>
 
-                <div>
-                    <Button disabled={form.processing}>{submitLabel}</Button>
-                </div>
-            </FieldGroup>
+                    <div>
+                        <Button disabled={form.processing}>
+                            {submitLabel}
+                        </Button>
+                    </div>
+                </FieldGroup>
+            </div>
 
             <aside className="flex flex-col gap-4">
                 <FieldSet className="rounded-lg border p-4">

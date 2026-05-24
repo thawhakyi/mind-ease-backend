@@ -79,52 +79,62 @@ export default function TimelineForm({
             onSubmit={submit}
             className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]"
         >
-            <FieldGroup>
-                <Field data-invalid={!!form.errors.title}>
-                    <FieldLabel htmlFor="title">Title</FieldLabel>
-                    <Input
-                        id="title"
-                        value={form.data.title}
-                        onChange={(event) =>
-                            form.setData('title', event.target.value)
-                        }
-                        required
-                        aria-invalid={!!form.errors.title}
-                        placeholder="Timeline title"
-                    />
-                    <FieldError errors={fieldErrors(errors, 'title')} />
-                </Field>
+            <div>
+                <FieldGroup className="rounded-lg border border-border bg-card p-4">
+                    <Field data-invalid={!!form.errors.title}>
+                        <FieldLabel htmlFor="title">Title</FieldLabel>
+                        <Input
+                            id="title"
+                            value={form.data.title}
+                            onChange={(event) =>
+                                form.setData('title', event.target.value)
+                            }
+                            required
+                            aria-invalid={!!form.errors.title}
+                            placeholder="Timeline title"
+                        />
+                        <FieldError errors={fieldErrors(errors, 'title')} />
+                    </Field>
 
-                <Field data-invalid={!!form.errors.year}>
-                    <FieldLabel htmlFor="year">Year</FieldLabel>
-                    <Input
-                        id="year"
-                        value={form.data.year}
-                        onChange={(event) =>
-                            form.setData('year', event.target.value)
-                        }
-                        aria-invalid={!!form.errors.year}
-                        placeholder="2026"
-                    />
-                    <FieldError errors={fieldErrors(errors, 'year')} />
-                </Field>
+                    <Field data-invalid={!!form.errors.year}>
+                        <FieldLabel htmlFor="year">Year</FieldLabel>
+                        <Input
+                            id="year"
+                            value={form.data.year}
+                            onChange={(event) =>
+                                form.setData('year', event.target.value)
+                            }
+                            aria-invalid={!!form.errors.year}
+                            placeholder="2026"
+                        />
+                        <FieldError errors={fieldErrors(errors, 'year')} />
+                    </Field>
 
-                <Field data-invalid={!!form.errors.description}>
-                    <FieldLabel htmlFor="description">Description</FieldLabel>
-                    <RichTextEditor
-                        id="description"
-                        value={form.data.description}
-                        onChange={(value) => form.setData('description', value)}
-                        aria-invalid={!!form.errors.description}
-                        placeholder="Write timeline details..."
-                    />
-                    <FieldError errors={fieldErrors(errors, 'description')} />
-                </Field>
+                    <Field data-invalid={!!form.errors.description}>
+                        <FieldLabel htmlFor="description">
+                            Description
+                        </FieldLabel>
+                        <RichTextEditor
+                            id="description"
+                            value={form.data.description}
+                            onChange={(value) =>
+                                form.setData('description', value)
+                            }
+                            aria-invalid={!!form.errors.description}
+                            placeholder="Write timeline details..."
+                        />
+                        <FieldError
+                            errors={fieldErrors(errors, 'description')}
+                        />
+                    </Field>
 
-                <div>
-                    <Button disabled={form.processing}>{submitLabel}</Button>
-                </div>
-            </FieldGroup>
+                    <div>
+                        <Button disabled={form.processing}>
+                            {submitLabel}
+                        </Button>
+                    </div>
+                </FieldGroup>
+            </div>
 
             <aside className="flex flex-col gap-4">
                 <FieldSet className="rounded-lg border p-4">

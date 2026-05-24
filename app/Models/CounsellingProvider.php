@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     'number_of_professionals',
     'professional_types',
     'languages',
-    'in_person',
+    'service_modes',
     'office_hours',
     'contact_methods',
     'phone_numbers',
@@ -32,7 +32,7 @@ class CounsellingProvider extends Model
         return [
             'number_of_professionals' => 'integer',
             'languages' => 'array',
-            'in_person' => 'boolean',
+            'service_modes' => 'array',
             'contact_methods' => 'array',
             'phone_numbers' => 'array',
             'sort_order' => 'integer',

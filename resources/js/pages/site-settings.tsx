@@ -54,17 +54,17 @@ export default function SiteSettings({
         <>
             <Head title="Site settings" />
 
-            <h1 className="sr-only">Site settings</h1>
-
-            <div className="space-y-6 p-4">
+            <div className="flex flex-col gap-6 p-6">
                 <Heading
-                    variant="small"
                     title="Site settings"
                     description="Manage public site identity and contact details"
                 />
 
-                <form onSubmit={submit} className="max-w-2xl space-y-6">
-                    <FieldGroup>
+                <form
+                    onSubmit={submit}
+                    className="flex max-w-3xl flex-col gap-6"
+                >
+                    <FieldGroup className="space-y-4 rounded-lg border border-border bg-card p-4">
                         <TextField
                             error={form.errors.site_name}
                             label="Site Name"

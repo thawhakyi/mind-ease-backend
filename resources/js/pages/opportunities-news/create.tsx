@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
 import OpportunityNewsForm from '@/components/opportunities-news/opportunity-news-form';
-import { Card, CardContent } from '@/components/ui/card';
 
 type Category = {
     id: number;
@@ -23,15 +22,11 @@ export default function CreateOpportunityNews({
                     description="Create a new opportunity or news item."
                 />
 
-                <Card>
-                    <CardContent>
-                        <OpportunityNewsForm
-                            action="/opportunities-news"
-                            categories={categories}
-                            submitLabel="Create Item"
-                        />
-                    </CardContent>
-                </Card>
+                <OpportunityNewsForm
+                    action="/opportunities-news"
+                    categories={categories}
+                    submitLabel="Create Item"
+                />
             </div>
         </>
     );

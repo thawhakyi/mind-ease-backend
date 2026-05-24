@@ -49,7 +49,7 @@ type FormValues = {
     professional_types: string;
     languages: string[];
     service_location_ids: number[];
-    in_person: boolean;
+    service_modes: string[];
     office_hours: string;
     contact_methods: string[];
     phone_numbers: string[];
@@ -75,7 +75,7 @@ type Props = {
         professional_types?: string | null;
         languages?: string[] | null;
         service_location_ids?: number[];
-        in_person?: boolean;
+        service_modes?: string[] | null;
         office_hours?: string | null;
         contact_methods?: string[] | null;
         phone_numbers?: string[] | null;
@@ -109,7 +109,7 @@ export default function CounsellingProviderForm({
         professional_types: provider?.professional_types ?? '',
         languages: provider?.languages ?? [],
         service_location_ids: provider?.service_location_ids ?? [],
-        in_person: provider?.in_person ?? false,
+        service_modes: provider?.service_modes ?? [],
         office_hours: provider?.office_hours ?? '',
         contact_methods: provider?.contact_methods ?? [],
         phone_numbers:
@@ -170,7 +170,7 @@ export default function CounsellingProviderForm({
             onSubmit={submit}
             className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]"
         >
-            <FieldGroup>
+            <FieldGroup className="rounded-lg border border-border bg-card p-4">
                 <Field data-invalid={!!form.errors.provider_name}>
                     <FieldLabel htmlFor="provider_name">
                         Provider name
@@ -429,16 +429,21 @@ export default function CounsellingProviderForm({
                 <FieldSet className="rounded-lg border p-4">
                     <FieldLegend>Service</FieldLegend>
                     <FieldGroup>
-                        <SwitchField
-                            checked={form.data.in_person}
-                            description="Provider offers in-person support."
-                            error={errors.in_person}
-                            icon={UsersIcon}
-                            label="In person"
-                            onCheckedChange={(checked) =>
-                                form.setData('in_person', checked)
-                            }
-                        />
+                        <Field data-invalid={!!form.errors.service_modes}>
+                            <FieldLabel>Service Modes</FieldLabel>
+                            <StringMultiSelect
+                                options={['In Person', 'Online']}
+                                placeholder="Select service modes"
+                                searchPlaceholder="Search modes..."
+                                selectedValues={form.data.service_modes}
+                                onChange={(values) =>
+                                    form.setData('service_modes', values)
+                                }
+                            />
+                            <FieldError
+                                errors={fieldErrors(errors, 'service_modes')}
+                            />
+                        </Field>
                     </FieldGroup>
                 </FieldSet>
 

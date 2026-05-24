@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
 import ProgramUpdateForm from '@/components/program-updates/program-update-form';
-import { Card, CardContent } from '@/components/ui/card';
 
 type CountryOfficeOption = {
     id: number;
@@ -32,23 +31,12 @@ export default function CreateProgramUpdate({
                     description="Create a new program update."
                 />
 
-                <Card>
-                    {/* <CardHeader className="border-b pb-6">
-                        <CardTitle>Report details</CardTitle>
-                        <CardDescription>
-                            Add update content, activity details, media, and
-                            publishing settings.
-                        </CardDescription>
-                    </CardHeader> */}
-                    <CardContent>
-                        <ProgramUpdateForm
-                            action="/program-updates"
-                            countryOffices={countryOffices}
-                            locations={locations}
-                            submitLabel="Create"
-                        />
-                    </CardContent>
-                </Card>
+                <ProgramUpdateForm
+                    action="/program-updates"
+                    countryOffices={countryOffices}
+                    locations={locations}
+                    submitLabel="Create"
+                />
             </div>
         </>
     );

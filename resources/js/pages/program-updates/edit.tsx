@@ -63,47 +63,29 @@ export default function EditProgramUpdate({
                     description="Update program report details."
                 />
 
-                <Card>
-                    {/* <CardHeader className="border-b pb-6">
-                        <CardTitle>Report details</CardTitle>
-                        <CardDescription>
-                            Update the update content, activity details, media,
-                            and publishing settings.
-                        </CardDescription>
-                    </CardHeader> */}
-                    <CardContent>
-                        <ProgramUpdateForm
-                            action={`/program-updates/${programUpdate.id}`}
-                            countryOffices={countryOffices}
-                            locations={locations}
-                            method="patch"
-                            programUpdate={{
-                                ...programUpdate,
-                                activity_details:
-                                    programUpdateActivityDetails.map(
-                                        (activityDetail) => ({
-                                            start_date:
-                                                activityDetail.start_date ?? '',
-                                            end_date:
-                                                activityDetail.end_date ?? '',
-                                            country_office_ids:
-                                                activityDetail.country_office_ids,
-                                            event_type:
-                                                activityDetail.event_type ?? '',
-                                            event_link:
-                                                activityDetail.event_link ?? '',
-                                            location_ids:
-                                                activityDetail.location_ids,
-                                        }),
-                                    ),
+                <ProgramUpdateForm
+                    action={`/program-updates/${programUpdate.id}`}
+                    countryOffices={countryOffices}
+                    locations={locations}
+                    method="patch"
+                    programUpdate={{
+                        ...programUpdate,
+                        activity_details: programUpdateActivityDetails.map(
+                            (activityDetail) => ({
+                                start_date: activityDetail.start_date ?? '',
+                                end_date: activityDetail.end_date ?? '',
                                 country_office_ids:
-                                    programUpdateCountryOfficeIds,
-                                date: programUpdateDate,
-                            }}
-                            submitLabel="Save"
-                        />
-                    </CardContent>
-                </Card>
+                                    activityDetail.country_office_ids,
+                                event_type: activityDetail.event_type ?? '',
+                                event_link: activityDetail.event_link ?? '',
+                                location_ids: activityDetail.location_ids,
+                            }),
+                        ),
+                        country_office_ids: programUpdateCountryOfficeIds,
+                        date: programUpdateDate,
+                    }}
+                    submitLabel="Save"
+                />
             </div>
         </>
     );

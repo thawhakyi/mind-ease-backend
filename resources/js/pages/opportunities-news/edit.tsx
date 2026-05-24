@@ -1,13 +1,6 @@
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
 import OpportunityNewsForm from '@/components/opportunities-news/opportunity-news-form';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 
 type Category = {
     id: number;
@@ -39,24 +32,13 @@ export default function EditOpportunityNews({
                     description="Update an opportunity or news item."
                 />
 
-                <Card>
-                    <CardHeader className="border-b pb-6">
-                        <CardTitle>Item details</CardTitle>
-                        <CardDescription>
-                            Update the story content, categories, and featured
-                            image.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <OpportunityNewsForm
-                            action={`/opportunities-news/${item.id}`}
-                            categories={categories}
-                            item={item}
-                            method="patch"
-                            submitLabel="Save Item"
-                        />
-                    </CardContent>
-                </Card>
+                <OpportunityNewsForm
+                    action={`/opportunities-news/${item.id}`}
+                    categories={categories}
+                    item={item}
+                    method="patch"
+                    submitLabel="Save Item"
+                />
             </div>
         </>
     );

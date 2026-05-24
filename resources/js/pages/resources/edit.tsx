@@ -1,13 +1,6 @@
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
 import ResourceForm from '@/components/resources/resource-form';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 
 type Category = {
     id: number;
@@ -52,25 +45,14 @@ export default function EditResource({
                     description="Update resource details."
                 />
 
-                <Card>
-                    <CardHeader className="border-b pb-6">
-                        <CardTitle>Resource details</CardTitle>
-                        <CardDescription>
-                            Update the resource metadata, link, access, and
-                            publishing settings.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ResourceForm
-                            action={`/resources/${resource.id}`}
-                            categories={categories}
-                            languages={languages}
-                            method="patch"
-                            resource={resource}
-                            submitLabel="Save Resource"
-                        />
-                    </CardContent>
-                </Card>
+                <ResourceForm
+                    action={`/resources/${resource.id}`}
+                    categories={categories}
+                    languages={languages}
+                    method="patch"
+                    resource={resource}
+                    submitLabel="Save"
+                />
             </div>
         </>
     );

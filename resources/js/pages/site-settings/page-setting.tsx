@@ -59,21 +59,21 @@ export default function PageSetting({
         <>
             <Head title="Page settings" />
 
-            <h1 className="sr-only">Page settings</h1>
-
-            <div className="space-y-6 p-4">
+            <div className="flex flex-col gap-6 p-6">
                 <Heading
-                    variant="small"
                     title="Page settings"
                     description="Control public access to frontend pages"
                 />
 
-                <form onSubmit={submit} className="max-w-xl space-y-6">
-                    <FieldGroup>
+                <form
+                    onSubmit={submit}
+                    className="flex max-w-3xl flex-col gap-6"
+                >
+                    <FieldGroup className="space-y-6">
                         {form.data.settings.map((setting, index) => (
                             <section
                                 key={setting.key}
-                                className="space-y-4 rounded-lg border p-4"
+                                className="space-y-4 rounded-lg border bg-card p-4"
                             >
                                 <div>
                                     <h2 className="text-base font-medium">

@@ -12,6 +12,7 @@
 /resources/js/wayfinder
 /vendor
 .DS_Store
+.nvmrc
 .env
 .env.backup
 .env.production
@@ -27,3 +28,4 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+report.xml
