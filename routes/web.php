@@ -18,14 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
-Route::prefix('auth/google')->name('auth.google.')->group(function (): void {
+Route::prefix('auth/google')->name('auth.google.')->middleware('throttle:auth')->group(function (): void {
     Route::get('redirect', [GoogleAuthController::class, 'redirect'])->name('redirect');
     Route::get('callback', [GoogleAuthController::class, 'callback'])->name('callback');
 });
 
-Route::match(['get', 'post'], 'auth/logout', [GoogleAuthController::class, 'logout'])->name('auth.logout');
+Route::post('auth/logout', [GoogleAuthController::class, 'logout'])->name('auth.logout');
 
-Route::prefix('api/v1')->name('api.v1.')->group(function (): void {
+Route::prefix('api/v1')->name('api.v1.')->middleware('throttle:api')->group(function (): void {
     Route::get('session', [PublicContentController::class, 'session'])->name('session');
     Route::get('program-updates', [PublicContentController::class, 'programUpdates'])->name('program-updates');
     Route::get('opportunities-news', [PublicContentController::class, 'opportunitiesNews'])->name('opportunities-news');
@@ -91,3 +91,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/settings.php';
+
