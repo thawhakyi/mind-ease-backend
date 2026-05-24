@@ -1,26 +1,34 @@
 import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { DashboardEventCalendar } from '@/components/dashboard/dashboard-event-calendar';
+import { DashboardStats } from '@/components/dashboard/dashboard-stats';
 import { dashboard } from '@/routes';
 
-export default function Dashboard() {
+export default function Dashboard({
+    stats,
+    filters = {},
+    options,
+    programUpdates,
+}: any) {
     return (
         <>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+            <div className="flex flex-col gap-6 p-6">
+                <div className="flex flex-col gap-3">
+                    <h2 className="text-xl font-semibold tracking-tight">
+                        Dashboard Overview
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                        Analytics and activity summary for Mind Ease programs.
+                    </p>
                 </div>
-                <div className="relative min-h-screen flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
+
+                <DashboardStats
+                    stats={stats}
+                    filters={filters}
+                    options={options}
+                />
+
+                <DashboardEventCalendar programUpdates={programUpdates} />
             </div>
         </>
     );

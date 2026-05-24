@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
-import { Card, CardContent } from '@/components/ui/card';
 import {
     Empty,
     EmptyDescription,
@@ -53,106 +52,93 @@ export default function OpportunitiesNewsIndex({ items }: { items: Item[] }) {
                     </Button>
                 </div>
 
-                <Card className="gap-0 overflow-hidden py-0">
-                    <CardContent className="p-0">
-                        {items.length === 0 ? (
-                            <Empty className="m-6">
-                                <EmptyHeader>
-                                    <EmptyTitle>No items</EmptyTitle>
-                                    <EmptyDescription>
-                                        Create the first item from Add New
-                                        Button.
-                                    </EmptyDescription>
-                                </EmptyHeader>
-                            </Empty>
-                        ) : (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Title</TableHead>
-                                        <TableHead>Categories</TableHead>
-                                        <TableHead>Created</TableHead>
-                                        <TableHead className="text-right">
-                                            Actions
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {items.map((item) => (
-                                        <TableRow key={item.id}>
-                                            <TableCell className="max-w-md whitespace-normal">
-                                                <div className="font-medium">
-                                                    {item.title}
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.categories || 'Not set'}
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.created_at}
-                                            </TableCell>
-                                            <TableCell>
-                                                <ButtonGroup className="ml-auto">
+                {items.length === 0 ? (
+                    <Empty className="m-6">
+                        <EmptyHeader>
+                            <EmptyTitle>No items</EmptyTitle>
+                            <EmptyDescription>
+                                Create the first item from Add New Button.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                    </Empty>
+                ) : (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Categories</TableHead>
+                                <TableHead>Created</TableHead>
+                                <TableHead className="text-right">
+                                    Actions
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {items.map((item) => (
+                                <TableRow key={item.id}>
+                                    <TableCell className="max-w-md whitespace-normal">
+                                        <div className="font-medium">
+                                            {item.title}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        {item.categories || 'Not set'}
+                                    </TableCell>
+                                    <TableCell>{item.created_at}</TableCell>
+                                    <TableCell>
+                                        <ButtonGroup className="ml-auto">
+                                            <Button variant="outline" asChild>
+                                                <Link
+                                                    href={`/opportunities-news/${item.id}/edit`}
+                                                >
+                                                    Edit
+                                                </Link>
+                                            </Button>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
                                                     <Button
-                                                        variant="outline"
-                                                        asChild
+                                                        type="button"
+                                                        variant="destructive"
                                                     >
-                                                        <Link
-                                                            href={`/opportunities-news/${item.id}/edit`}
-                                                        >
-                                                            Edit
-                                                        </Link>
+                                                        Delete
                                                     </Button>
-                                                    <AlertDialog>
-                                                        <AlertDialogTrigger
-                                                            asChild
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
+                                                            Delete item?
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This action cannot
+                                                            be undone.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancel
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            onClick={() =>
+                                                                router.delete(
+                                                                    `/opportunities-news/${item.id}`,
+                                                                    {
+                                                                        preserveScroll: true,
+                                                                    },
+                                                                )
+                                                            }
                                                         >
-                                                            <Button
-                                                                type="button"
-                                                                variant="destructive"
-                                                            >
-                                                                Delete
-                                                            </Button>
-                                                        </AlertDialogTrigger>
-                                                        <AlertDialogContent>
-                                                            <AlertDialogHeader>
-                                                                <AlertDialogTitle>
-                                                                    Delete item?
-                                                                </AlertDialogTitle>
-                                                                <AlertDialogDescription>
-                                                                    This action
-                                                                    cannot be
-                                                                    undone.
-                                                                </AlertDialogDescription>
-                                                            </AlertDialogHeader>
-                                                            <AlertDialogFooter>
-                                                                <AlertDialogCancel>
-                                                                    Cancel
-                                                                </AlertDialogCancel>
-                                                                <AlertDialogAction
-                                                                    onClick={() =>
-                                                                        router.delete(
-                                                                            `/opportunities-news/${item.id}`,
-                                                                            {
-                                                                                preserveScroll: true,
-                                                                            },
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    Delete
-                                                                </AlertDialogAction>
-                                                            </AlertDialogFooter>
-                                                        </AlertDialogContent>
-                                                    </AlertDialog>
-                                                </ButtonGroup>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        )}
-                    </CardContent>
-                </Card>
+                                                            Delete
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </ButtonGroup>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
             </div>
         </>
     );

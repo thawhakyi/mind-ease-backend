@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import {
     Empty,
     EmptyDescription,
@@ -122,45 +122,35 @@ export default function ServiceLocations({
                         </Card>
                     </div>
 
-                    <Card className="gap-0 overflow-hidden py-0">
-                        <CardHeader className="border-b py-6">
-                            <CardTitle>Service locations</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                            {serviceLocations.length === 0 ? (
-                                <Empty className="m-6">
-                                    <EmptyHeader>
-                                        <EmptyTitle>
-                                            No service locations
-                                        </EmptyTitle>
-                                        <EmptyDescription>
-                                            Add a location to start assigning
-                                            providers.
-                                        </EmptyDescription>
-                                    </EmptyHeader>
-                                </Empty>
-                            ) : (
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Name</TableHead>
-                                            <TableHead className="text-right">
-                                                Actions
-                                            </TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {serviceLocations.map((location) => (
-                                            <ServiceLocationRow
-                                                key={location.id}
-                                                location={location}
-                                            />
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            )}
-                        </CardContent>
-                    </Card>
+                    {serviceLocations.length === 0 ? (
+                        <Empty className="m-6">
+                            <EmptyHeader>
+                                <EmptyTitle>No service locations</EmptyTitle>
+                                <EmptyDescription>
+                                    Add a location to start assigning providers.
+                                </EmptyDescription>
+                            </EmptyHeader>
+                        </Empty>
+                    ) : (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead className="text-right">
+                                        Actions
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {serviceLocations.map((location) => (
+                                    <ServiceLocationRow
+                                        key={location.id}
+                                        location={location}
+                                    />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
                 </div>
             </div>
         </>

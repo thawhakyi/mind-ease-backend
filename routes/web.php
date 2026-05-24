@@ -36,7 +36,7 @@ Route::prefix('api/v1')->name('api.v1.')->middleware('throttle:api')->group(func
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
     Route::get('site-settings', [SiteSettingController::class, 'edit'])->name('site-settings');
     Route::put('site-settings', [SiteSettingController::class, 'update'])->name('site-settings.update');
 

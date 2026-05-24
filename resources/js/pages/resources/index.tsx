@@ -64,138 +64,123 @@ export default function ResourcesIndex({
                     </Button>
                 </div>
 
-                <Card className="gap-0 overflow-hidden py-0">
-                    <CardContent className="p-0">
-                        {resources.length === 0 ? (
-                            <Empty className="m-6">
-                                <EmptyHeader>
-                                    <EmptyTitle>No resources</EmptyTitle>
-                                    <EmptyDescription>
-                                        Create the first resource from Add New.
-                                    </EmptyDescription>
-                                </EmptyHeader>
-                            </Empty>
-                        ) : (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Title</TableHead>
-                                        <TableHead>Year</TableHead>
-                                        <TableHead>Category</TableHead>
-                                        <TableHead>Language</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead>Access</TableHead>
-                                        <TableHead className="text-right">
-                                            Actions
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {resources.map((resource) => (
-                                        <TableRow key={resource.id}>
-                                            <TableCell className="max-w-md whitespace-normal">
-                                                <div className="font-medium">
-                                                    {resource.title}
-                                                </div>
-                                                <a
-                                                    href={resource.url}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="mt-1 block truncate text-muted-foreground underline-offset-4 hover:underline"
+                {resources.length === 0 ? (
+                    <Empty className="m-6">
+                        <EmptyHeader>
+                            <EmptyTitle>No resources</EmptyTitle>
+                            <EmptyDescription>
+                                Create the first resource from Add New.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                    </Empty>
+                ) : (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Year</TableHead>
+                                <TableHead>Category</TableHead>
+                                <TableHead>Language</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Access</TableHead>
+                                <TableHead className="text-right">
+                                    Actions
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {resources.map((resource) => (
+                                <TableRow key={resource.id}>
+                                    <TableCell className="max-w-md whitespace-normal">
+                                        <div className="font-medium">
+                                            {resource.title}
+                                        </div>
+                                        <a
+                                            href={resource.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="mt-1 block truncate text-muted-foreground underline-offset-4 hover:underline"
+                                        >
+                                            {resource.url}
+                                        </a>
+                                    </TableCell>
+                                    <TableCell>{resource.year}</TableCell>
+                                    <TableCell>{resource.category}</TableCell>
+                                    <TableCell>
+                                        {resource.language ?? 'Not set'}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            variant={
+                                                resource.is_published
+                                                    ? 'default'
+                                                    : 'secondary'
+                                            }
+                                        >
+                                            {resource.is_published
+                                                ? 'Published'
+                                                : 'Draft'}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        {resource.internal_members_only
+                                            ? 'Members only'
+                                            : 'Public'}
+                                    </TableCell>
+                                    <TableCell>
+                                        <ButtonGroup className="ml-auto">
+                                            <Button variant="outline" asChild>
+                                                <Link
+                                                    href={`/resources/${resource.id}/edit`}
                                                 >
-                                                    {resource.url}
-                                                </a>
-                                            </TableCell>
-                                            <TableCell>
-                                                {resource.year}
-                                            </TableCell>
-                                            <TableCell>
-                                                {resource.category}
-                                            </TableCell>
-                                            <TableCell>
-                                                {resource.language ?? 'Not set'}
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge
-                                                    variant={
-                                                        resource.is_published
-                                                            ? 'default'
-                                                            : 'secondary'
-                                                    }
-                                                >
-                                                    {resource.is_published
-                                                        ? 'Published'
-                                                        : 'Draft'}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                {resource.internal_members_only
-                                                    ? 'Members only'
-                                                    : 'Public'}
-                                            </TableCell>
-                                            <TableCell>
-                                                <ButtonGroup className="ml-auto">
+                                                    Edit
+                                                </Link>
+                                            </Button>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
                                                     <Button
-                                                        variant="outline"
-                                                        asChild
+                                                        type="button"
+                                                        variant="destructive"
                                                     >
-                                                        <Link
-                                                            href={`/resources/${resource.id}/edit`}
-                                                        >
-                                                            Edit
-                                                        </Link>
+                                                        Delete
                                                     </Button>
-                                                    <AlertDialog>
-                                                        <AlertDialogTrigger
-                                                            asChild
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
+                                                            Delete resource?
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This action cannot
+                                                            be undone.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancel
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            onClick={() =>
+                                                                router.delete(
+                                                                    `/resources/${resource.id}`,
+                                                                    {
+                                                                        preserveScroll: true,
+                                                                    },
+                                                                )
+                                                            }
                                                         >
-                                                            <Button
-                                                                type="button"
-                                                                variant="destructive"
-                                                            >
-                                                                Delete
-                                                            </Button>
-                                                        </AlertDialogTrigger>
-                                                        <AlertDialogContent>
-                                                            <AlertDialogHeader>
-                                                                <AlertDialogTitle>
-                                                                    Delete
-                                                                    resource?
-                                                                </AlertDialogTitle>
-                                                                <AlertDialogDescription>
-                                                                    This action
-                                                                    cannot be
-                                                                    undone.
-                                                                </AlertDialogDescription>
-                                                            </AlertDialogHeader>
-                                                            <AlertDialogFooter>
-                                                                <AlertDialogCancel>
-                                                                    Cancel
-                                                                </AlertDialogCancel>
-                                                                <AlertDialogAction
-                                                                    onClick={() =>
-                                                                        router.delete(
-                                                                            `/resources/${resource.id}`,
-                                                                            {
-                                                                                preserveScroll: true,
-                                                                            },
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    Delete
-                                                                </AlertDialogAction>
-                                                            </AlertDialogFooter>
-                                                        </AlertDialogContent>
-                                                    </AlertDialog>
-                                                </ButtonGroup>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        )}
-                    </CardContent>
-                </Card>
+                                                            Delete
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </ButtonGroup>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
             </div>
         </>
     );

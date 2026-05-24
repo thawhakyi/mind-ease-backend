@@ -48,8 +48,8 @@ class PublicContentController extends Controller
                 ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
                 ->orderBy('sort_order')
                 ->latest()
-                ->get()
-                ->map(fn (ProgramUpdate $programUpdate): array => [
+                ->paginate(15)
+                ->through(fn (ProgramUpdate $programUpdate): array => [
                     'id' => $programUpdate->id,
                     'title' => $programUpdate->title,
                     'description' => $programUpdate->description,
@@ -76,7 +76,7 @@ class PublicContentController extends Controller
                         ->map(fn (string $path): ?string => $this->publicUrl($path))
                         ->filter()
                         ->values(),
-                ])->values(),
+                ]),
         ]);
     }
 
@@ -90,8 +90,8 @@ class PublicContentController extends Controller
                 ->where('is_published', true)
                 ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
                 ->latest()
-                ->get()
-                ->map(fn (OpportunityNews $item): array => [
+                ->paginate(15)
+                ->through(fn (OpportunityNews $item): array => [
                     'id' => $item->id,
                     'title' => $item->title,
                     'description' => $item->description,
@@ -102,7 +102,7 @@ class PublicContentController extends Controller
                     ])->values(),
                     'featured_image_url' => $this->publicUrl($item->featured_image_path),
                     'created_at' => $item->created_at?->toDateString(),
-                ])->values(),
+                ]),
         ]);
     }
 
@@ -117,8 +117,8 @@ class PublicContentController extends Controller
                 ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
                 ->orderBy('sort_order')
                 ->latest()
-                ->get()
-                ->map(fn (ResourceItem $resource): array => [
+                ->paginate(15)
+                ->through(fn (ResourceItem $resource): array => [
                     'id' => $resource->id,
                     'title' => $resource->title,
                     'description' => $resource->description,
@@ -135,7 +135,7 @@ class PublicContentController extends Controller
                         'name' => $resource->language->name,
                     ] : null,
                     'feature_image_url' => $this->publicUrl($resource->feature_image_path),
-                ])->values(),
+                ]),
         ]);
     }
 
@@ -150,8 +150,8 @@ class PublicContentController extends Controller
                 ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
                 ->orderBy('sort_order')
                 ->latest()
-                ->get()
-                ->map(fn (CounsellingProvider $provider): array => [
+                ->paginate(15)
+                ->through(fn (CounsellingProvider $provider): array => [
                     'id' => $provider->id,
                     'provider_name' => $provider->provider_name,
                     'provider_background' => $provider->provider_background,
@@ -172,7 +172,7 @@ class PublicContentController extends Controller
                     'facebook_page_name' => $provider->facebook_page_name,
                     'facebook_url' => $provider->facebook_url,
                     'logo_url' => $this->publicUrl($provider->logo_path),
-                ])->values(),
+                ]),
         ]);
     }
 
@@ -182,15 +182,15 @@ class PublicContentController extends Controller
             'data' => Timeline::query()
                 ->orderBy('sort_order')
                 ->latest()
-                ->get()
-                ->map(fn (Timeline $timeline): array => [
+                ->paginate(15)
+                ->through(fn (Timeline $timeline): array => [
                     'id' => $timeline->id,
                     'title' => $timeline->title,
                     'year' => $timeline->year,
                     'description' => $timeline->description,
                     'summary' => Str::of($timeline->description)->stripTags()->limit(220)->toString(),
                     'featured_image_url' => $this->publicUrl($timeline->featured_image_path),
-                ])->values(),
+                ]),
         ]);
     }
 

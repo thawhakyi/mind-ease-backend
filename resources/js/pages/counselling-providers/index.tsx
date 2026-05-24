@@ -14,7 +14,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
-import { Card, CardContent } from '@/components/ui/card';
 import {
     Empty,
     EmptyDescription,
@@ -67,129 +66,114 @@ export default function CounsellingProvidersIndex({
                     </Button>
                 </div>
 
-                <Card className="gap-0 overflow-hidden py-0">
-                    <CardContent className="p-0">
-                        {providers.length === 0 ? (
-                            <Empty className="m-6">
-                                <EmptyHeader>
-                                    <EmptyTitle>No providers</EmptyTitle>
-                                    <EmptyDescription>
-                                        Create the first provider from Add New.
-                                    </EmptyDescription>
-                                </EmptyHeader>
-                            </Empty>
-                        ) : (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Provider</TableHead>
-                                        <TableHead>Locations</TableHead>
-                                        <TableHead>Languages</TableHead>
-                                        <TableHead>Contact</TableHead>
-                                        <TableHead>Mode</TableHead>
-                                        <TableHead className="text-right">
-                                            Actions
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {providers.map((provider) => (
-                                        <TableRow key={provider.id}>
-                                            <TableCell className="max-w-md whitespace-normal">
-                                                <div className="font-medium">
-                                                    {provider.provider_name}
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                {provider.service_locations}
-                                            </TableCell>
-                                            <TableCell>
-                                                {provider.languages}
-                                            </TableCell>
-                                            <TableCell>
-                                                <div>
-                                                    {provider.contact_methods}
-                                                </div>
-                                                <div className="text-muted-foreground">
-                                                    {provider.email}
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge
-                                                    variant={
-                                                        provider.in_person
-                                                            ? 'default'
-                                                            : 'secondary'
-                                                    }
+                {providers.length === 0 ? (
+                    <Empty className="m-6">
+                        <EmptyHeader>
+                            <EmptyTitle>No providers</EmptyTitle>
+                            <EmptyDescription>
+                                Create the first provider from Add New.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                    </Empty>
+                ) : (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Provider</TableHead>
+                                <TableHead>Locations</TableHead>
+                                <TableHead>Languages</TableHead>
+                                <TableHead>Contact</TableHead>
+                                <TableHead>Mode</TableHead>
+                                <TableHead className="text-right">
+                                    Actions
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {providers.map((provider) => (
+                                <TableRow key={provider.id}>
+                                    <TableCell className="max-w-md whitespace-normal">
+                                        <div className="font-medium">
+                                            {provider.provider_name}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        {provider.service_locations}
+                                    </TableCell>
+                                    <TableCell>{provider.languages}</TableCell>
+                                    <TableCell>
+                                        <div>{provider.contact_methods}</div>
+                                        <div className="text-muted-foreground">
+                                            {provider.email}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            variant={
+                                                provider.in_person
+                                                    ? 'default'
+                                                    : 'secondary'
+                                            }
+                                        >
+                                            {provider.in_person
+                                                ? 'In person'
+                                                : 'Remote'}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <ButtonGroup className="ml-auto">
+                                            <Button variant="outline" asChild>
+                                                <Link
+                                                    href={`/counselling-providers/${provider.id}/edit`}
                                                 >
-                                                    {provider.in_person
-                                                        ? 'In person'
-                                                        : 'Remote'}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                <ButtonGroup className="ml-auto">
+                                                    Edit
+                                                </Link>
+                                            </Button>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
                                                     <Button
-                                                        variant="outline"
-                                                        asChild
+                                                        type="button"
+                                                        variant="destructive"
                                                     >
-                                                        <Link
-                                                            href={`/counselling-providers/${provider.id}/edit`}
-                                                        >
-                                                            Edit
-                                                        </Link>
+                                                        Delete
                                                     </Button>
-                                                    <AlertDialog>
-                                                        <AlertDialogTrigger
-                                                            asChild
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
+                                                            Delete provider?
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This action cannot
+                                                            be undone.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancel
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            onClick={() =>
+                                                                router.delete(
+                                                                    `/counselling-providers/${provider.id}`,
+                                                                    {
+                                                                        preserveScroll: true,
+                                                                    },
+                                                                )
+                                                            }
                                                         >
-                                                            <Button
-                                                                type="button"
-                                                                variant="destructive"
-                                                            >
-                                                                Delete
-                                                            </Button>
-                                                        </AlertDialogTrigger>
-                                                        <AlertDialogContent>
-                                                            <AlertDialogHeader>
-                                                                <AlertDialogTitle>
-                                                                    Delete
-                                                                    provider?
-                                                                </AlertDialogTitle>
-                                                                <AlertDialogDescription>
-                                                                    This action
-                                                                    cannot be
-                                                                    undone.
-                                                                </AlertDialogDescription>
-                                                            </AlertDialogHeader>
-                                                            <AlertDialogFooter>
-                                                                <AlertDialogCancel>
-                                                                    Cancel
-                                                                </AlertDialogCancel>
-                                                                <AlertDialogAction
-                                                                    onClick={() =>
-                                                                        router.delete(
-                                                                            `/counselling-providers/${provider.id}`,
-                                                                            {
-                                                                                preserveScroll: true,
-                                                                            },
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    Delete
-                                                                </AlertDialogAction>
-                                                            </AlertDialogFooter>
-                                                        </AlertDialogContent>
-                                                    </AlertDialog>
-                                                </ButtonGroup>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        )}
-                    </CardContent>
-                </Card>
+                                                            Delete
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </ButtonGroup>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
             </div>
         </>
     );
