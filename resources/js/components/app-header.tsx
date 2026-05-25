@@ -140,7 +140,7 @@ const mainNavItems: NavItem[] = [
 const rightNavItems: NavItem[] = [
     {
         title: 'Go to Website',
-        href: 'https://mind-ease.vercel.app',
+        href: 'https://mindeaseprogram.vercel.app',
         icon: ExternalLinkIcon,
     },
     {

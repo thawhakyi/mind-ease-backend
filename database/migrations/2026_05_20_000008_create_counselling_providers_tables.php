@@ -39,14 +39,23 @@ return new class extends Migration
 
         Schema::create('counselling_provider_service_location', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('counselling_provider_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('service_location_id')->constrained()->restrictOnDelete();
+            
+            $table->unsignedBigInteger('counselling_provider_id');
+            $table->foreign('counselling_provider_id', 'fk_cpsl_cp_id')
+                  ->references('id')->on('counselling_providers')
+                  ->cascadeOnDelete();
+
+            $table->unsignedBigInteger('service_location_id');
+            $table->foreign('service_location_id', 'fk_cpsl_sl_id')
+                  ->references('id')->on('service_locations')
+                  ->restrictOnDelete();
+
             $table->timestamps();
 
             $table->unique([
                 'counselling_provider_id',
                 'service_location_id',
-            ]);
+            ], 'unq_cpsl_ids');
         });
     }
 

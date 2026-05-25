@@ -11,29 +11,35 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('country_offices', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('country_offices')) {
+            Schema::create('country_offices', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->unique();
+                $table->timestamps();
+            });
+        }
 
-        Schema::create('locations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_office_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->timestamps();
+        if (!Schema::hasTable('locations')) {
+            Schema::create('locations', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('country_office_id')->constrained()->cascadeOnDelete();
+                $table->string('name');
+                $table->timestamps();
 
-            $table->unique(['country_office_id', 'name']);
-        });
+                $table->unique(['country_office_id', 'name']);
+            });
+        }
 
-        Schema::create('program_updates', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_office_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('location_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('title');
-            $table->text('summary')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('program_updates')) {
+            Schema::create('program_updates', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('country_office_id')->nullable()->constrained()->nullOnDelete();
+                $table->foreignId('location_id')->nullable()->constrained()->nullOnDelete();
+                $table->string('title');
+                $table->text('summary')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

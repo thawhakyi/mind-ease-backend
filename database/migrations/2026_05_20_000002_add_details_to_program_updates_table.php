@@ -11,22 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('program_updates', function (Blueprint $table) {
-            $table->longText('description')->nullable()->after('summary');
-            $table->string('quarter')->nullable()->after('description');
-            $table->unsignedSmallInteger('year')->nullable()->after('quarter');
-            $table->date('date')->nullable()->after('year');
-            $table->string('facilitator')->nullable()->after('date');
-            $table->string('event_type')->nullable()->after('facilitator');
-        });
+        if (!Schema::hasColumn('program_updates', 'description')) {
+            Schema::table('program_updates', function (Blueprint $table) {
+                $table->longText('description')->nullable()->after('summary');
+                $table->string('quarter')->nullable()->after('description');
+                $table->unsignedSmallInteger('year')->nullable()->after('quarter');
+                $table->date('date')->nullable()->after('year');
+                $table->string('facilitator')->nullable()->after('date');
+                $table->string('event_type')->nullable()->after('facilitator');
+            });
+        }
 
+        Schema::dropIfExists('country_office_program_update');
         Schema::create('country_office_program_update', function (Blueprint $table) {
             $table->id();
             $table->foreignId('country_office_id')->constrained()->cascadeOnDelete();
             $table->foreignId('program_update_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['country_office_id', 'program_update_id']);
+            $table->unique(['country_office_id', 'program_update_id'], 'co_pu_unique');
         });
     }
 

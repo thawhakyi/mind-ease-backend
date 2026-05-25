@@ -22,9 +22,12 @@ export default function AuthSplitLayout({
 
             {/* Form side (right) */}
             <div className="flex min-h-screen flex-col items-center justify-center md:w-[40%]">
-                <div className="w-full max-w-sm space-y-6 rounded-lg border border-border bg-card px-6 py-16">
-                    <Link href={home()} className="relative z-20 flex">
-                        <AppLogoIcon className="size-20 fill-current" />
+                <div className="w-full max-w-sm space-y-3 rounded-lg border border-border bg-card px-6 py-16">
+                    <Link
+                        href={home()}
+                        className="relative z-20 flex justify-center"
+                    >
+                        <AppLogoIcon className="size-18 fill-current" />
                     </Link>
 
                     {title && (

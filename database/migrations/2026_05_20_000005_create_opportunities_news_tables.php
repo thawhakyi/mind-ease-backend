@@ -27,14 +27,23 @@ return new class extends Migration
 
         Schema::create('opportunity_news_category_opportunity_news', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('opportunity_news_id')->constrained('opportunity_news')->cascadeOnDelete();
-            $table->foreignId('opportunity_news_category_id')->constrained()->cascadeOnDelete();
+            
+            $table->unsignedBigInteger('opportunity_news_id');
+            $table->foreign('opportunity_news_id', 'fk_onc_on_on_id')
+                  ->references('id')->on('opportunity_news')
+                  ->cascadeOnDelete();
+
+            $table->unsignedBigInteger('opportunity_news_category_id');
+            $table->foreign('opportunity_news_category_id', 'fk_onc_on_onc_id')
+                  ->references('id')->on('opportunity_news_categories')
+                  ->cascadeOnDelete();
+
             $table->timestamps();
 
             $table->unique([
                 'opportunity_news_id',
                 'opportunity_news_category_id',
-            ]);
+            ], 'unq_onc_on_ids');
         });
     }
 

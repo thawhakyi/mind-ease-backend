@@ -11,7 +11,7 @@ export default function Welcome() {
         <AuthSplitLayout>
             <Head title="Welcome | Mind Ease" />
 
-            <div className="mb-12 inline-flex items-center gap-2 rounded-full border border-rose-400 bg-transparent px-3 py-1 text-sm font-medium text-rose-400 dark:border-rose-300 dark:text-rose-300">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-rose-400 bg-neutral-800/50 px-3 py-1 text-sm font-medium text-rose-400 dark:border-rose-300 dark:text-rose-300">
                 <HeartIcon className="size-4" /> Here to listen, Here to care!
             </div>
             <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
