@@ -22,25 +22,26 @@ export default function AuthSplitLayout({
 
             {/* Form side (right) */}
             <div className="flex min-h-screen flex-col items-center justify-center md:w-[40%]">
-                <div className="w-full max-w-sm space-y-3 rounded-lg border border-border bg-card px-6 py-16">
-                    <Link
-                        href={home()}
-                        className="relative z-20 flex justify-center"
-                    >
-                        <AppLogoIcon className="size-18 fill-current" />
-                    </Link>
+                <div className="w-full max-w-sm space-y-2 rounded-lg border border-border bg-card px-6 py-16">
+                    <div className="flex w-full flex-col items-center justify-center">
+                        <Link
+                            href={home()}
+                            className="relative z-20 flex justify-center"
+                        >
+                            <AppLogoIcon className="size-18 fill-current" />
+                        </Link>
 
-                    {title && (
-                        <h1 className="text-2xl font-semibold tracking-tight">
-                            {title}
-                        </h1>
-                    )}
-                    {description && (
-                        <p className="text-sm text-balance text-muted-foreground">
-                            {description}
-                        </p>
-                    )}
-
+                        {title && (
+                            <h1 className="text-2xl font-semibold tracking-tight">
+                                {title}
+                            </h1>
+                        )}
+                        {description && (
+                            <p className="mb-4 text-sm text-balance text-muted-foreground">
+                                {description}
+                            </p>
+                        )}
+                    </div>
                     {children}
                 </div>
             </div>
