@@ -28,12 +28,6 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('GOOGLE_REDIRECT_URI'),
-    ],
-
     'member_email_domains' => array_values(array_filter(array_map(
         fn (string $domain): string => strtolower(trim($domain)),
         explode(',', env('MEMBER_EMAIL_DOMAINS', '')),

@@ -15,21 +15,38 @@ class OpportunityNewsController extends Controller
 {
     public function index(): Response
     {
+        $query = OpportunityNews::query()
+            ->with('categories:id,name');
+
+        if ($search = request('search')) {
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        $sort = request('sort', 'created_at');
+        $direction = request('direction', 'desc');
+
+        if (in_array($sort, ['title', 'created_at'])) {
+            $query->orderBy($sort, $direction === 'asc' ? 'asc' : 'desc');
+        } else {
+            $query->latest();
+        }
+
+        $items = $query->paginate(10)
+            ->withQueryString()
+            ->through(fn (OpportunityNews $item) => [
+                'id' => $item->id,
+                'title' => $item->title,
+                'description' => str($item->description)->stripTags()->toString(),
+                'categories' => $item->categories->pluck('name')->implode(', '),
+                'featured_image_path' => $item->featured_image_path,
+                'internal_members_only' => $item->internal_members_only,
+                'is_published' => $item->is_published,
+                'created_at' => $item->created_at->toFormattedDateString(),
+            ]);
+
         return Inertia::render('opportunities-news/index', [
-            'items' => OpportunityNews::query()
-                ->with('categories:id,name')
-                ->latest()
-                ->get(['id', 'title', 'description', 'featured_image_path', 'internal_members_only', 'is_published', 'created_at'])
-                ->map(fn (OpportunityNews $item) => [
-                    'id' => $item->id,
-                    'title' => $item->title,
-                    'description' => str($item->description)->stripTags()->toString(),
-                    'categories' => $item->categories->pluck('name')->implode(', '),
-                    'featured_image_path' => $item->featured_image_path,
-                    'internal_members_only' => $item->internal_members_only,
-                    'is_published' => $item->is_published,
-                    'created_at' => $item->created_at->toFormattedDateString(),
-                ]),
+            'items' => $items,
+            'filters' => request()->only(['search', 'sort', 'direction']),
         ]);
     }
 

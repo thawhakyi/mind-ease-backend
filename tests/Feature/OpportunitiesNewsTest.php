@@ -23,7 +23,7 @@ test('authenticated users can view opportunities and news management pages', fun
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('opportunities-news/index')
-            ->has('items')
+            ->has('items.data')
         );
 
     $this->get(route('opportunities-news.create'))
@@ -38,6 +38,42 @@ test('authenticated users can view opportunities and news management pages', fun
         ->assertInertia(fn (Assert $page) => $page
             ->component('opportunities-news/categories')
             ->has('categories')
+        );
+});
+
+test('index page returns paginated items and supports searching and sorting', function () {
+    $this->actingAs(User::factory()->create());
+
+    OpportunityNews::create(['title' => 'Alpha Update', 'created_at' => now()->subDays(2)]);
+    OpportunityNews::create(['title' => 'Beta News', 'created_at' => now()->subDays(1)]);
+
+    // Search
+    $this->get(route('opportunities-news.index', ['search' => 'Alpha']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('opportunities-news/index')
+            ->has('items.data', 1)
+            ->where('items.data.0.title', 'Alpha Update')
+        );
+
+    // Sorting by title asc
+    $this->get(route('opportunities-news.index', ['sort' => 'title', 'direction' => 'asc']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('opportunities-news/index')
+            ->has('items.data', 2)
+            ->where('items.data.0.title', 'Alpha Update')
+            ->where('items.data.1.title', 'Beta News')
+        );
+
+    // Sorting by title desc
+    $this->get(route('opportunities-news.index', ['sort' => 'title', 'direction' => 'desc']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('opportunities-news/index')
+            ->has('items.data', 2)
+            ->where('items.data.0.title', 'Beta News')
+            ->where('items.data.1.title', 'Alpha Update')
         );
 });
 

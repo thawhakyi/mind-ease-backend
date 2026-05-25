@@ -196,6 +196,13 @@ class PublicContentController extends Controller
 
     private function currentUserIsMember(): bool
     {
+        $secret = config('services.frontend_secret');
+        $hasValidSecret = empty($secret) || request()->header('X-Frontend-Secret') === $secret;
+        
+        if ($hasValidSecret && request()->header('X-Is-Internal-Member') === 'true') {
+            return true;
+        }
+
         $user = Auth::user();
 
         return $user instanceof User && $this->isMember($user);

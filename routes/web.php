@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\V1\PublicContentController;
-use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\CounsellingProviders\CounsellingProviderController;
 use App\Http\Controllers\CounsellingProviders\ServiceLocationController;
 use App\Http\Controllers\OpportunitiesNews\CategoryController as OpportunityNewsCategoryController;
@@ -18,12 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
-Route::prefix('auth/google')->name('auth.google.')->middleware('throttle:auth')->group(function (): void {
-    Route::get('redirect', [GoogleAuthController::class, 'redirect'])->name('redirect');
-    Route::get('callback', [GoogleAuthController::class, 'callback'])->name('callback');
-});
 
-Route::post('auth/logout', [GoogleAuthController::class, 'logout'])->name('auth.logout');
 
 Route::prefix('api/v1')->name('api.v1.')->middleware('throttle:api')->group(function (): void {
     Route::get('session', [PublicContentController::class, 'session'])->name('session');

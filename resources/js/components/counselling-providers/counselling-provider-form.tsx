@@ -6,7 +6,6 @@ import {
     PlusIcon,
     RadioIcon,
     Trash2Icon,
-    UsersIcon,
 } from 'lucide-react';
 import type { ComponentType, FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
