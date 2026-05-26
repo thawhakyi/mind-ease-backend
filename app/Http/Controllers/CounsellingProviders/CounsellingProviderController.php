@@ -144,6 +144,7 @@ class CounsellingProviderController extends Controller
      *     facebook_url?: string|null,
      *     sort_order: int,
      *     logo_path?: string,
+     *     remove_logo?: bool,
      *     internal_members_only: bool,
      *     is_published: bool
      * }
@@ -172,17 +173,23 @@ class CounsellingProviderController extends Controller
             'facebook_url' => ['nullable', 'url', 'max:2048'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'logo' => ['nullable', 'image', 'max:5120'],
+            'remove_logo' => ['nullable', 'boolean'],
             'internal_members_only' => ['nullable', 'boolean'],
             'is_published' => ['nullable', 'boolean'],
         ]);
 
         unset($validated['logo']);
+        unset($validated['remove_logo']);
 
         $validated['in_person'] = $request->boolean('in_person');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
         $validated['phone_numbers'] = array_values(array_filter($validated['phone_numbers'] ?? []));
         $validated['internal_members_only'] = $request->boolean('internal_members_only');
         $validated['is_published'] = $request->boolean('is_published');
+
+        if ($request->boolean('remove_logo')) {
+            $validated['logo_path'] = null;
+        }
 
         if ($request->hasFile('logo')) {
             $validated['logo_path'] = $request
@@ -200,4 +207,3 @@ class CounsellingProviderController extends Controller
             ->get(['id', 'name']);
     }
 }
-

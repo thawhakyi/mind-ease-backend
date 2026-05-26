@@ -153,6 +153,24 @@ test('authenticated users can create a counselling provider with only a name', f
         ->and($provider->email)->toBeNull();
 });
 
+test('authenticated users can remove a counselling provider logo', function () {
+    $this->actingAs(User::factory()->create());
+    Storage::fake('public');
+
+    $provider = CounsellingProvider::create([
+        'provider_name' => 'Mind Care',
+        'logo_path' => 'counselling-providers/logos/logo.jpg',
+    ]);
+    Storage::disk('public')->put($provider->logo_path, 'logo');
+
+    $this->patch(route('counselling-providers.update', $provider), [
+        'provider_name' => 'Mind Care',
+        'remove_logo' => '1',
+    ])->assertRedirect(route('counselling-providers.index'));
+
+    expect($provider->refresh()->logo_path)->toBeNull();
+});
+
 test('authenticated users can manage service locations', function () {
     $this->actingAs(User::factory()->create());
 
@@ -173,4 +191,3 @@ test('authenticated users can manage service locations', function () {
 
     expect(ServiceLocation::query()->count())->toBe(0);
 });
-

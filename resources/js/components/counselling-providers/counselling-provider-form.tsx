@@ -1,13 +1,13 @@
 import { useForm } from '@inertiajs/react';
 import {
     ChevronsUpDownIcon,
-    ImageIcon,
     LockIcon,
     PlusIcon,
     RadioIcon,
     Trash2Icon,
 } from 'lucide-react';
 import type { ComponentType, FormEvent } from 'react';
+import { FeatureImageUpload } from '@/components/feature-image-upload';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import {
@@ -60,6 +60,7 @@ type FormValues = {
     internal_members_only: boolean;
     is_published: boolean;
     logo: File | null;
+    remove_logo: boolean;
 };
 
 type Props = {
@@ -123,6 +124,7 @@ export default function CounsellingProviderForm({
         internal_members_only: provider?.internal_members_only ?? false,
         is_published: provider?.is_published ?? false,
         logo: null,
+        remove_logo: false,
     });
     const errors = form.errors as Record<string, string | undefined>;
 
@@ -495,44 +497,31 @@ export default function CounsellingProviderForm({
                     </FieldGroup>
                 </FieldSet>
 
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Logo</FieldLegend>
-                    <FieldGroup>
-                        {provider?.logo_path && (
-                            <img
-                                src={`/storage/${provider.logo_path}`}
-                                alt=""
-                                className="aspect-video w-full rounded-md border object-contain"
-                            />
-                        )}
-                        <Field data-invalid={!!form.errors.logo}>
-                            <FieldLabel htmlFor="logo">
-                                <span className="inline-flex items-center gap-2">
-                                    <ImageIcon className="size-4" />
-                                    Image
-                                </span>
-                            </FieldLabel>
-                            <Input
-                                id="logo"
-                                type="file"
-                                accept="image/*"
-                                onChange={(event) =>
-                                    form.setData(
-                                        'logo',
-                                        event.target.files?.[0] ?? null,
-                                    )
-                                }
-                                aria-invalid={!!form.errors.logo}
-                            />
-                            {form.data.logo && (
-                                <FieldDescription>
-                                    {form.data.logo.name}
-                                </FieldDescription>
-                            )}
-                            <FieldError errors={fieldErrors(errors, 'logo')} />
-                        </Field>
-                    </FieldGroup>
-                </FieldSet>
+                <FeatureImageUpload
+                    error={errors.logo}
+                    file={form.data.logo}
+                    imagePath={
+                        form.data.remove_logo
+                            ? null
+                            : (provider?.logo_path ?? null)
+                    }
+                    inputId="logo"
+                    legend="Logo"
+                    onChange={(file) =>
+                        form.setData((data) => ({
+                            ...data,
+                            logo: file,
+                            remove_logo: false,
+                        }))
+                    }
+                    onRemove={() =>
+                        form.setData((data) => ({
+                            ...data,
+                            logo: null,
+                            remove_logo: true,
+                        }))
+                    }
+                />
             </aside>
         </form>
     );
