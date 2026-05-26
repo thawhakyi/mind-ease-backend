@@ -17,7 +17,7 @@ type SiteSettingsForm = {
     description: string;
     email: string;
     phone: string;
-    viber_channel_number: string;
+    viber_channel_link: string;
     goal: string;
     objectives: string;
 };
@@ -37,7 +37,7 @@ export default function SiteSettings({
         description: siteSettings.description ?? '',
         email: siteSettings.email ?? '',
         phone: siteSettings.phone ?? '',
-        viber_channel_number: siteSettings.viber_channel_number ?? '',
+        viber_channel_link: siteSettings.viber_channel_link ?? '',
         goal: siteSettings.goal ?? '',
         objectives: siteSettings.objectives ?? '',
     });
@@ -106,13 +106,14 @@ export default function SiteSettings({
                             value={form.data.phone}
                         />
                         <TextField
-                            error={form.errors.viber_channel_number}
-                            label="Viber Channel Number"
-                            name="viber_channel_number"
+                            error={form.errors.viber_channel_link}
+                            label="Viber Channel Link"
+                            name="viber_channel_link"
                             onChange={(value) =>
-                                form.setData('viber_channel_number', value)
+                                form.setData('viber_channel_link', value)
                             }
-                            value={form.data.viber_channel_number}
+                            type="url"
+                            value={form.data.viber_channel_link}
                         />
                         <RichTextField
                             error={form.errors.goal}

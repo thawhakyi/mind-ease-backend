@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
     'description',
     'email',
     'phone',
-    'viber_channel_number',
+    'viber_channel_link',
     'goal',
     'objectives',
 ])]

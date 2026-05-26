@@ -41,6 +41,7 @@ class CounsellingProviderController extends Controller
                     'professional_types' => $provider->professional_types,
                     'languages' => implode(', ', $provider->languages ?? []),
                     'service_locations' => $provider->serviceLocations->pluck('name')->implode(', '),
+                    'service_modes' => $provider->service_modes ?? [],
                     'in_person' => $provider->in_person,
                     'contact_methods' => implode(', ', $provider->contact_methods ?? []),
                     'email' => $provider->email,

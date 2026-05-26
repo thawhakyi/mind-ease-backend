@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedInteger('number_of_professionals');
             $table->string('professional_types');
             $table->json('languages');
-            $table->boolean('in_person')->default(false);
+            $table->json('service_modes')->nullable();
             $table->string('office_hours');
             $table->json('contact_methods');
             $table->json('phone_numbers');

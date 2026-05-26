@@ -232,7 +232,7 @@ class PublicContentController extends Controller
                 'description',
                 'email',
                 'phone',
-                'viber_channel_number',
+                'viber_channel_link',
                 'goal',
                 'objectives',
             ]),

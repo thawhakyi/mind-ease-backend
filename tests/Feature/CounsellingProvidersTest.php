@@ -19,11 +19,17 @@ test('guests are redirected away from counselling provider management', function
 test('authenticated users can view counselling provider management pages', function () {
     $this->actingAs(User::factory()->create());
 
+    CounsellingProvider::create([
+        'provider_name' => 'Mind Care',
+        'service_modes' => ['In Person', 'Online'],
+    ]);
+
     $this->get(route('counselling-providers.index'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('counselling-providers/index')
             ->has('providers')
+            ->where('providers.0.service_modes', ['In Person', 'Online'])
         );
 
     $this->get(route('counselling-providers.create'))

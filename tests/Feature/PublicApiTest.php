@@ -11,6 +11,7 @@ use App\Models\ResourceCategory;
 use App\Models\ResourceItem;
 use App\Models\ResourceLanguage;
 use App\Models\ServiceLocation;
+use App\Models\SiteSetting;
 use App\Models\Timeline;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -338,4 +339,17 @@ test('session endpoint reports member state from the configured domain allowlist
         ->assertJsonPath('authenticated', true)
         ->assertJsonPath('is_member', true)
         ->assertJsonPath('user.email', 'member@example.org');
+});
+
+test('site settings API exposes viber channel link', function () {
+    SiteSetting::current()->update([
+        'site_name' => 'Mind Ease',
+        'viber_channel_link' => 'https://invite.viber.com/example',
+    ]);
+
+    $this->getJson('/api/v1/site-settings')
+        ->assertOk()
+        ->assertJsonPath('data.site_name', 'Mind Ease')
+        ->assertJsonPath('data.viber_channel_link', 'https://invite.viber.com/example')
+        ->assertJsonMissingPath('data.viber_channel_number');
 });

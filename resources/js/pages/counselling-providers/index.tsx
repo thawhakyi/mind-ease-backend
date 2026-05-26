@@ -37,6 +37,7 @@ type Provider = {
     professional_types: string;
     languages: string;
     service_locations: string;
+    service_modes: string[];
     in_person: boolean;
     contact_methods: string;
     email: string;
@@ -103,22 +104,34 @@ export default function CounsellingProvidersIndex({
                                     <TableCell>{provider.languages}</TableCell>
                                     <TableCell>
                                         <div>{provider.contact_methods}</div>
-                                        <div className="text-muted-foreground">
-                                            {provider.email}
-                                        </div>
                                     </TableCell>
                                     <TableCell>
-                                        <Badge
-                                            variant={
-                                                provider.in_person
-                                                    ? 'default'
-                                                    : 'secondary'
-                                            }
-                                        >
-                                            {provider.in_person
-                                                ? 'In person'
-                                                : 'Remote'}
-                                        </Badge>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {provider.service_modes.length > 0
+                                                ? provider.service_modes.map(
+                                                      (mode) => (
+                                                          <Badge
+                                                              key={mode}
+                                                              variant={
+                                                                  mode ===
+                                                                  'In Person'
+                                                                      ? 'default'
+                                                                      : 'secondary'
+                                                              }
+                                                          >
+                                                              {mode ===
+                                                              'In Person'
+                                                                  ? 'In person'
+                                                                  : 'Remote'}
+                                                          </Badge>
+                                                      ),
+                                                  )
+                                                : (
+                                                      <Badge variant="secondary">
+                                                          Remote
+                                                      </Badge>
+                                                  )}
+                                        </div>
                                     </TableCell>
                                     <TableCell>
                                         <ButtonGroup className="ml-auto">

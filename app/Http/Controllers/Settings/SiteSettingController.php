@@ -20,7 +20,7 @@ class SiteSettingController extends Controller
                 'description',
                 'email',
                 'phone',
-                'viber_channel_number',
+                'viber_channel_link',
                 'goal',
                 'objectives',
             ]),
@@ -35,7 +35,7 @@ class SiteSettingController extends Controller
             'description' => ['nullable', 'string'],
             'email' => ['nullable', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
-            'viber_channel_number' => ['nullable', 'string', 'max:255'],
+            'viber_channel_link' => ['nullable', 'url', 'max:255'],
             'goal' => ['nullable', 'string'],
             'objectives' => ['nullable', 'string'],
         ]));

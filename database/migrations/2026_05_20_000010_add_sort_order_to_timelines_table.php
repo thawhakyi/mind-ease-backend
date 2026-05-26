@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('timelines', function (Blueprint $table) {
-            $table->unsignedInteger('sort_order')->default(0)->after('description');
-        });
+        if (! Schema::hasColumn('timelines', 'sort_order')) {
+            Schema::table('timelines', function (Blueprint $table) {
+                $table->unsignedInteger('sort_order')->default(0)->after('description');
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('timelines', function (Blueprint $table) {
-            $table->dropColumn('sort_order');
-        });
+        if (Schema::hasColumn('timelines', 'sort_order')) {
+            Schema::table('timelines', function (Blueprint $table) {
+                $table->dropColumn('sort_order');
+            });
+        }
     }
 };

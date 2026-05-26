@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('viber_channel_number')->nullable();
+            $table->string('viber_channel_link')->nullable();
             $table->text('goal')->nullable();
             $table->text('objectives')->nullable();
             $table->timestamps();

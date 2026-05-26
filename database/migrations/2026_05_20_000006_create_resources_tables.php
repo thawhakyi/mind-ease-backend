@@ -17,9 +17,19 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('resource_languages', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
+
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
             $table->foreignId('resource_category_id')
+                ->constrained()
+                ->restrictOnDelete();
+            $table->foreignId('resource_language_id')
+                ->nullable()
                 ->constrained()
                 ->restrictOnDelete();
             $table->string('title');
@@ -40,6 +50,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('resources');
+        Schema::dropIfExists('resource_languages');
         Schema::dropIfExists('resource_categories');
     }
 };

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('year');
             $table->longText('description');
+            $table->unsignedInteger('sort_order')->default(0);
             $table->string('featured_image_path')->nullable();
             $table->timestamps();
         });

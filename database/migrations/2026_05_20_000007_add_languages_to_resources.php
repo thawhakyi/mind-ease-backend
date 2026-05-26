@@ -11,19 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resource_languages', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('resource_languages')) {
+            Schema::create('resource_languages', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->unique();
+                $table->timestamps();
+            });
+        }
 
-        Schema::table('resources', function (Blueprint $table) {
-            $table->foreignId('resource_language_id')
-                ->nullable()
-                ->after('resource_category_id')
-                ->constrained()
-                ->restrictOnDelete();
-        });
+        if (! Schema::hasColumn('resources', 'resource_language_id')) {
+            Schema::table('resources', function (Blueprint $table) {
+                $table->foreignId('resource_language_id')
+                    ->nullable()
+                    ->after('resource_category_id')
+                    ->constrained()
+                    ->restrictOnDelete();
+            });
+        }
     }
 
     /**
@@ -31,9 +35,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('resources', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('resource_language_id');
-        });
+        if (Schema::hasColumn('resources', 'resource_language_id')) {
+            Schema::table('resources', function (Blueprint $table) {
+                $table->dropConstrainedForeignId('resource_language_id');
+            });
+        }
 
         Schema::dropIfExists('resource_languages');
     }
