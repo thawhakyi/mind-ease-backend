@@ -1,4 +1,4 @@
-﻿import { Link, usePage } from '@inertiajs/react';
+﻿import { Link } from '@inertiajs/react';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
@@ -8,8 +8,6 @@ export default function AuthSplitLayout({
     title,
     description,
 }: AuthLayoutProps) {
-    const { name } = usePage().props;
-
     return (
         <div className="justify-between bg-background md:flex md:min-h-screen">
             {/* Image side (left) */}

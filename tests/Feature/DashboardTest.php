@@ -5,9 +5,8 @@ use App\Models\CountryOffice;
 use App\Models\Location;
 use App\Models\OpportunityNews;
 use App\Models\ProgramUpdate;
-use App\Models\ProgramUpdateActivityDetail;
-use App\Models\ResourceItem;
 use App\Models\ResourceCategory;
+use App\Models\ResourceItem;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 

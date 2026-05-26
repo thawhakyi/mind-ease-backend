@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('country_offices')) {
+        if (! Schema::hasTable('country_offices')) {
             Schema::create('country_offices', function (Blueprint $table) {
                 $table->id();
                 $table->string('name')->unique();
@@ -19,7 +19,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('locations')) {
+        if (! Schema::hasTable('locations')) {
             Schema::create('locations', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('country_office_id')->constrained()->cascadeOnDelete();
@@ -30,7 +30,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('program_updates')) {
+        if (! Schema::hasTable('program_updates')) {
             Schema::create('program_updates', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('country_office_id')->nullable()->constrained()->nullOnDelete();

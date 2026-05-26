@@ -1,5 +1,4 @@
 ﻿import { Head, Link, usePage } from '@inertiajs/react';
-import { HeartIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AuthSplitLayout from '@/layouts/auth/auth-split-layout';
 import { dashboard, login } from '@/routes';

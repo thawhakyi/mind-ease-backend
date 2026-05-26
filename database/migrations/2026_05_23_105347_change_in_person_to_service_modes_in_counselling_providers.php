@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -31,7 +31,7 @@ return new class extends Migration
         });
 
         $providers = DB::table('counselling_providers')->get();
-        foreach($providers as $provider) {
+        foreach ($providers as $provider) {
             $modes = json_decode($provider->service_modes ?? '[]');
             $inPerson = in_array('In Person', $modes);
             DB::table('counselling_providers')->where('id', $provider->id)->update(['in_person' => $inPerson]);

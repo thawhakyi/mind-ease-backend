@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 import {
     Collapsible,
     CollapsibleContent,
@@ -27,23 +27,16 @@ export type NavGroup = {
 
 function NavCollapsibleItem({ item }: { item: NavItem }) {
     const { isCurrentUrl } = useCurrentUrl();
-    const hasSubItems = !!item.items?.length;
     const isSubItemActive =
         item.items?.some((subItem) => isCurrentUrl(subItem.href)) ?? false;
     const isActive = isCurrentUrl(item.href) || isSubItemActive;
 
-    const [isOpen, setIsOpen] = useState(isActive);
-
-    useEffect(() => {
-        if (isActive) {
-            setIsOpen(true);
-        }
-    }, [isActive]);
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <Collapsible
             asChild
-            open={isOpen}
+            open={isActive || isOpen}
             onOpenChange={setIsOpen}
             className="group/collapsible"
         >

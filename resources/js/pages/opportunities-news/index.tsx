@@ -1,6 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { ArrowUpIcon, ArrowDownIcon, ArrowUpDownIcon } from 'lucide-react';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Heading from '@/components/heading';
 import {
     AlertDialog,
@@ -60,6 +60,28 @@ type PaginatedData<T> = {
     to: number;
 };
 
+function SortIcon({
+    column,
+    sort,
+    direction,
+}: {
+    column: string;
+    sort?: string;
+    direction?: 'asc' | 'desc';
+}) {
+    if (sort !== column) {
+        return (
+            <ArrowUpDownIcon className="ml-2 inline h-4 w-4 text-muted-foreground" />
+        );
+    }
+
+    return direction === 'asc' ? (
+        <ArrowUpIcon className="ml-2 inline h-4 w-4" />
+    ) : (
+        <ArrowDownIcon className="ml-2 inline h-4 w-4" />
+    );
+}
+
 export default function OpportunitiesNewsIndex({
     items,
     filters,
@@ -104,20 +126,6 @@ export default function OpportunitiesNewsIndex({
             '/opportunities-news',
             { search: searchQuery, sort: column, direction: newDirection },
             { preserveState: true, replace: true },
-        );
-    };
-
-    const SortIcon = ({ column }: { column: string }) => {
-        if (filters.sort !== column) {
-            return (
-                <ArrowUpDownIcon className="ml-2 inline h-4 w-4 text-muted-foreground" />
-            );
-        }
-
-        return filters.direction === 'asc' ? (
-            <ArrowUpIcon className="ml-2 inline h-4 w-4" />
-        ) : (
-            <ArrowDownIcon className="ml-2 inline h-4 w-4" />
         );
     };
 
@@ -185,14 +193,24 @@ export default function OpportunitiesNewsIndex({
                                         className="w-1/2 cursor-pointer select-none hover:bg-muted/50"
                                         onClick={() => handleSort('title')}
                                     >
-                                        Title <SortIcon column="title" />
+                                        Title{' '}
+                                        <SortIcon
+                                            column="title"
+                                            sort={filters.sort}
+                                            direction={filters.direction}
+                                        />
                                     </TableHead>
                                     <TableHead>Categories</TableHead>
                                     <TableHead
                                         className="cursor-pointer select-none hover:bg-muted/50"
                                         onClick={() => handleSort('created_at')}
                                     >
-                                        Created <SortIcon column="created_at" />
+                                        Created{' '}
+                                        <SortIcon
+                                            column="created_at"
+                                            sort={filters.sort}
+                                            direction={filters.direction}
+                                        />
                                     </TableHead>
                                     <TableHead className="text-right">
                                         Actions

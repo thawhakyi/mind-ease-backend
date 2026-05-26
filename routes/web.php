@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\PublicContentController;
 use App\Http\Controllers\CounsellingProviders\CounsellingProviderController;
 use App\Http\Controllers\CounsellingProviders\ServiceLocationController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OpportunitiesNews\CategoryController as OpportunityNewsCategoryController;
 use App\Http\Controllers\OpportunitiesNews\OpportunityNewsController;
 use App\Http\Controllers\ProgramUpdates\CountryOfficeController;
@@ -17,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
-
-
 Route::prefix('api/v1')->name('api.v1.')->middleware('throttle:api')->group(function (): void {
     Route::get('session', [PublicContentController::class, 'session'])->name('session');
     Route::get('program-updates', [PublicContentController::class, 'programUpdates'])->name('program-updates');
@@ -30,7 +29,7 @@ Route::prefix('api/v1')->name('api.v1.')->middleware('throttle:api')->group(func
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::get('site-settings', [SiteSettingController::class, 'edit'])->name('site-settings');
     Route::put('site-settings', [SiteSettingController::class, 'update'])->name('site-settings.update');
 
@@ -85,4 +84,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/settings.php';
-

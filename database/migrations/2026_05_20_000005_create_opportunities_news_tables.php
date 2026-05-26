@@ -27,16 +27,16 @@ return new class extends Migration
 
         Schema::create('opportunity_news_category_opportunity_news', function (Blueprint $table) {
             $table->id();
-            
+
             $table->unsignedBigInteger('opportunity_news_id');
             $table->foreign('opportunity_news_id', 'fk_onc_on_on_id')
-                  ->references('id')->on('opportunity_news')
-                  ->cascadeOnDelete();
+                ->references('id')->on('opportunity_news')
+                ->cascadeOnDelete();
 
             $table->unsignedBigInteger('opportunity_news_category_id');
             $table->foreign('opportunity_news_category_id', 'fk_onc_on_onc_id')
-                  ->references('id')->on('opportunity_news_categories')
-                  ->cascadeOnDelete();
+                ->references('id')->on('opportunity_news_categories')
+                ->cascadeOnDelete();
 
             $table->timestamps();
 

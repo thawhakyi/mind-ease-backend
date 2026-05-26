@@ -1,13 +1,4 @@
 import {
-  Dispatch,
-  HTMLAttributes,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
-import {
   eachMonthOfInterval,
   eachYearOfInterval,
   endOfYear,
@@ -16,13 +7,23 @@ import {
   isBefore,
   startOfYear,
 } from "date-fns"
+import { ChevronDownIcon } from "lucide-react"
+import type {
+  Dispatch,
+  HTMLAttributes,
+  ReactNode,
+  SetStateAction} from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import type { CaptionLabelProps, MonthGridProps } from "react-day-picker"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ChevronDownIcon } from "lucide-react"
 
 export function Pattern() {
   const today = new Date()
@@ -55,7 +56,10 @@ export function Pattern() {
                 isYearView={isYearView}
                 setIsYearView={(val) => {
                   setIsYearView(val)
-                  if (!val) setSelectedYear(null)
+
+                  if (!val) {
+setSelectedYear(null)
+}
                 }}
                 {...props}
               />
@@ -151,6 +155,7 @@ function MonthGrid({
                     {years.map((year) => {
                       const y = year.getFullYear()
                       const isCurrent = y === currentYear
+
                       return (
                         <Button
                           key={y}

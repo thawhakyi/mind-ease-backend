@@ -663,6 +663,7 @@ function parseOptionalFormatDate(value: string | null | undefined) {
     // However parseISO might be used if it is 'Y-m-d'.
     // Let's manually parse d/m/Y format since our controller maps it as `format('d/m/Y')`
     const parts = value.split('/');
+
     if (parts.length === 3) {
         const [day, month, year] = parts;
         const parsedDate = new Date(
@@ -670,6 +671,7 @@ function parseOptionalFormatDate(value: string | null | undefined) {
             Number(month) - 1,
             Number(day),
         );
+
         if (!Number.isNaN(parsedDate.getTime())) {
             return startOfDay(parsedDate);
         }

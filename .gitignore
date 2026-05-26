@@ -29,3 +29,4 @@ yarn-error.log
 /.vscode
 /.zed
 report.xml
+/.playwright-mcp

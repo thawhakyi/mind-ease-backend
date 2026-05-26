@@ -29,9 +29,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('program_update_activity_detail_id');
             $table->foreign('program_update_activity_detail_id', 'fk_adco_puad_id')
-                  ->references('id')->on('program_update_activity_details')
-                  ->cascadeOnDelete();
-            
+                ->references('id')->on('program_update_activity_details')
+                ->cascadeOnDelete();
+
             $table->foreignId('country_office_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
@@ -45,9 +45,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('program_update_activity_detail_id');
             $table->foreign('program_update_activity_detail_id', 'fk_adl_puad_id')
-                  ->references('id')->on('program_update_activity_details')
-                  ->cascadeOnDelete();
-                  
+                ->references('id')->on('program_update_activity_details')
+                ->cascadeOnDelete();
+
             $table->foreignId('location_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 

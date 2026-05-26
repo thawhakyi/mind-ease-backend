@@ -3,7 +3,6 @@ import {
     BookOpen,
     ExternalLinkIcon,
     FileText,
-    Folder,
     HeartHandshake,
     LayoutGrid,
     Menu,
