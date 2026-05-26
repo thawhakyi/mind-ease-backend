@@ -75,8 +75,11 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/var/www/laravel' }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || 22 }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          READ_GITHUB_TOKEN: ${{ secrets.GH_REPO_READ_TOKEN }}
         run: |
-          ssh -i ~/.ssh/deploy_key -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "DEPLOY_BRANCH='$DEPLOY_BRANCH' DEPLOY_PATH='$DEPLOY_PATH' bash -s" <<'EOF'
+          run: |
+          ssh -i ~/.ssh/deploy_key -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+          "DEPLOY_BRANCH='$DEPLOY_BRANCH' DEPLOY_PATH='$DEPLOY_PATH' GH_REPO_READ_TOKEN='$GH_REPO_READ_TOKEN' bash -s" <<'EOF'
           set -euo pipefail
 
           cd "$DEPLOY_PATH"
@@ -88,8 +91,9 @@ jobs:
           }
           trap cleanup EXIT
 
-          git fetch origin "$DEPLOY_BRANCH"
-          git pull --ff-only origin "$DEPLOY_BRANCH"
+          git -c http.https://github.com/.extraheader="AUTHORIZATION: bearer $GH_REPO_READ_TOKEN" fetch origin "$DEPLOY_BRANCH"
+          git checkout "$DEPLOY_BRANCH"
+          git reset --hard "origin/$DEPLOY_BRANCH"
 
           composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
