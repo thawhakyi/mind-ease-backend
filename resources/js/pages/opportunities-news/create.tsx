@@ -25,7 +25,7 @@ export default function CreateOpportunityNews({
                 <OpportunityNewsForm
                     action="/opportunities-news"
                     categories={categories}
-                    submitLabel="Create Item"
+                    submitLabel="Create"
                 />
             </div>
         </>

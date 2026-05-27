@@ -31,7 +31,7 @@ export default function CreateCounsellingProvider({
                     contactMethodOptions={contactMethodOptions}
                     languageOptions={languageOptions}
                     serviceLocations={serviceLocations}
-                    submitLabel="Create Provider"
+                    submitLabel="Create"
                 />
             </div>
         </>

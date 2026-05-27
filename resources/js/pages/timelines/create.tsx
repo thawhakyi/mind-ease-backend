@@ -18,7 +18,7 @@ export default function CreateTimeline() {
                     <CardContent>
                         <TimelineForm
                             action="/timelines"
-                            submitLabel="Create Timeline"
+                            submitLabel="Create"
                         />
                     </CardContent>
                 </Card>
