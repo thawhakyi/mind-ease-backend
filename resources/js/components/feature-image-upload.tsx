@@ -63,6 +63,7 @@ export function FeatureImageUpload({
                     id={inputId}
                     type="file"
                     accept="image/*"
+                    aria-label={legend}
                     className="hidden"
                     onChange={(event) => selectFile(event.target.files)}
                 />
@@ -84,6 +85,7 @@ export function FeatureImageUpload({
                 ) : (
                     <UploadDropzone
                         description={description}
+                        inputId={inputId}
                         label={label}
                         onBrowse={() => inputRef.current?.click()}
                         onDrop={(files) => selectFile(files)}
@@ -127,11 +129,13 @@ function storageUrl(path: string) {
 
 function UploadDropzone({
     description,
+    inputId,
     label,
     onBrowse,
     onDrop,
 }: {
     description: string;
+    inputId: string;
     label: string;
     onBrowse: () => void;
     onDrop: (files: FileList | null) => void;
@@ -150,7 +154,7 @@ function UploadDropzone({
             <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-muted">
                 <UploadIcon className="size-5 text-muted-foreground" />
             </div>
-            <FieldLabel>{label}</FieldLabel>
+            <FieldLabel htmlFor={inputId}>{label}</FieldLabel>
             <FieldDescription>{description}</FieldDescription>
             <Button type="button" size="sm" className="mt-3" onClick={onBrowse}>
                 <UploadIcon data-icon="start" />

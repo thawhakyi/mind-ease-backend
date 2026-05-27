@@ -9,6 +9,7 @@ import {
     FieldLabel,
     FieldLegend,
     FieldSet,
+    FieldTitle,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
@@ -111,11 +112,11 @@ export default function TimelineForm({
                     </Field>
 
                     <Field data-invalid={!!form.errors.description}>
-                        <FieldLabel htmlFor="description">
+                        <FieldTitle id="timeline-description-label">
                             Description
-                        </FieldLabel>
+                        </FieldTitle>
                         <RichTextEditor
-                            id="description"
+                            aria-labelledby="timeline-description-label"
                             value={form.data.description}
                             onChange={(value) =>
                                 form.setData('description', value)

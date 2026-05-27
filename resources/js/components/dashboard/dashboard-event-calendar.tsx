@@ -211,10 +211,15 @@ export function DashboardEventCalendar({
 
                     <div className="grid gap-3 sm:grid-cols-2 lg:max-w-xl">
                         <div className="flex min-w-0 flex-col gap-1 text-sm font-medium">
-                            <span id="program-calendar-country-filter">
+                            <label
+                                id="program-calendar-country-filter-label"
+                                htmlFor="program-calendar-country-filter"
+                            >
                                 Country
-                            </span>
+                            </label>
                             <NativeSelect
+                                id="program-calendar-country-filter"
+                                name="program_calendar_country_filter"
                                 value={countryFilter}
                                 onChange={(e) =>
                                     setCountryFilter(e.target.value)
@@ -229,10 +234,15 @@ export function DashboardEventCalendar({
                             </NativeSelect>
                         </div>
                         <div className="flex min-w-0 flex-col gap-1 text-sm font-medium">
-                            <span id="program-calendar-location-filter">
+                            <label
+                                id="program-calendar-location-filter-label"
+                                htmlFor="program-calendar-location-filter"
+                            >
                                 Location
-                            </span>
+                            </label>
                             <NativeSelect
+                                id="program-calendar-location-filter"
+                                name="program_calendar_location_filter"
                                 value={locationFilter}
                                 onChange={(e) =>
                                     setLocationFilter(e.target.value)

@@ -19,6 +19,7 @@ import {
     FieldLabel,
     FieldLegend,
     FieldSet,
+    FieldTitle,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -142,11 +143,11 @@ export default function ResourceForm({
                     </Field>
 
                     <Field data-invalid={!!form.errors.description}>
-                        <FieldLabel htmlFor="description">
+                        <FieldTitle id="resource-description-label">
                             Description
-                        </FieldLabel>
+                        </FieldTitle>
                         <RichTextEditor
-                            id="description"
+                            aria-labelledby="resource-description-label"
                             value={form.data.description}
                             onChange={(value) =>
                                 form.setData('description', value)
@@ -208,9 +209,12 @@ export default function ResourceForm({
                         <Field
                             data-invalid={!!form.errors.resource_category_id}
                         >
-                            <FieldLabel>Category</FieldLabel>
+                            <FieldTitle id="resource-category-label">
+                                Category
+                            </FieldTitle>
                             <CategoryCombobox
                                 categories={categories}
+                                labelId="resource-category-label"
                                 selectedId={form.data.resource_category_id}
                                 onChange={(selectedId) =>
                                     form.setData(
@@ -230,8 +234,11 @@ export default function ResourceForm({
                         <Field
                             data-invalid={!!form.errors.resource_language_id}
                         >
-                            <FieldLabel>Language</FieldLabel>
+                            <FieldTitle id="resource-language-label">
+                                Language
+                            </FieldTitle>
                             <LanguageCombobox
+                                labelId="resource-language-label"
                                 languages={languages}
                                 selectedId={form.data.resource_language_id}
                                 onChange={(selectedId) =>
@@ -259,7 +266,9 @@ export default function ResourceForm({
                             description="Restrict this resource to internal members."
                             error={errors.internal_members_only}
                             icon={LockIcon}
+                            id="resource-internal-members-only"
                             label="Internal Members Only"
+                            name="internal_members_only"
                             onCheckedChange={(checked) =>
                                 form.setData('internal_members_only', checked)
                             }
@@ -269,7 +278,9 @@ export default function ResourceForm({
                             description="Show this resource as published."
                             error={errors.is_published}
                             icon={RadioIcon}
+                            id="resource-is-published"
                             label="Publish"
+                            name="is_published"
                             onCheckedChange={(checked) =>
                                 form.setData('is_published', checked)
                             }
@@ -333,10 +344,12 @@ function fieldErrors(errors: Record<string, string | undefined>, key: string) {
 
 function CategoryCombobox({
     categories,
+    labelId,
     onChange,
     selectedId,
 }: {
     categories: CategoryOption[];
+    labelId: string;
     onChange: (selectedId: number | '') => void;
     selectedId: number | '';
 }) {
@@ -351,6 +364,7 @@ function CategoryCombobox({
                     type="button"
                     variant="outline"
                     role="combobox"
+                    aria-labelledby={labelId}
                     className="w-full justify-between"
                 >
                     <span className="truncate">
@@ -392,10 +406,12 @@ function CategoryCombobox({
 }
 
 function LanguageCombobox({
+    labelId,
     languages,
     onChange,
     selectedId,
 }: {
+    labelId: string;
     languages: LanguageOption[];
     onChange: (selectedId: number | '') => void;
     selectedId: number | '';
@@ -411,6 +427,7 @@ function LanguageCombobox({
                     type="button"
                     variant="outline"
                     role="combobox"
+                    aria-labelledby={labelId}
                     className="w-full justify-between"
                 >
                     <span className="truncate">
@@ -456,14 +473,18 @@ function SwitchField({
     description,
     error,
     icon: Icon,
+    id,
     label,
+    name,
     onCheckedChange,
 }: {
     checked: boolean;
     description: string;
     error?: string;
     icon: ComponentType<{ className?: string }>;
+    id: string;
     label: string;
+    name: string;
     onCheckedChange: (checked: boolean) => void;
 }) {
     return (
@@ -475,14 +496,20 @@ function SwitchField({
             <div className="flex min-w-0 flex-1 gap-3">
                 <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                    <FieldLabel>{label}</FieldLabel>
+                    <FieldLabel htmlFor={id}>{label}</FieldLabel>
                     <FieldDescription>{description}</FieldDescription>
                     <FieldError
                         errors={error ? [{ message: error }] : undefined}
                     />
                 </div>
             </div>
-            <Switch checked={checked} onCheckedChange={onCheckedChange} />
+            <Switch
+                id={id}
+                name={name}
+                aria-label={label}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+            />
         </Field>
     );
 }

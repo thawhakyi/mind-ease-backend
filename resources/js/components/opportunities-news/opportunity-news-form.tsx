@@ -19,6 +19,7 @@ import {
     FieldLabel,
     FieldLegend,
     FieldSet,
+    FieldTitle,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -123,11 +124,11 @@ export default function OpportunityNewsForm({
                     </Field>
 
                     <Field data-invalid={!!form.errors.description}>
-                        <FieldLabel htmlFor="description">
+                        <FieldTitle id="opportunity-description-label">
                             Description
-                        </FieldLabel>
+                        </FieldTitle>
                         <RichTextEditor
-                            id="description"
+                            aria-labelledby="opportunity-description-label"
                             value={form.data.description}
                             onChange={(value) =>
                                 form.setData('description', value)
@@ -243,6 +244,8 @@ function SwitchField({
     label: string;
     onCheckedChange: (checked: boolean) => void;
 }) {
+    const switchId = `opportunity-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
     return (
         <Field
             orientation="horizontal"
@@ -252,14 +255,19 @@ function SwitchField({
             <div className="flex min-w-0 flex-1 gap-3">
                 <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                    <FieldLabel>{label}</FieldLabel>
+                    <FieldLabel htmlFor={switchId}>{label}</FieldLabel>
                     <FieldDescription>{description}</FieldDescription>
                     <FieldError
                         errors={error ? [{ message: error }] : undefined}
                     />
                 </div>
             </div>
-            <Switch checked={checked} onCheckedChange={onCheckedChange} />
+            <Switch
+                id={switchId}
+                name={switchId}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+            />
         </Field>
     );
 }
@@ -294,6 +302,7 @@ function CategoryMultiSelect({
                     type="button"
                     variant="outline"
                     role="combobox"
+                    aria-label="Category"
                     className="w-full justify-between"
                 >
                     <span className="truncate">

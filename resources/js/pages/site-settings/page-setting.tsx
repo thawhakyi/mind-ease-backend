@@ -168,6 +168,8 @@ function SwitchField({
     label: string;
     onCheckedChange: (checked: boolean) => void;
 }) {
+    const switchId = `page-setting-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
     return (
         <Field
             orientation="horizontal"
@@ -177,14 +179,19 @@ function SwitchField({
             <div className="flex min-w-0 flex-1 gap-3">
                 <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                    <FieldLabel>{label}</FieldLabel>
+                    <FieldLabel htmlFor={switchId}>{label}</FieldLabel>
                     <FieldDescription>{description}</FieldDescription>
                     <FieldError
                         errors={error ? [{ message: error }] : undefined}
                     />
                 </div>
             </div>
-            <Switch checked={checked} onCheckedChange={onCheckedChange} />
+            <Switch
+                id={switchId}
+                name={switchId}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+            />
         </Field>
     );
 }

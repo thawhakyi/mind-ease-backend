@@ -11,6 +11,7 @@ use App\Models\ProgramUpdate;
 use App\Models\ResourceCategory;
 use App\Models\ResourceItem;
 use App\Models\ServiceLocation;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -23,30 +24,22 @@ class DashboardController extends Controller
         if ($request->filled('resource_category_id')) {
             $resourceQuery->where('resource_category_id', $request->input('resource_category_id'));
         }
-        if ($request->filled('resource_member_only')) {
-            $resourceQuery->where('internal_members_only', $request->boolean('resource_member_only'));
-        }
+        $this->applyMemberOnlyFilter($resourceQuery, $request, 'resource_member_only');
 
         $newsQuery = OpportunityNews::where('is_published', true);
         if ($request->filled('news_category_id')) {
             $newsQuery->where('opportunity_news_category_id', $request->input('news_category_id'));
         }
-        if ($request->filled('news_member_only')) {
-            $newsQuery->where('internal_members_only', $request->boolean('news_member_only'));
-        }
+        $this->applyMemberOnlyFilter($newsQuery, $request, 'news_member_only');
 
         $counsellingQuery = CounsellingProvider::where('is_published', true);
         if ($request->filled('counselling_location_id')) {
             $counsellingQuery->whereHas('serviceLocations', fn ($q) => $q->where('service_locations.id', $request->input('counselling_location_id')));
         }
-        if ($request->filled('counselling_member_only')) {
-            $counsellingQuery->where('internal_members_only', $request->boolean('counselling_member_only'));
-        }
+        $this->applyMemberOnlyFilter($counsellingQuery, $request, 'counselling_member_only');
 
         $programUpdateQuery = ProgramUpdate::where('is_published', true);
-        if ($request->filled('update_member_only')) {
-            $programUpdateQuery->where('internal_members_only', $request->boolean('update_member_only'));
-        }
+        $this->applyMemberOnlyFilter($programUpdateQuery, $request, 'update_member_only');
 
         $stats = [
             'total_resources' => $resourceQuery->count(),
@@ -99,5 +92,15 @@ class DashboardController extends Controller
                 'locations' => Location::orderBy('name')->get(['id', 'country_office_id', 'name']),
             ],
         ]);
+    }
+
+    /**
+     * @param  Builder<*>  $query
+     */
+    private function applyMemberOnlyFilter(Builder $query, Request $request, string $filterKey): void
+    {
+        if ($request->filled($filterKey)) {
+            $query->where('internal_members_only', $request->boolean($filterKey));
+        }
     }
 }

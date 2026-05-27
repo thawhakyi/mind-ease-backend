@@ -36,6 +36,7 @@ import {
     FieldError,
     FieldGroup,
     FieldLabel,
+    FieldTitle,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -105,7 +106,7 @@ export default function Locations({
                                             !!form.errors.country_office_id
                                         }
                                     >
-                                        <FieldLabel>Country Office</FieldLabel>
+                                        <FieldTitle>Country Office</FieldTitle>
                                         <CountryOfficeCombobox
                                             countryOffices={countryOffices}
                                             value={form.data.country_office_id}
@@ -139,6 +140,7 @@ export default function Locations({
                                         </FieldLabel>
                                         <Input
                                             id="name"
+                                            autoComplete="off"
                                             value={form.data.name}
                                             onChange={(event) =>
                                                 form.setData(
@@ -371,6 +373,7 @@ function CountryOfficeCombobox({
                     role="combobox"
                     aria-expanded={open}
                     aria-invalid={ariaInvalid}
+                    aria-label="Country office"
                     className="w-full justify-between"
                 >
                     <span className="truncate">

@@ -26,6 +26,7 @@ import {
     FieldLabel,
     FieldLegend,
     FieldSet,
+    FieldTitle,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -190,11 +191,11 @@ export default function CounsellingProviderForm({
                 </Field>
 
                 <Field data-invalid={!!form.errors.provider_background}>
-                    <FieldLabel htmlFor="provider_background">
+                    <FieldTitle id="provider-background-label">
                         Provider Background
-                    </FieldLabel>
+                    </FieldTitle>
                     <RichTextEditor
-                        id="provider_background"
+                        aria-labelledby="provider-background-label"
                         value={form.data.provider_background}
                         onChange={(value) =>
                             form.setData('provider_background', value)
@@ -257,7 +258,7 @@ export default function CounsellingProviderForm({
 
                 <div className="grid gap-4 md:grid-cols-2">
                     <Field data-invalid={!!form.errors.languages}>
-                        <FieldLabel>Languages</FieldLabel>
+                        <FieldTitle>Languages</FieldTitle>
                         <StringMultiSelect
                             options={languageOptions}
                             placeholder="Select languages"
@@ -271,7 +272,7 @@ export default function CounsellingProviderForm({
                     </Field>
 
                     <Field data-invalid={!!form.errors.service_location_ids}>
-                        <FieldLabel>Service locations</FieldLabel>
+                        <FieldTitle>Service locations</FieldTitle>
                         <LocationMultiSelect
                             locations={serviceLocations}
                             selectedIds={form.data.service_location_ids}
@@ -308,7 +309,7 @@ export default function CounsellingProviderForm({
                     </Field>
 
                     <Field data-invalid={!!form.errors.contact_methods}>
-                        <FieldLabel>Contact methods</FieldLabel>
+                        <FieldTitle>Contact methods</FieldTitle>
                         <StringMultiSelect
                             options={contactMethodOptions}
                             placeholder="Select contact methods"
@@ -350,6 +351,7 @@ export default function CounsellingProviderForm({
                         <Input
                             id="email"
                             type="email"
+                            autoComplete="email"
                             value={form.data.email}
                             onChange={(event) =>
                                 form.setData('email', event.target.value)
@@ -431,7 +433,7 @@ export default function CounsellingProviderForm({
                     <FieldLegend>Service</FieldLegend>
                     <FieldGroup>
                         <Field data-invalid={!!form.errors.service_modes}>
-                            <FieldLabel>Service Modes</FieldLabel>
+                            <FieldTitle>Service Modes</FieldTitle>
                             <StringMultiSelect
                                 options={['In Person', 'Online']}
                                 placeholder="Select service modes"
@@ -561,6 +563,7 @@ function LocationMultiSelect({
                     type="button"
                     variant="outline"
                     role="combobox"
+                    aria-label="Service locations"
                     className="w-full justify-between"
                 >
                     <span className="truncate">
@@ -639,6 +642,7 @@ function StringMultiSelect({
                     type="button"
                     variant="outline"
                     role="combobox"
+                    aria-label={placeholder}
                     className="w-full justify-between"
                 >
                     <span className="truncate">
@@ -694,7 +698,7 @@ function PhoneRepeater({
     return (
         <Field data-invalid={!!errors.phone_numbers}>
             <div className="flex items-center justify-between gap-3">
-                <FieldLabel>Phone numbers</FieldLabel>
+                <FieldTitle>Phone numbers</FieldTitle>
                 <Button
                     type="button"
                     variant="outline"
@@ -712,7 +716,10 @@ function PhoneRepeater({
                         className="grid gap-2 md:grid-cols-[minmax(0,1fr)_auto]"
                     >
                         <Input
+                            id={`phone_number_${index}`}
+                            name={`phone_numbers[${index}]`}
                             type="tel"
+                            autoComplete="tel"
                             value={phoneNumber}
                             onChange={(event) =>
                                 onChange(index, event.target.value)
@@ -766,6 +773,8 @@ function SwitchField({
     label: string;
     onCheckedChange: (checked: boolean) => void;
 }) {
+    const switchId = `counselling-provider-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
     return (
         <Field
             orientation="horizontal"
@@ -775,14 +784,19 @@ function SwitchField({
             <div className="flex min-w-0 flex-1 gap-3">
                 <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                    <FieldLabel>{label}</FieldLabel>
+                    <FieldLabel htmlFor={switchId}>{label}</FieldLabel>
                     <FieldDescription>{description}</FieldDescription>
                     <FieldError
                         errors={error ? [{ message: error }] : undefined}
                     />
                 </div>
             </div>
-            <Switch checked={checked} onCheckedChange={onCheckedChange} />
+            <Switch
+                id={switchId}
+                name={switchId}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+            />
         </Field>
     );
 }

@@ -173,6 +173,7 @@ function ToolbarToggle({
 
 function RichTextEditor({
   "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   className,
   defaultValue = "",
   disabled = false,
@@ -393,7 +394,8 @@ function RichTextEditor({
         data-slot="rich-text-editor-input"
         data-empty={isEmpty ? "" : undefined}
         role="textbox"
-        aria-label={ariaLabel ?? placeholder}
+        aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? placeholder)}
+        aria-labelledby={ariaLabelledBy}
         aria-multiline="true"
         aria-readonly={disabled}
         contentEditable={!disabled}

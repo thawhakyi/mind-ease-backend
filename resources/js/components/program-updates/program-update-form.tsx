@@ -31,6 +31,7 @@ import {
     FieldLabel,
     FieldLegend,
     FieldSet,
+    FieldTitle,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -232,11 +233,11 @@ export default function ProgramUpdateForm({
                         </Field>
 
                         <Field data-invalid={!!form.errors.description}>
-                            <FieldLabel htmlFor="description">
+                            <FieldTitle id="program-update-description-label">
                                 Description
-                            </FieldLabel>
+                            </FieldTitle>
                             <RichTextEditor
-                                id="description"
+                                aria-labelledby="program-update-description-label"
                                 value={form.data.description}
                                 onChange={(value) =>
                                     form.setData('description', value)
@@ -255,7 +256,7 @@ export default function ProgramUpdateForm({
 
                         <div className="grid gap-4 md:grid-cols-3">
                             <Field data-invalid={!!form.errors.quarter}>
-                                <FieldLabel>Quarter</FieldLabel>
+                                <FieldTitle>Quarter</FieldTitle>
                                 <SingleSelectCombobox
                                     emptyLabel="No quarter found."
                                     options={quarters}
@@ -301,7 +302,7 @@ export default function ProgramUpdateForm({
                             </Field>
 
                             <Field data-invalid={!!form.errors.date}>
-                                <FieldLabel>Date</FieldLabel>
+                                <FieldTitle>Date</FieldTitle>
                                 <DatePickerField
                                     value={form.data.date}
                                     ariaInvalid={!!form.errors.date}
@@ -321,7 +322,7 @@ export default function ProgramUpdateForm({
                         </div>
 
                         <Field data-invalid={!!form.errors.country_office_ids}>
-                            <FieldLabel>Country Offices</FieldLabel>
+                            <FieldTitle>Country Offices</FieldTitle>
                             <MultiSelectCombobox
                                 emptyLabel="No country office found."
                                 options={countryOffices}
@@ -383,7 +384,7 @@ export default function ProgramUpdateForm({
                             </Field>
 
                             <Field data-invalid={!!form.errors.event_type}>
-                                <FieldLabel>Event Type</FieldLabel>
+                                <FieldTitle>Event Type</FieldTitle>
                                 <SingleSelectCombobox
                                     emptyLabel="No event type found."
                                     options={eventTypes}
@@ -456,6 +457,7 @@ export default function ProgramUpdateForm({
                                                         Start Date
                                                     </FieldLabel>
                                                     <DatePickerField
+                                                        id={`activity_details_${index}_start_date`}
                                                         value={
                                                             activityDetail.start_date
                                                         }
@@ -496,6 +498,7 @@ export default function ProgramUpdateForm({
                                                         End Date
                                                     </FieldLabel>
                                                     <DatePickerField
+                                                        id={`activity_details_${index}_end_date`}
                                                         value={
                                                             activityDetail.end_date
                                                         }
@@ -531,9 +534,9 @@ export default function ProgramUpdateForm({
                                                     ]
                                                 }
                                             >
-                                                <FieldLabel>
+                                                <FieldTitle>
                                                     Country Office
-                                                </FieldLabel>
+                                                </FieldTitle>
                                                 <MultiSelectCombobox
                                                     emptyLabel="No country office found."
                                                     options={countryOffices}
@@ -568,9 +571,9 @@ export default function ProgramUpdateForm({
                                                         ]
                                                     }
                                                 >
-                                                    <FieldLabel>
+                                                    <FieldTitle>
                                                         Event Type
-                                                    </FieldLabel>
+                                                    </FieldTitle>
                                                     <SingleSelectCombobox
                                                         emptyLabel="No event type found."
                                                         options={eventTypes}
@@ -664,9 +667,9 @@ export default function ProgramUpdateForm({
                                                     ]
                                                 }
                                             >
-                                                <FieldLabel>
+                                                <FieldTitle>
                                                     Location
-                                                </FieldLabel>
+                                                </FieldTitle>
                                                 <MultiSelectCombobox
                                                     emptyLabel="No location found."
                                                     options={locationOptions}
@@ -975,7 +978,7 @@ function GalleryUpload({
                 {imageCount > 0 && (
                     <div className="space-y-3">
                         <div className="flex items-center justify-between gap-3">
-                            <FieldLabel>Gallery ({imageCount})</FieldLabel>
+                            <FieldTitle>Gallery ({imageCount})</FieldTitle>
                             <Button
                                 type="button"
                                 variant="outline"
@@ -1060,7 +1063,7 @@ function UploadDropzone({
             <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-muted">
                 <UploadIcon className="size-5 text-muted-foreground" />
             </div>
-            <FieldLabel>{label}</FieldLabel>
+            <FieldTitle>{label}</FieldTitle>
             <FieldDescription>{description}</FieldDescription>
             <Button type="button" size="sm" className="mt-3" onClick={onBrowse}>
                 <UploadIcon data-icon="start" />
@@ -1168,6 +1171,8 @@ function SwitchField({
     label: string;
     onCheckedChange: (checked: boolean) => void;
 }) {
+    const switchId = `program-update-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
     return (
         <Field
             orientation="horizontal"
@@ -1177,25 +1182,32 @@ function SwitchField({
             <div className="flex min-w-0 flex-1 gap-3">
                 <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                    <FieldLabel>{label}</FieldLabel>
+                    <FieldLabel htmlFor={switchId}>{label}</FieldLabel>
                     <FieldDescription>{description}</FieldDescription>
                     <FieldError
                         errors={error ? [{ message: error }] : undefined}
                     />
                 </div>
             </div>
-            <Switch checked={checked} onCheckedChange={onCheckedChange} />
+            <Switch
+                id={switchId}
+                name={switchId}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+            />
         </Field>
     );
 }
 
 function DatePickerField({
     ariaInvalid,
+    id,
     onChange,
     placeholder,
     value,
 }: {
     ariaInvalid?: boolean;
+    id?: string;
     onChange: (value: string) => void;
     placeholder: string;
     value: string;
@@ -1207,9 +1219,11 @@ function DatePickerField({
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
+                    id={id}
                     type="button"
                     variant="outline"
                     aria-invalid={ariaInvalid}
+                    aria-label={placeholder}
                     className="w-full justify-between font-normal"
                 >
                     <span className="truncate">{value || placeholder}</span>
@@ -1279,6 +1293,7 @@ function SingleSelectCombobox({
                     role="combobox"
                     aria-expanded={open}
                     aria-invalid={ariaInvalid}
+                    aria-label={placeholder}
                     className="w-full justify-between"
                 >
                     <span className="truncate">{value || placeholder}</span>
@@ -1352,6 +1367,7 @@ function MultiSelectCombobox({
                     type="button"
                     variant="outline"
                     role="combobox"
+                    aria-label={placeholder}
                     className="w-full justify-between"
                 >
                     <span className="truncate">

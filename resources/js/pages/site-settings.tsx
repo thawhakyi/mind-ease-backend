@@ -7,6 +7,7 @@ import {
     FieldError,
     FieldGroup,
     FieldLabel,
+    FieldTitle,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
@@ -193,11 +194,13 @@ function RichTextField({
     onChange: (value: string) => void;
     value: string;
 }) {
+    const labelId = `${name}-label`;
+
     return (
         <Field data-invalid={!!error}>
-            <FieldLabel htmlFor={name}>{label}</FieldLabel>
+            <FieldTitle id={labelId}>{label}</FieldTitle>
             <RichTextEditor
-                id={name}
+                aria-labelledby={labelId}
                 value={value}
                 onChange={onChange}
                 aria-invalid={!!error}

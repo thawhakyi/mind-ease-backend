@@ -59,8 +59,15 @@ export function DashboardStats({
                     </div>
                     <div className="mt-4 flex flex-col gap-3">
                         <div className="space-y-1.5">
-                            <Label className="text-xs">Category</Label>
+                            <Label
+                                htmlFor="resource-category-filter"
+                                className="text-xs"
+                            >
+                                Category
+                            </Label>
                             <NativeSelect
+                                id="resource-category-filter"
+                                name="resource_category_id"
                                 value={
                                     (filters.resource_category_id as string) ||
                                     ''
@@ -118,8 +125,15 @@ export function DashboardStats({
                     </div>
                     <div className="mt-4 flex flex-col gap-3">
                         <div className="space-y-1.5">
-                            <Label className="text-xs">Category</Label>
+                            <Label
+                                htmlFor="news-category-filter"
+                                className="text-xs"
+                            >
+                                Category
+                            </Label>
                             <NativeSelect
+                                id="news-category-filter"
+                                name="news_category_id"
                                 value={
                                     (filters.news_category_id as string) || ''
                                 }
@@ -176,8 +190,15 @@ export function DashboardStats({
                     </div>
                     <div className="mt-4 flex flex-col gap-3">
                         <div className="space-y-1.5">
-                            <Label className="text-xs">Location</Label>
+                            <Label
+                                htmlFor="counselling-location-filter"
+                                className="text-xs"
+                            >
+                                Location
+                            </Label>
                             <NativeSelect
+                                id="counselling-location-filter"
+                                name="counselling_location_id"
                                 value={
                                     (filters.counselling_location_id as string) ||
                                     ''
