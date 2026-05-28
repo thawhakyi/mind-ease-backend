@@ -8,10 +8,12 @@ use App\Models\Location;
 use App\Models\OpportunityNews;
 use App\Models\OpportunityNewsCategory;
 use App\Models\ProgramUpdate;
+use App\Models\ProgramUpdateActivityDetail;
 use App\Models\ResourceCategory;
 use App\Models\ResourceItem;
 use App\Models\ServiceLocation;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -34,7 +36,12 @@ class DashboardController extends Controller
 
         $counsellingQuery = CounsellingProvider::where('is_published', true);
         if ($request->filled('counselling_location_id')) {
-            $counsellingQuery->whereHas('serviceLocations', fn ($q) => $q->where('service_locations.id', $request->input('counselling_location_id')));
+            $locationId = $request->input('counselling_location_id');
+
+            $counsellingQuery->whereHas(
+                'serviceLocations',
+                fn (Builder $query) => $query->where('service_locations.id', $locationId),
+            );
         }
         $this->applyMemberOnlyFilter($counsellingQuery, $request, 'counselling_member_only');
 
@@ -66,11 +73,11 @@ class DashboardController extends Controller
                 'date' => $programUpdate->date?->format('d/m/Y'),
                 'facilitator' => $programUpdate->facilitator,
                 'event_type' => $programUpdate->event_type,
-                'country_offices' => $programUpdate->countryOffices->map(fn ($co) => [
-                    'id' => $co->id,
-                    'name' => $co->name,
+                'country_offices' => $programUpdate->countryOffices->map(fn (CountryOffice $countryOffice) => [
+                    'id' => $countryOffice->id,
+                    'name' => $countryOffice->name,
                 ]),
-                'activity_details' => $programUpdate->activityDetails->map(fn ($detail) => [
+                'activity_details' => $programUpdate->activityDetails->map(fn (ProgramUpdateActivityDetail $detail) => [
                     'start_date' => $detail->start_date?->format('d/m/Y'),
                     'end_date' => $detail->end_date?->format('d/m/Y'),
                     'event_type' => $detail->event_type,
@@ -95,7 +102,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * @param  Builder<*>  $query
+     * @param  Builder<Model>  $query
      */
     private function applyMemberOnlyFilter(Builder $query, Request $request, string $filterKey): void
     {

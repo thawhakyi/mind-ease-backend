@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\PublicContentController;
 use App\Http\Controllers\CounsellingProviders\CounsellingProviderController;
 use App\Http\Controllers\CounsellingProviders\ServiceLocationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\OpportunitiesNews\CategoryController as OpportunityNewsCategoryController;
 use App\Http\Controllers\OpportunitiesNews\OpportunityNewsController;
 use App\Http\Controllers\ProgramUpdates\CountryOfficeController;
@@ -30,6 +31,11 @@ Route::prefix('api/v1')->name('api.v1.')->middleware('throttle:api')->group(func
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('documentation', DocumentationController::class)->name('documentation');
+    Route::get('documentation/assets/{file}', [DocumentationController::class, 'asset'])
+        ->where('file', '[A-Za-z0-9][A-Za-z0-9.-]*\.png')
+        ->name('documentation.asset');
+
     Route::get('site-settings', [SiteSettingController::class, 'edit'])->name('site-settings');
     Route::put('site-settings', [SiteSettingController::class, 'update'])->name('site-settings.update');
 

@@ -23,7 +23,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard, documentation } from '@/routes';
 import type { NavItem } from '@/types';
 
 const navGroups = [
@@ -152,7 +152,7 @@ const footerNavItems: NavItem[] = [
     },
     {
         title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
+        href: documentation(),
         icon: BookOpen,
     },
 ];
