@@ -10,7 +10,6 @@ import {
     Search,
     Timer,
 } from 'lucide-react';
-import DocumentationController from '@/actions/App/Http/Controllers/DocumentationController';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -145,7 +144,7 @@ const rightNavItems: NavItem[] = [
     },
     {
         title: 'Documentation',
-        href: DocumentationController(),
+        href: '/documentation',
         icon: BookOpen,
     },
 ];
