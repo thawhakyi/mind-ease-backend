@@ -10,6 +10,7 @@ import {
     Search,
     Timer,
 } from 'lucide-react';
+import DocumentationController from '@/actions/App/Http/Controllers/DocumentationController';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -42,7 +43,7 @@ import { UserMenuContent } from '@/components/user-menu-content';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn, isExternalHref, toUrl } from '@/lib/utils';
-import { dashboard, documentation } from '@/routes';
+import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -144,7 +145,7 @@ const rightNavItems: NavItem[] = [
     },
     {
         title: 'Documentation',
-        href: documentation(),
+        href: DocumentationController(),
         icon: BookOpen,
     },
 ];

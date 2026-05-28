@@ -1,10 +1,10 @@
 import { Head } from '@inertiajs/react';
 import { ChevronDownIcon, ListIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import DocumentationController from '@/actions/App/Http/Controllers/DocumentationController';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { documentation } from '@/routes';
 
 export default function AdminUserGuide({
     contentHtml,
@@ -132,7 +132,7 @@ AdminUserGuide.layout = {
     breadcrumbs: [
         {
             title: 'Documentation',
-            href: documentation(),
+            href: DocumentationController(),
         },
     ],
 };

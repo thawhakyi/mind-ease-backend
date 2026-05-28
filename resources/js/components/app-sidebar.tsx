@@ -10,6 +10,7 @@ import {
     Settings,
     Timer,
 } from 'lucide-react';
+import DocumentationController from '@/actions/App/Http/Controllers/DocumentationController';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -23,7 +24,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard, documentation } from '@/routes';
+import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 const navGroups = [
@@ -152,7 +153,7 @@ const footerNavItems: NavItem[] = [
     },
     {
         title: 'Documentation',
-        href: documentation(),
+        href: DocumentationController(),
         icon: BookOpen,
     },
 ];
