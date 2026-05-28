@@ -8,6 +8,7 @@ use App\Models\ProgramUpdate;
 use App\Models\ResourceCategory;
 use App\Models\ResourceItem;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('guests are redirected to the login page', function () {
@@ -150,5 +151,27 @@ test('authenticated users can visit site settings', function () {
     $response->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('site-settings')
+        );
+});
+
+test('dashboard caches filter options to reduce repeated query load', function () {
+    Cache::flush();
+
+    $this->actingAs(User::factory()->create());
+
+    ResourceCategory::create(['name' => 'Initial Category']);
+
+    $this->get(route('dashboard'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('options.resourceCategories.0.name', 'Initial Category')
+        );
+
+    ResourceCategory::query()->delete();
+
+    $this->get(route('dashboard'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('options.resourceCategories.0.name', 'Initial Category')
         );
 });
