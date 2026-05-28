@@ -47,7 +47,7 @@ class PublicContentController extends Controller
             ->where('is_published', true)
             ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
             ->orderBy('sort_order')
-            ->latest()
+            ->oldest()
             ->paginate(15)
             ->through(fn (ProgramUpdate $programUpdate): array => [
                 'id' => $programUpdate->id,
@@ -87,7 +87,7 @@ class PublicContentController extends Controller
             ->with('categories:id,name')
             ->where('is_published', true)
             ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
-            ->latest()
+            ->oldest()
             ->paginate(15)
             ->through(fn (OpportunityNews $item): array => [
                 'id' => $item->id,
@@ -112,7 +112,7 @@ class PublicContentController extends Controller
             ->where('is_published', true)
             ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
             ->orderBy('sort_order')
-            ->latest()
+            ->oldest()
             ->paginate(15)
             ->through(fn (ResourceItem $resource): array => [
                 'id' => $resource->id,
@@ -148,9 +148,9 @@ class PublicContentController extends Controller
             ->through(fn (CounsellingProvider $provider): array => [
                 'id' => $provider->id,
                 'provider_name' => $provider->provider_name,
-                'provider_background' => $provider->provider_background,
-                'number_of_professionals' => $provider->number_of_professionals,
-                'professional_types' => $provider->professional_types,
+                'provider_background' => $provider->provider_background ?? '',
+                'number_of_professionals' => $provider->number_of_professionals ?? 0,
+                'professional_types' => $provider->professional_types ?? '',
                 'languages' => $provider->languages ?? [],
                 'service_locations' => $provider->serviceLocations->map(fn ($location): array => [
                     'id' => $location->id,
@@ -161,7 +161,7 @@ class PublicContentController extends Controller
                 'office_hours' => $provider->office_hours,
                 'contact_methods' => $provider->contact_methods ?? [],
                 'phone_numbers' => $provider->phone_numbers ?? [],
-                'email' => $provider->email,
+                'email' => $provider->email ?? '',
                 'website_url' => $provider->website_url,
                 'facebook_page_name' => $provider->facebook_page_name,
                 'facebook_url' => $provider->facebook_url,
@@ -173,7 +173,7 @@ class PublicContentController extends Controller
     {
         return response()->json(Timeline::query()
             ->orderBy('sort_order')
-            ->latest()
+            ->oldest()
             ->paginate(15)
             ->through(fn (Timeline $timeline): array => [
                 'id' => $timeline->id,
@@ -225,17 +225,29 @@ class PublicContentController extends Controller
 
     public function siteSettings(): JsonResponse
     {
+        $siteSettings = SiteSetting::current()->only([
+            'site_name',
+            'tagline',
+            'description',
+            'email',
+            'phone',
+            'viber_channel_link',
+            'goal',
+            'objectives',
+        ]);
+
         return response()->json([
-            'data' => SiteSetting::current()->only([
-                'site_name',
-                'tagline',
-                'description',
-                'email',
-                'phone',
-                'viber_channel_link',
-                'goal',
-                'objectives',
-            ]),
+            'data' => [
+                ...$siteSettings,
+                'page_settings' => collect(PageSetting::LABELS)
+                    ->map(fn (string $label, string $key): array => [
+                        'key' => $key,
+                        'label' => $label,
+                        'internal_members_only' => PageSetting::findOrCreateForKey($key)->internal_members_only,
+                        'is_published' => PageSetting::findOrCreateForKey($key)->is_published,
+                    ])
+                    ->values(),
+            ],
         ]);
     }
 }

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import type { ComponentType, FormEvent } from 'react';
 import { FeatureImageUpload } from '@/components/feature-image-upload';
+import { FormPageHeading } from '@/components/form-page-heading';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import {
@@ -67,6 +68,10 @@ type FormValues = {
 type Props = {
     action: string;
     contactMethodOptions: string[];
+    heading: {
+        title: string;
+        description: string;
+    };
     languageOptions: string[];
     method?: 'post' | 'patch';
     provider?: {
@@ -96,6 +101,7 @@ type Props = {
 export default function CounsellingProviderForm({
     action,
     contactMethodOptions,
+    heading,
     languageOptions,
     method = 'post',
     provider,
@@ -168,363 +174,402 @@ export default function CounsellingProviderForm({
     }
 
     return (
-        <form
-            onSubmit={submit}
-            className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]"
-        >
-            <FieldGroup className="rounded-lg border border-border bg-card p-4">
-                <Field data-invalid={!!form.errors.provider_name}>
-                    <FieldLabel htmlFor="provider_name">
-                        Provider name
-                    </FieldLabel>
-                    <Input
-                        id="provider_name"
-                        value={form.data.provider_name}
-                        onChange={(event) =>
-                            form.setData('provider_name', event.target.value)
-                        }
-                        required
-                        aria-invalid={!!form.errors.provider_name}
-                        placeholder="Provider name"
-                    />
-                    <FieldError errors={fieldErrors(errors, 'provider_name')} />
-                </Field>
+        <form onSubmit={submit} className="flex flex-col gap-6">
+            <FormPageHeading
+                description={heading.description}
+                processing={form.processing}
+                submitLabel={submitLabel}
+                title={heading.title}
+            />
 
-                <Field data-invalid={!!form.errors.provider_background}>
-                    <FieldTitle id="provider-background-label">
-                        Provider Background
-                    </FieldTitle>
-                    <RichTextEditor
-                        aria-labelledby="provider-background-label"
-                        value={form.data.provider_background}
-                        onChange={(value) =>
-                            form.setData('provider_background', value)
-                        }
-                        aria-invalid={!!form.errors.provider_background}
-                        placeholder="Write the provider background..."
-                    />
-                    <FieldError
-                        errors={fieldErrors(errors, 'provider_background')}
-                    />
-                </Field>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field data-invalid={!!form.errors.number_of_professionals}>
-                        <FieldLabel htmlFor="number_of_professionals">
-                            Number of professionals
+            <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+                <FieldGroup className="rounded-lg border border-border bg-card p-4">
+                    <Field data-invalid={!!form.errors.provider_name}>
+                        <FieldLabel htmlFor="provider_name">
+                            Provider name
                         </FieldLabel>
                         <Input
-                            id="number_of_professionals"
-                            type="number"
-                            min={0}
-                            value={form.data.number_of_professionals}
+                            id="provider_name"
+                            value={form.data.provider_name}
                             onChange={(event) =>
                                 form.setData(
-                                    'number_of_professionals',
+                                    'provider_name',
                                     event.target.value,
                                 )
                             }
-                            aria-invalid={!!form.errors.number_of_professionals}
+                            required
+                            aria-invalid={!!form.errors.provider_name}
+                            placeholder="Provider name"
                         />
                         <FieldError
-                            errors={fieldErrors(
-                                errors,
-                                'number_of_professionals',
-                            )}
+                            errors={fieldErrors(errors, 'provider_name')}
                         />
                     </Field>
 
-                    <Field data-invalid={!!form.errors.professional_types}>
-                        <FieldLabel htmlFor="professional_types">
-                            Professional types
-                        </FieldLabel>
-                        <Input
-                            id="professional_types"
-                            value={form.data.professional_types}
-                            onChange={(event) =>
-                                form.setData(
-                                    'professional_types',
-                                    event.target.value,
-                                )
+                    <Field data-invalid={!!form.errors.provider_background}>
+                        <FieldTitle id="provider-background-label">
+                            Provider Background
+                        </FieldTitle>
+                        <RichTextEditor
+                            aria-labelledby="provider-background-label"
+                            value={form.data.provider_background}
+                            onChange={(value) =>
+                                form.setData('provider_background', value)
                             }
-                            aria-invalid={!!form.errors.professional_types}
-                            placeholder="Counsellors, psychologists"
+                            aria-invalid={!!form.errors.provider_background}
+                            placeholder="Write the provider background..."
                         />
                         <FieldError
-                            errors={fieldErrors(errors, 'professional_types')}
-                        />
-                    </Field>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field data-invalid={!!form.errors.languages}>
-                        <FieldTitle>Languages</FieldTitle>
-                        <StringMultiSelect
-                            options={languageOptions}
-                            placeholder="Select languages"
-                            searchPlaceholder="Search language..."
-                            selectedValues={form.data.languages}
-                            onChange={(values) =>
-                                form.setData('languages', values)
-                            }
-                        />
-                        <FieldError errors={fieldErrors(errors, 'languages')} />
-                    </Field>
-
-                    <Field data-invalid={!!form.errors.service_location_ids}>
-                        <FieldTitle>Service locations</FieldTitle>
-                        <LocationMultiSelect
-                            locations={serviceLocations}
-                            selectedIds={form.data.service_location_ids}
-                            onChange={(selectedIds) =>
-                                form.setData(
-                                    'service_location_ids',
-                                    selectedIds,
-                                )
-                            }
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'service_location_ids')}
-                        />
-                    </Field>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field data-invalid={!!form.errors.office_hours}>
-                        <FieldLabel htmlFor="office_hours">
-                            Office hours
-                        </FieldLabel>
-                        <Input
-                            id="office_hours"
-                            value={form.data.office_hours}
-                            onChange={(event) =>
-                                form.setData('office_hours', event.target.value)
-                            }
-                            aria-invalid={!!form.errors.office_hours}
-                            placeholder="Mon-Fri 9am-5pm"
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'office_hours')}
+                            errors={fieldErrors(errors, 'provider_background')}
                         />
                     </Field>
 
-                    <Field data-invalid={!!form.errors.contact_methods}>
-                        <FieldTitle>Contact methods</FieldTitle>
-                        <StringMultiSelect
-                            options={contactMethodOptions}
-                            placeholder="Select contact methods"
-                            searchPlaceholder="Search contact method..."
-                            selectedValues={form.data.contact_methods}
-                            onChange={(values) =>
-                                form.setData('contact_methods', values)
-                            }
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'contact_methods')}
-                        />
-                    </Field>
-                </div>
-
-                <PhoneRepeater
-                    errors={errors}
-                    phoneNumbers={form.data.phone_numbers}
-                    onAdd={() =>
-                        form.setData('phone_numbers', [
-                            ...form.data.phone_numbers,
-                            '',
-                        ])
-                    }
-                    onChange={setPhoneNumber}
-                    onRemove={(index) =>
-                        form.setData(
-                            'phone_numbers',
-                            form.data.phone_numbers.filter(
-                                (_, currentIndex) => currentIndex !== index,
-                            ),
-                        )
-                    }
-                />
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field data-invalid={!!form.errors.email}>
-                        <FieldLabel htmlFor="email">Email</FieldLabel>
-                        <Input
-                            id="email"
-                            type="email"
-                            autoComplete="email"
-                            value={form.data.email}
-                            onChange={(event) =>
-                                form.setData('email', event.target.value)
-                            }
-                            aria-invalid={!!form.errors.email}
-                            placeholder="provider@example.com"
-                        />
-                        <FieldError errors={fieldErrors(errors, 'email')} />
-                    </Field>
-
-                    <Field data-invalid={!!form.errors.website_url}>
-                        <FieldLabel htmlFor="website_url">
-                            Website URL
-                        </FieldLabel>
-                        <Input
-                            id="website_url"
-                            type="url"
-                            value={form.data.website_url}
-                            onChange={(event) =>
-                                form.setData('website_url', event.target.value)
-                            }
-                            aria-invalid={!!form.errors.website_url}
-                            placeholder="https://example.com"
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'website_url')}
-                        />
-                    </Field>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field data-invalid={!!form.errors.facebook_page_name}>
-                        <FieldLabel htmlFor="facebook_page_name">
-                            Facebook Page name
-                        </FieldLabel>
-                        <Input
-                            id="facebook_page_name"
-                            value={form.data.facebook_page_name}
-                            onChange={(event) =>
-                                form.setData(
-                                    'facebook_page_name',
-                                    event.target.value,
-                                )
-                            }
-                            aria-invalid={!!form.errors.facebook_page_name}
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'facebook_page_name')}
-                        />
-                    </Field>
-
-                    <Field data-invalid={!!form.errors.facebook_url}>
-                        <FieldLabel htmlFor="facebook_url">
-                            Facebook URL
-                        </FieldLabel>
-                        <Input
-                            id="facebook_url"
-                            type="url"
-                            value={form.data.facebook_url}
-                            onChange={(event) =>
-                                form.setData('facebook_url', event.target.value)
-                            }
-                            aria-invalid={!!form.errors.facebook_url}
-                            placeholder="https://facebook.com/page"
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'facebook_url')}
-                        />
-                    </Field>
-                </div>
-
-                <div>
-                    <Button disabled={form.processing}>{submitLabel}</Button>
-                </div>
-            </FieldGroup>
-
-            <aside className="flex flex-col gap-4">
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Service</FieldLegend>
-                    <FieldGroup>
-                        <Field data-invalid={!!form.errors.service_modes}>
-                            <FieldTitle>Service Modes</FieldTitle>
-                            <StringMultiSelect
-                                options={['In Person', 'Online']}
-                                placeholder="Select service modes"
-                                searchPlaceholder="Search modes..."
-                                selectedValues={form.data.service_modes}
-                                onChange={(values) =>
-                                    form.setData('service_modes', values)
-                                }
-                            />
-                            <FieldError
-                                errors={fieldErrors(errors, 'service_modes')}
-                            />
-                        </Field>
-                    </FieldGroup>
-                </FieldSet>
-
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Publishing</FieldLegend>
-                    <FieldGroup>
-                        <SwitchField
-                            checked={form.data.internal_members_only}
-                            description="Restrict this provider to internal members."
-                            error={errors.internal_members_only}
-                            icon={LockIcon}
-                            label="Internal Members Only"
-                            onCheckedChange={(checked) =>
-                                form.setData('internal_members_only', checked)
-                            }
-                        />
-
-                        <SwitchField
-                            checked={form.data.is_published}
-                            description="Show this provider as published."
-                            error={errors.is_published}
-                            icon={RadioIcon}
-                            label="Publish"
-                            onCheckedChange={(checked) =>
-                                form.setData('is_published', checked)
-                            }
-                        />
-
-                        <Field data-invalid={!!form.errors.sort_order}>
-                            <FieldLabel htmlFor="sort_order">
-                                Sort order
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <Field
+                            data-invalid={!!form.errors.number_of_professionals}
+                        >
+                            <FieldLabel htmlFor="number_of_professionals">
+                                Number of professionals
                             </FieldLabel>
                             <Input
-                                id="sort_order"
+                                id="number_of_professionals"
                                 type="number"
                                 min={0}
-                                value={form.data.sort_order}
+                                value={form.data.number_of_professionals}
                                 onChange={(event) =>
                                     form.setData(
-                                        'sort_order',
+                                        'number_of_professionals',
                                         event.target.value,
                                     )
                                 }
-                                aria-invalid={!!form.errors.sort_order}
+                                aria-invalid={
+                                    !!form.errors.number_of_professionals
+                                }
                             />
                             <FieldError
-                                errors={fieldErrors(errors, 'sort_order')}
+                                errors={fieldErrors(
+                                    errors,
+                                    'number_of_professionals',
+                                )}
                             />
                         </Field>
-                    </FieldGroup>
-                </FieldSet>
 
-                <FeatureImageUpload
-                    error={errors.logo}
-                    file={form.data.logo}
-                    imagePath={
-                        form.data.remove_logo
-                            ? null
-                            : (provider?.logo_path ?? null)
-                    }
-                    inputId="logo"
-                    legend="Logo"
-                    onChange={(file) =>
-                        form.setData((data) => ({
-                            ...data,
-                            logo: file,
-                            remove_logo: false,
-                        }))
-                    }
-                    onRemove={() =>
-                        form.setData((data) => ({
-                            ...data,
-                            logo: null,
-                            remove_logo: true,
-                        }))
-                    }
-                />
-            </aside>
+                        <Field data-invalid={!!form.errors.professional_types}>
+                            <FieldLabel htmlFor="professional_types">
+                                Professional types
+                            </FieldLabel>
+                            <Input
+                                id="professional_types"
+                                value={form.data.professional_types}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'professional_types',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={!!form.errors.professional_types}
+                                placeholder="Counsellors, psychologists"
+                            />
+                            <FieldError
+                                errors={fieldErrors(
+                                    errors,
+                                    'professional_types',
+                                )}
+                            />
+                        </Field>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <Field data-invalid={!!form.errors.languages}>
+                            <FieldTitle>Languages</FieldTitle>
+                            <StringMultiSelect
+                                options={languageOptions}
+                                placeholder="Select languages"
+                                searchPlaceholder="Search language..."
+                                selectedValues={form.data.languages}
+                                onChange={(values) =>
+                                    form.setData('languages', values)
+                                }
+                            />
+                            <FieldError
+                                errors={fieldErrors(errors, 'languages')}
+                            />
+                        </Field>
+
+                        <Field
+                            data-invalid={!!form.errors.service_location_ids}
+                        >
+                            <FieldTitle>Service locations</FieldTitle>
+                            <LocationMultiSelect
+                                locations={serviceLocations}
+                                selectedIds={form.data.service_location_ids}
+                                onChange={(selectedIds) =>
+                                    form.setData(
+                                        'service_location_ids',
+                                        selectedIds,
+                                    )
+                                }
+                            />
+                            <FieldError
+                                errors={fieldErrors(
+                                    errors,
+                                    'service_location_ids',
+                                )}
+                            />
+                        </Field>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <Field data-invalid={!!form.errors.office_hours}>
+                            <FieldLabel htmlFor="office_hours">
+                                Office hours
+                            </FieldLabel>
+                            <Input
+                                id="office_hours"
+                                value={form.data.office_hours}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'office_hours',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={!!form.errors.office_hours}
+                                placeholder="Mon-Fri 9am-5pm"
+                            />
+                            <FieldError
+                                errors={fieldErrors(errors, 'office_hours')}
+                            />
+                        </Field>
+
+                        <Field data-invalid={!!form.errors.contact_methods}>
+                            <FieldTitle>Contact methods</FieldTitle>
+                            <StringMultiSelect
+                                options={contactMethodOptions}
+                                placeholder="Select contact methods"
+                                searchPlaceholder="Search contact method..."
+                                selectedValues={form.data.contact_methods}
+                                onChange={(values) =>
+                                    form.setData('contact_methods', values)
+                                }
+                            />
+                            <FieldError
+                                errors={fieldErrors(errors, 'contact_methods')}
+                            />
+                        </Field>
+                    </div>
+
+                    <PhoneRepeater
+                        errors={errors}
+                        phoneNumbers={form.data.phone_numbers}
+                        onAdd={() =>
+                            form.setData('phone_numbers', [
+                                ...form.data.phone_numbers,
+                                '',
+                            ])
+                        }
+                        onChange={setPhoneNumber}
+                        onRemove={(index) =>
+                            form.setData(
+                                'phone_numbers',
+                                form.data.phone_numbers.filter(
+                                    (_, currentIndex) => currentIndex !== index,
+                                ),
+                            )
+                        }
+                    />
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <Field data-invalid={!!form.errors.email}>
+                            <FieldLabel htmlFor="email">Email</FieldLabel>
+                            <Input
+                                id="email"
+                                type="email"
+                                autoComplete="email"
+                                value={form.data.email}
+                                onChange={(event) =>
+                                    form.setData('email', event.target.value)
+                                }
+                                aria-invalid={!!form.errors.email}
+                                placeholder="provider@example.com"
+                            />
+                            <FieldError errors={fieldErrors(errors, 'email')} />
+                        </Field>
+
+                        <Field data-invalid={!!form.errors.website_url}>
+                            <FieldLabel htmlFor="website_url">
+                                Website URL
+                            </FieldLabel>
+                            <Input
+                                id="website_url"
+                                type="url"
+                                value={form.data.website_url}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'website_url',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={!!form.errors.website_url}
+                                placeholder="https://example.com"
+                            />
+                            <FieldError
+                                errors={fieldErrors(errors, 'website_url')}
+                            />
+                        </Field>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <Field data-invalid={!!form.errors.facebook_page_name}>
+                            <FieldLabel htmlFor="facebook_page_name">
+                                Facebook Page name
+                            </FieldLabel>
+                            <Input
+                                id="facebook_page_name"
+                                value={form.data.facebook_page_name}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'facebook_page_name',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={!!form.errors.facebook_page_name}
+                            />
+                            <FieldError
+                                errors={fieldErrors(
+                                    errors,
+                                    'facebook_page_name',
+                                )}
+                            />
+                        </Field>
+
+                        <Field data-invalid={!!form.errors.facebook_url}>
+                            <FieldLabel htmlFor="facebook_url">
+                                Facebook URL
+                            </FieldLabel>
+                            <Input
+                                id="facebook_url"
+                                type="url"
+                                value={form.data.facebook_url}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'facebook_url',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={!!form.errors.facebook_url}
+                                placeholder="https://facebook.com/page"
+                            />
+                            <FieldError
+                                errors={fieldErrors(errors, 'facebook_url')}
+                            />
+                        </Field>
+                    </div>
+                </FieldGroup>
+
+                <aside className="flex flex-col gap-4">
+                    <FieldSet className="rounded-lg border p-4">
+                        <FieldLegend>Service</FieldLegend>
+                        <FieldGroup>
+                            <Field data-invalid={!!form.errors.service_modes}>
+                                <FieldTitle>Service Modes</FieldTitle>
+                                <StringMultiSelect
+                                    options={['In Person', 'Online']}
+                                    placeholder="Select service modes"
+                                    searchPlaceholder="Search modes..."
+                                    selectedValues={form.data.service_modes}
+                                    onChange={(values) =>
+                                        form.setData('service_modes', values)
+                                    }
+                                />
+                                <FieldError
+                                    errors={fieldErrors(
+                                        errors,
+                                        'service_modes',
+                                    )}
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </FieldSet>
+
+                    <FieldSet className="rounded-lg border p-4">
+                        <FieldLegend>Publishing</FieldLegend>
+                        <FieldGroup>
+                            <SwitchField
+                                checked={form.data.internal_members_only}
+                                description="Restrict this provider to internal members."
+                                error={errors.internal_members_only}
+                                icon={LockIcon}
+                                label="Internal Members Only"
+                                onCheckedChange={(checked) =>
+                                    form.setData(
+                                        'internal_members_only',
+                                        checked,
+                                    )
+                                }
+                            />
+
+                            <SwitchField
+                                checked={form.data.is_published}
+                                description="Show this provider as published."
+                                error={errors.is_published}
+                                icon={RadioIcon}
+                                label="Publish"
+                                onCheckedChange={(checked) =>
+                                    form.setData('is_published', checked)
+                                }
+                            />
+
+                            <Field data-invalid={!!form.errors.sort_order}>
+                                <FieldLabel htmlFor="sort_order">
+                                    Sort order
+                                </FieldLabel>
+                                <Input
+                                    id="sort_order"
+                                    type="number"
+                                    min={0}
+                                    value={form.data.sort_order}
+                                    onChange={(event) =>
+                                        form.setData(
+                                            'sort_order',
+                                            event.target.value,
+                                        )
+                                    }
+                                    aria-invalid={!!form.errors.sort_order}
+                                />
+                                <FieldError
+                                    errors={fieldErrors(errors, 'sort_order')}
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </FieldSet>
+
+                    <FeatureImageUpload
+                        error={errors.logo}
+                        file={form.data.logo}
+                        imagePath={
+                            form.data.remove_logo
+                                ? null
+                                : (provider?.logo_path ?? null)
+                        }
+                        inputId="logo"
+                        legend="Logo"
+                        onChange={(file) =>
+                            form.setData((data) => ({
+                                ...data,
+                                logo: file,
+                                remove_logo: false,
+                            }))
+                        }
+                        onRemove={() =>
+                            form.setData((data) => ({
+                                ...data,
+                                logo: null,
+                                remove_logo: true,
+                            }))
+                        }
+                    />
+                </aside>
+            </div>
         </form>
     );
 }

@@ -33,6 +33,10 @@ return [
         explode(',', env('MEMBER_EMAIL_DOMAINS', '')),
     ))),
 
+    'content_revalidation' => [
+        'secret' => env('CONTENT_REVALIDATION_SECRET'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

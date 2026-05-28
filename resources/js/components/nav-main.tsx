@@ -49,7 +49,7 @@ function NavCollapsibleItem({ item }: { item: NavItem }) {
                         setIsOpen(true);
                     }}
                 >
-                    <Link href={item.href} prefetch>
+                    <Link href={item.href}>
                         {item.icon && <item.icon />}
                         <span>{item.title}</span>
                     </Link>
@@ -71,7 +71,7 @@ function NavCollapsibleItem({ item }: { item: NavItem }) {
                                     asChild
                                     isActive={isCurrentUrl(subItem.href)}
                                 >
-                                    <Link href={subItem.href} prefetch>
+                                    <Link href={subItem.href}>
                                         <span>{subItem.title}</span>
                                     </Link>
                                 </SidebarMenuSubButton>
@@ -113,7 +113,7 @@ export function NavMain({ groups = [] }: { groups: NavGroup[] }) {
                                             isActive={isActive}
                                             tooltip={{ children: item.title }}
                                         >
-                                            <Link href={item.href} prefetch>
+                                            <Link href={item.href}>
                                                 {item.icon && <item.icon />}
                                                 <span>{item.title}</span>
                                             </Link>

@@ -1,13 +1,5 @@
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import TimelineForm from '@/components/timelines/timeline-form';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 
 type Timeline = {
     id: number;
@@ -24,28 +16,16 @@ export default function EditTimeline({ timeline }: { timeline: Timeline }) {
             <Head title="Edit Timeline" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Edit Timeline"
-                    description="Update a timeline item."
+                <TimelineForm
+                    action={`/timelines/${timeline.id}`}
+                    heading={{
+                        title: 'Edit Timeline',
+                        description: 'Update a timeline item.',
+                    }}
+                    method="patch"
+                    submitLabel="Save Timeline"
+                    timeline={timeline}
                 />
-
-                <Card>
-                    <CardHeader className="border-b pb-6">
-                        <CardTitle>Timeline details</CardTitle>
-                        <CardDescription>
-                            Update the milestone content, year, ordering, and
-                            image.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <TimelineForm
-                            action={`/timelines/${timeline.id}`}
-                            method="patch"
-                            submitLabel="Save Timeline"
-                            timeline={timeline}
-                        />
-                    </CardContent>
-                </Card>
             </div>
         </>
     );

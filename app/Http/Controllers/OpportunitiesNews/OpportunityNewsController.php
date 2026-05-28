@@ -23,12 +23,12 @@ class OpportunityNewsController extends Controller
         }
 
         $sort = request('sort', 'created_at');
-        $direction = request('direction', 'desc');
+        $direction = request('direction', 'asc');
 
         if (in_array($sort, ['title', 'created_at'])) {
             $query->orderBy($sort, $direction === 'asc' ? 'asc' : 'desc');
         } else {
-            $query->latest();
+            $query->oldest();
         }
 
         $items = $query->paginate(10)

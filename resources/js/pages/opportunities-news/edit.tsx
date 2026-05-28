@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import OpportunityNewsForm from '@/components/opportunities-news/opportunity-news-form';
 
 type Category = {
@@ -27,14 +26,13 @@ export default function EditOpportunityNews({
             <Head title="Edit Opportunities & News" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Edit Opportunities & News"
-                    description="Update an opportunity or news item."
-                />
-
                 <OpportunityNewsForm
                     action={`/opportunities-news/${item.id}`}
                     categories={categories}
+                    heading={{
+                        title: 'Edit Opportunities & News',
+                        description: 'Update an opportunity or news item.',
+                    }}
                     item={item}
                     method="patch"
                     submitLabel="Save Item"

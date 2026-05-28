@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import ResourceForm from '@/components/resources/resource-form';
 
 type Category = {
@@ -40,14 +39,13 @@ export default function EditResource({
             <Head title="Edit Resource" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Edit Resource"
-                    description="Update resource details."
-                />
-
                 <ResourceForm
                     action={`/resources/${resource.id}`}
                     categories={categories}
+                    heading={{
+                        title: 'Edit Resource',
+                        description: 'Update resource details.',
+                    }}
                     languages={languages}
                     method="patch"
                     resource={resource}

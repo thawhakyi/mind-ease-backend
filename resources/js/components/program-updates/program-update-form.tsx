@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import type { ComponentType, DragEvent } from 'react';
 import { useRef, useState } from 'react';
+import { FormPageHeading } from '@/components/form-page-heading';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -89,6 +90,10 @@ type ProgramUpdateFormValues = {
 type ProgramUpdateFormProps = {
     action: string;
     countryOffices: CountryOfficeOption[];
+    heading: {
+        title: string;
+        description: string;
+    };
     locations: LocationOption[];
     method?: 'post' | 'patch';
     programUpdate?: {
@@ -122,6 +127,7 @@ const emptyActivityDetail = (): ActivityDetailFormValues => ({
 export default function ProgramUpdateForm({
     action,
     countryOffices,
+    heading,
     locations,
     method = 'post',
     programUpdate,
@@ -208,6 +214,13 @@ export default function ProgramUpdateForm({
 
     return (
         <form onSubmit={submit} className="flex flex-col gap-6">
+            <FormPageHeading
+                description={heading.description}
+                processing={form.processing}
+                submitLabel={submitLabel}
+                title={heading.title}
+            />
+
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
                 <div>
                     <FieldGroup className="rounded-lg border border-border bg-card p-4">
@@ -817,10 +830,6 @@ export default function ProgramUpdateForm({
                         }
                     />
                 </aside>
-            </div>
-
-            <div className="flex items-center gap-3">
-                <Button disabled={form.processing}>{submitLabel}</Button>
             </div>
         </form>
     );

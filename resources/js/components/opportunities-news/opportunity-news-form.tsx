@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react';
 import { ChevronsUpDownIcon, LockIcon, RadioIcon } from 'lucide-react';
 import type { ComponentType } from 'react';
 import { FeatureImageUpload } from '@/components/feature-image-upload';
+import { FormPageHeading } from '@/components/form-page-heading';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -56,6 +57,10 @@ type Props = {
         internal_members_only?: boolean | null;
         is_published?: boolean | null;
     };
+    heading: {
+        title: string;
+        description: string;
+    };
     method?: 'post' | 'patch';
     submitLabel: string;
 };
@@ -63,6 +68,7 @@ type Props = {
 export default function OpportunityNewsForm({
     action,
     categories,
+    heading,
     item,
     method = 'post',
     submitLabel,
@@ -102,125 +108,131 @@ export default function OpportunityNewsForm({
     }
 
     return (
-        <form
-            onSubmit={submit}
-            className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]"
-        >
-            <div>
-                <FieldGroup className="rounded-lg border border-border bg-card p-4">
-                    <Field data-invalid={!!form.errors.title}>
-                        <FieldLabel htmlFor="title">Title</FieldLabel>
-                        <Input
-                            id="title"
-                            value={form.data.title}
-                            onChange={(event) =>
-                                form.setData('title', event.target.value)
-                            }
-                            required
-                            aria-invalid={!!form.errors.title}
-                            placeholder="Opportunity or news title"
-                        />
-                        <FieldError errors={fieldErrors(errors, 'title')} />
-                    </Field>
+        <form onSubmit={submit} className="flex flex-col gap-6">
+            <FormPageHeading
+                description={heading.description}
+                processing={form.processing}
+                submitLabel={submitLabel}
+                title={heading.title}
+            />
 
-                    <Field data-invalid={!!form.errors.description}>
-                        <FieldTitle id="opportunity-description-label">
-                            Description
-                        </FieldTitle>
-                        <RichTextEditor
-                            aria-labelledby="opportunity-description-label"
-                            value={form.data.description}
-                            onChange={(value) =>
-                                form.setData('description', value)
-                            }
-                            aria-invalid={!!form.errors.description}
-                            placeholder="Write the opportunity or news details..."
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'description')}
-                        />
-                    </Field>
-
-                    <div>
-                        <Button disabled={form.processing}>
-                            {submitLabel}
-                        </Button>
-                    </div>
-                </FieldGroup>
-            </div>
-
-            <aside className="flex flex-col gap-4">
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Category</FieldLegend>
-                    <FieldGroup>
-                        <Field data-invalid={!!form.errors.category_ids}>
-                            <CategoryMultiSelect
-                                categories={categories}
-                                selectedIds={form.data.category_ids}
-                                onChange={(selectedIds) =>
-                                    form.setData('category_ids', selectedIds)
+            <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+                <div>
+                    <FieldGroup className="rounded-lg border border-border bg-card p-4">
+                        <Field data-invalid={!!form.errors.title}>
+                            <FieldLabel htmlFor="title">Title</FieldLabel>
+                            <Input
+                                id="title"
+                                value={form.data.title}
+                                onChange={(event) =>
+                                    form.setData('title', event.target.value)
                                 }
+                                required
+                                aria-invalid={!!form.errors.title}
+                                placeholder="Opportunity or news title"
+                            />
+                            <FieldError errors={fieldErrors(errors, 'title')} />
+                        </Field>
+
+                        <Field data-invalid={!!form.errors.description}>
+                            <FieldTitle id="opportunity-description-label">
+                                Description
+                            </FieldTitle>
+                            <RichTextEditor
+                                aria-labelledby="opportunity-description-label"
+                                value={form.data.description}
+                                onChange={(value) =>
+                                    form.setData('description', value)
+                                }
+                                aria-invalid={!!form.errors.description}
+                                placeholder="Write the opportunity or news details..."
                             />
                             <FieldError
-                                errors={fieldErrors(errors, 'category_ids')}
+                                errors={fieldErrors(errors, 'description')}
                             />
                         </Field>
                     </FieldGroup>
-                </FieldSet>
+                </div>
 
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Publishing</FieldLegend>
-                    <FieldGroup>
-                        <SwitchField
-                            checked={form.data.internal_members_only}
-                            description="Restrict this item to internal members."
-                            error={errors.internal_members_only}
-                            icon={LockIcon}
-                            label="Internal Members Only"
-                            onCheckedChange={(checked) =>
-                                form.setData('internal_members_only', checked)
-                            }
-                        />
+                <aside className="flex flex-col gap-4">
+                    <FieldSet className="rounded-lg border p-4">
+                        <FieldLegend>Category</FieldLegend>
+                        <FieldGroup>
+                            <Field data-invalid={!!form.errors.category_ids}>
+                                <CategoryMultiSelect
+                                    categories={categories}
+                                    selectedIds={form.data.category_ids}
+                                    onChange={(selectedIds) =>
+                                        form.setData(
+                                            'category_ids',
+                                            selectedIds,
+                                        )
+                                    }
+                                />
+                                <FieldError
+                                    errors={fieldErrors(errors, 'category_ids')}
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </FieldSet>
 
-                        <SwitchField
-                            checked={form.data.is_published}
-                            description="Show this item as published."
-                            error={errors.is_published}
-                            icon={RadioIcon}
-                            label="Publish"
-                            onCheckedChange={(checked) =>
-                                form.setData('is_published', checked)
-                            }
-                        />
-                    </FieldGroup>
-                </FieldSet>
+                    <FieldSet className="rounded-lg border p-4">
+                        <FieldLegend>Publishing</FieldLegend>
+                        <FieldGroup>
+                            <SwitchField
+                                checked={form.data.internal_members_only}
+                                description="Restrict this item to internal members."
+                                error={errors.internal_members_only}
+                                icon={LockIcon}
+                                label="Internal Members Only"
+                                onCheckedChange={(checked) =>
+                                    form.setData(
+                                        'internal_members_only',
+                                        checked,
+                                    )
+                                }
+                            />
 
-                <FeatureImageUpload
-                    error={errors.featured_image}
-                    file={form.data.featured_image}
-                    imagePath={
-                        form.data.remove_featured_image
-                            ? null
-                            : (item?.featured_image_path ?? null)
-                    }
-                    inputId="featured_image"
-                    legend="Featured Image"
-                    onChange={(file) =>
-                        form.setData((data) => ({
-                            ...data,
-                            featured_image: file,
-                            remove_featured_image: false,
-                        }))
-                    }
-                    onRemove={() =>
-                        form.setData((data) => ({
-                            ...data,
-                            featured_image: null,
-                            remove_featured_image: true,
-                        }))
-                    }
-                />
-            </aside>
+                            <SwitchField
+                                checked={form.data.is_published}
+                                description="Show this item as published."
+                                error={errors.is_published}
+                                icon={RadioIcon}
+                                label="Publish"
+                                onCheckedChange={(checked) =>
+                                    form.setData('is_published', checked)
+                                }
+                            />
+                        </FieldGroup>
+                    </FieldSet>
+
+                    <FeatureImageUpload
+                        error={errors.featured_image}
+                        file={form.data.featured_image}
+                        imagePath={
+                            form.data.remove_featured_image
+                                ? null
+                                : (item?.featured_image_path ?? null)
+                        }
+                        inputId="featured_image"
+                        legend="Featured Image"
+                        onChange={(file) =>
+                            form.setData((data) => ({
+                                ...data,
+                                featured_image: file,
+                                remove_featured_image: false,
+                            }))
+                        }
+                        onRemove={() =>
+                            form.setData((data) => ({
+                                ...data,
+                                featured_image: null,
+                                remove_featured_image: true,
+                            }))
+                        }
+                    />
+                </aside>
+            </div>
         </form>
     );
 }

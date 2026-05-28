@@ -31,6 +31,24 @@ test('authenticated users can view timeline management pages', function () {
         );
 });
 
+test('timeline index shows last added items last by default', function () {
+    $this->actingAs(User::factory()->create());
+
+    $firstMilestone = Timeline::create(['title' => 'First milestone']);
+    $secondMilestone = Timeline::create(['title' => 'Second milestone']);
+
+    $firstMilestone->forceFill(['created_at' => now()->subDays(2)])->save();
+    $secondMilestone->forceFill(['created_at' => now()->subDay()])->save();
+
+    $this->get(route('timelines.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('timelines/index')
+            ->where('timelines.0.title', 'First milestone')
+            ->where('timelines.1.title', 'Second milestone')
+        );
+});
+
 test('authenticated users can create update and delete a timeline item', function () {
     $this->actingAs(User::factory()->create());
     Storage::fake('public');

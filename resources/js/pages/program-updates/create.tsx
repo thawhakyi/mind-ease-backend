@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import ProgramUpdateForm from '@/components/program-updates/program-update-form';
 
 type CountryOfficeOption = {
@@ -26,14 +25,13 @@ export default function CreateProgramUpdate({
             <Head title="Add New Program Update" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Add New"
-                    description="Create a new program update."
-                />
-
                 <ProgramUpdateForm
                     action="/program-updates"
                     countryOffices={countryOffices}
+                    heading={{
+                        title: 'Add New',
+                        description: 'Create a new program update.',
+                    }}
                     locations={locations}
                     submitLabel="Create"
                 />

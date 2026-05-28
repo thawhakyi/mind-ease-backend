@@ -1,6 +1,5 @@
 import { Head } from '@inertiajs/react';
 import CounsellingProviderForm from '@/components/counselling-providers/counselling-provider-form';
-import Heading from '@/components/heading';
 
 type ServiceLocation = {
     id: number;
@@ -43,14 +42,13 @@ export default function EditCounsellingProvider({
             <Head title="Edit Counselling Provider" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Edit Counselling Provider"
-                    description="Update counselling provider details."
-                />
-
                 <CounsellingProviderForm
                     action={`/counselling-providers/${provider.id}`}
                     contactMethodOptions={contactMethodOptions}
+                    heading={{
+                        title: 'Edit Counselling Provider',
+                        description: 'Update counselling provider details.',
+                    }}
                     languageOptions={languageOptions}
                     method="patch"
                     provider={provider}

@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import OpportunityNewsForm from '@/components/opportunities-news/opportunity-news-form';
 
 type Category = {
@@ -17,14 +16,13 @@ export default function CreateOpportunityNews({
             <Head title="Add Opportunities & News" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Add New"
-                    description="Create a new opportunity or news item."
-                />
-
                 <OpportunityNewsForm
                     action="/opportunities-news"
                     categories={categories}
+                    heading={{
+                        title: 'Add New',
+                        description: 'Create a new opportunity or news item.',
+                    }}
                     submitLabel="Create"
                 />
             </div>

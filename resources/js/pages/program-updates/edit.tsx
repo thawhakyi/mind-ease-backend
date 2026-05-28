@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import ProgramUpdateForm from '@/components/program-updates/program-update-form';
 
 type CountryOfficeOption = {
@@ -57,14 +56,13 @@ export default function EditProgramUpdate({
             <Head title="Edit Program Update" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Edit Program Update"
-                    description="Update program report details."
-                />
-
                 <ProgramUpdateForm
                     action={`/program-updates/${programUpdate.id}`}
                     countryOffices={countryOffices}
+                    heading={{
+                        title: 'Edit Program Update',
+                        description: 'Update program report details.',
+                    }}
                     locations={locations}
                     method="patch"
                     programUpdate={{

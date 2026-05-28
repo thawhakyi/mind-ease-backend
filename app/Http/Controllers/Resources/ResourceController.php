@@ -20,7 +20,7 @@ class ResourceController extends Controller
             'resources' => ResourceItem::query()
                 ->with(['category:id,name', 'language:id,name'])
                 ->orderBy('sort_order')
-                ->latest()
+                ->oldest()
                 ->get()
                 ->map(fn (ResourceItem $resource) => [
                     'id' => $resource->id,

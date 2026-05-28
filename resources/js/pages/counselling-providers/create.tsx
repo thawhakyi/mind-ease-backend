@@ -1,6 +1,5 @@
 import { Head } from '@inertiajs/react';
 import CounsellingProviderForm from '@/components/counselling-providers/counselling-provider-form';
-import Heading from '@/components/heading';
 
 type ServiceLocation = {
     id: number;
@@ -21,14 +20,13 @@ export default function CreateCounsellingProvider({
             <Head title="Add Counselling Provider" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading
-                    title="Add New"
-                    description="Create a counselling provider profile."
-                />
-
                 <CounsellingProviderForm
                     action="/counselling-providers"
                     contactMethodOptions={contactMethodOptions}
+                    heading={{
+                        title: 'Add New',
+                        description: 'Create a counselling provider profile.',
+                    }}
                     languageOptions={languageOptions}
                     serviceLocations={serviceLocations}
                     submitLabel="Create"

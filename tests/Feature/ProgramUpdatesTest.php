@@ -53,6 +53,24 @@ test('authenticated users can view program update management pages', function ()
         );
 });
 
+test('program updates index shows last added items last by default', function () {
+    $this->actingAs(User::factory()->create());
+
+    $firstUpdate = ProgramUpdate::create(['title' => 'First update']);
+    $secondUpdate = ProgramUpdate::create(['title' => 'Second update']);
+
+    $firstUpdate->forceFill(['created_at' => now()->subDays(2)])->save();
+    $secondUpdate->forceFill(['created_at' => now()->subDay()])->save();
+
+    $this->get(route('program-updates.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('program-updates/index')
+            ->where('programUpdates.0.title', 'First update')
+            ->where('programUpdates.1.title', 'Second update')
+        );
+});
+
 test('authenticated users can create update and delete a program update', function () {
     $this->actingAs(User::factory()->create());
     Storage::fake('public');

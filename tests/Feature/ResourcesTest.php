@@ -50,6 +50,24 @@ test('authenticated users can view resources management pages', function () {
         );
 });
 
+test('resources index shows last added items last by default', function () {
+    $this->actingAs(User::factory()->create());
+
+    $firstResource = ResourceItem::create(['title' => 'First resource']);
+    $secondResource = ResourceItem::create(['title' => 'Second resource']);
+
+    $firstResource->forceFill(['created_at' => now()->subDays(2)])->save();
+    $secondResource->forceFill(['created_at' => now()->subDay()])->save();
+
+    $this->get(route('resources.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('resources/index')
+            ->where('resources.0.title', 'First resource')
+            ->where('resources.1.title', 'Second resource')
+        );
+});
+
 test('authenticated users can create update and delete a resource', function () {
     $this->actingAs(User::factory()->create());
     Storage::fake('public');

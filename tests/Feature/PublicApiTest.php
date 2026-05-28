@@ -154,6 +154,78 @@ test('internal only pages require an allowed member', function () {
         ->assertOk();
 });
 
+test('internal only page settings protect public program update posts', function () {
+    config()->set('services.member_email_domains', ['example.org']);
+
+    PageSetting::findOrCreateForKey(PageSetting::PROGRAM_UPDATES)
+        ->update([
+            'internal_members_only' => true,
+            'is_published' => true,
+        ]);
+
+    ProgramUpdate::create([
+        'title' => 'Public update on private page',
+        'is_published' => true,
+        'internal_members_only' => false,
+    ]);
+
+    $this->getJson('/api/v1/program-updates')
+        ->assertForbidden();
+
+    $this->withHeaders(['X-Is-Internal-Member' => 'true'])
+        ->getJson('/api/v1/program-updates')
+        ->assertOk()
+        ->assertJsonPath('data.0.title', 'Public update on private page');
+});
+
+test('internal only page settings protect public opportunities news posts', function () {
+    config()->set('services.member_email_domains', ['example.org']);
+
+    PageSetting::findOrCreateForKey(PageSetting::OPPORTUNITIES_NEWS)
+        ->update([
+            'internal_members_only' => true,
+            'is_published' => true,
+        ]);
+
+    OpportunityNews::create([
+        'title' => 'Public news on private page',
+        'is_published' => true,
+        'internal_members_only' => false,
+    ]);
+
+    $this->getJson('/api/v1/opportunities-news')
+        ->assertForbidden();
+
+    $this->withHeaders(['X-Is-Internal-Member' => 'true'])
+        ->getJson('/api/v1/opportunities-news')
+        ->assertOk()
+        ->assertJsonPath('data.0.title', 'Public news on private page');
+});
+
+test('internal only page settings protect public counselling provider posts', function () {
+    config()->set('services.member_email_domains', ['example.org']);
+
+    PageSetting::findOrCreateForKey(PageSetting::COUNSELLING_PROVIDERS)
+        ->update([
+            'internal_members_only' => true,
+            'is_published' => true,
+        ]);
+
+    CounsellingProvider::create([
+        'provider_name' => 'Public provider on private page',
+        'is_published' => true,
+        'internal_members_only' => false,
+    ]);
+
+    $this->getJson('/api/v1/counselling-providers')
+        ->assertForbidden();
+
+    $this->withHeaders(['X-Is-Internal-Member' => 'true'])
+        ->getJson('/api/v1/counselling-providers')
+        ->assertOk()
+        ->assertJsonPath('data.0.provider_name', 'Public provider on private page');
+});
+
 test('program updates filter unpublished and internal only items', function () {
     config()->set('services.member_email_domains', ['example.org']);
 
@@ -263,6 +335,52 @@ test('counselling providers filter unpublished and internal only items', functio
         ->assertJsonFragment(['provider_name' => 'Member provider']);
 });
 
+test('counselling providers expose frontend safe defaults for guests and members', function () {
+    config()->set('services.member_email_domains', ['example.org']);
+
+    CounsellingProvider::create([
+        'provider_name' => 'Public provider',
+        'is_published' => true,
+        'internal_members_only' => false,
+    ]);
+
+    CounsellingProvider::create([
+        'provider_name' => 'Member provider',
+        'is_published' => true,
+        'internal_members_only' => true,
+    ]);
+
+    $this->getJson('/api/v1/counselling-providers')
+        ->assertOk()
+        ->assertJsonPath('data.0.provider_name', 'Public provider')
+        ->assertJsonPath('data.0.provider_background', '')
+        ->assertJsonPath('data.0.number_of_professionals', 0)
+        ->assertJsonPath('data.0.professional_types', '')
+        ->assertJsonPath('data.0.languages', [])
+        ->assertJsonPath('data.0.service_modes', [])
+        ->assertJsonPath('data.0.office_hours', null)
+        ->assertJsonPath('data.0.contact_methods', [])
+        ->assertJsonPath('data.0.phone_numbers', [])
+        ->assertJsonPath('data.0.email', '');
+
+    $this->withHeaders([
+        'X-Is-Internal-Member' => 'true',
+    ])->getJson('/api/v1/counselling-providers')
+        ->assertOk()
+        ->assertJsonCount(2, 'data')
+        ->assertJsonFragment([
+            'provider_name' => 'Member provider',
+            'provider_background' => '',
+            'number_of_professionals' => 0,
+            'professional_types' => '',
+            'languages' => [],
+            'service_modes' => [],
+            'contact_methods' => [],
+            'phone_numbers' => [],
+            'email' => '',
+        ]);
+});
+
 test('member only resources are hidden from guests and visible to allowed members', function () {
     config()->set('services.member_email_domains', ['example.org']);
 
@@ -321,6 +439,72 @@ test('member only resources are hidden from guests and visible to allowed member
         ->assertJsonPath('data.1.title', 'Member toolkit');
 });
 
+test('public post APIs show last added items last by default', function () {
+    $category = ResourceCategory::create(['name' => 'Toolkits']);
+
+    $firstUpdate = ProgramUpdate::create([
+        'title' => 'First update',
+        'is_published' => true,
+    ]);
+    $secondUpdate = ProgramUpdate::create([
+        'title' => 'Second update',
+        'is_published' => true,
+    ]);
+    $firstNews = OpportunityNews::create([
+        'title' => 'First news',
+        'is_published' => true,
+    ]);
+    $secondNews = OpportunityNews::create([
+        'title' => 'Second news',
+        'is_published' => true,
+    ]);
+    $firstResource = ResourceItem::create([
+        'resource_category_id' => $category->id,
+        'title' => 'First resource',
+        'is_published' => true,
+    ]);
+    $secondResource = ResourceItem::create([
+        'resource_category_id' => $category->id,
+        'title' => 'Second resource',
+        'is_published' => true,
+    ]);
+    $firstMilestone = Timeline::create([
+        'title' => 'First milestone',
+    ]);
+    $secondMilestone = Timeline::create([
+        'title' => 'Second milestone',
+    ]);
+
+    $firstUpdate->forceFill(['created_at' => now()->subDays(2)])->save();
+    $secondUpdate->forceFill(['created_at' => now()->subDay()])->save();
+    $firstNews->forceFill(['created_at' => now()->subDays(2)])->save();
+    $secondNews->forceFill(['created_at' => now()->subDay()])->save();
+    $firstResource->forceFill(['created_at' => now()->subDays(2)])->save();
+    $secondResource->forceFill(['created_at' => now()->subDay()])->save();
+    $firstMilestone->forceFill(['created_at' => now()->subDays(2)])->save();
+    $secondMilestone->forceFill(['created_at' => now()->subDay()])->save();
+
+    $this->getJson('/api/v1/program-updates')
+        ->assertOk()
+        ->assertJsonPath('data.0.title', 'First update')
+        ->assertJsonPath('data.1.title', 'Second update');
+
+    $this->getJson('/api/v1/opportunities-news')
+        ->assertOk()
+        ->assertJsonPath('data.0.title', 'First news')
+        ->assertJsonPath('data.1.title', 'Second news');
+
+    $this->getJson('/api/v1/resources')
+        ->assertOk()
+        ->assertJsonPath('data.0.title', 'First resource')
+        ->assertJsonPath('data.1.title', 'Second resource');
+
+    $this->getJson('/api/v1/timelines')
+        ->assertOk()
+        ->assertJsonPath('data.0.title', 'First milestone')
+        ->assertJsonPath('data.1.title', 'Second milestone');
+});
+
 test('session endpoint reports member state from the configured domain allowlist', function () {
     config()->set('services.member_email_domains', ['example.org']);
 
@@ -339,6 +523,27 @@ test('session endpoint reports member state from the configured domain allowlist
         ->assertJsonPath('authenticated', true)
         ->assertJsonPath('is_member', true)
         ->assertJsonPath('user.email', 'member@example.org');
+});
+
+test('site settings expose page navigation visibility settings', function () {
+    PageSetting::findOrCreateForKey(PageSetting::PROGRAM_UPDATES)->update([
+        'internal_members_only' => true,
+        'is_published' => true,
+    ]);
+    PageSetting::findOrCreateForKey(PageSetting::RESOURCES)->update([
+        'internal_members_only' => false,
+        'is_published' => false,
+    ]);
+
+    $this->getJson('/api/v1/site-settings')
+        ->assertOk()
+        ->assertJsonPath('data.page_settings.0.key', PageSetting::PROGRAM_UPDATES)
+        ->assertJsonPath('data.page_settings.0.label', 'Program Updates')
+        ->assertJsonPath('data.page_settings.0.internal_members_only', true)
+        ->assertJsonPath('data.page_settings.0.is_published', true)
+        ->assertJsonPath('data.page_settings.2.key', PageSetting::RESOURCES)
+        ->assertJsonPath('data.page_settings.2.internal_members_only', false)
+        ->assertJsonPath('data.page_settings.2.is_published', false);
 });
 
 test('site settings API exposes viber channel link', function () {

@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react';
 import { ChevronsUpDownIcon, LockIcon, RadioIcon } from 'lucide-react';
 import type { ComponentType, FormEvent } from 'react';
 import { FeatureImageUpload } from '@/components/feature-image-upload';
+import { FormPageHeading } from '@/components/form-page-heading';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -57,6 +58,10 @@ type FormValues = {
 type Props = {
     action: string;
     categories: CategoryOption[];
+    heading: {
+        title: string;
+        description: string;
+    };
     languages: LanguageOption[];
     method?: 'post' | 'patch';
     resource?: {
@@ -77,6 +82,7 @@ type Props = {
 export default function ResourceForm({
     action,
     categories,
+    heading,
     languages,
     method = 'post',
     resource,
@@ -121,219 +127,232 @@ export default function ResourceForm({
     }
 
     return (
-        <form
-            onSubmit={submit}
-            className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]"
-        >
-            <div>
-                <FieldGroup className="rounded-lg border border-border bg-card p-4">
-                    <Field data-invalid={!!form.errors.title}>
-                        <FieldLabel htmlFor="title">Title</FieldLabel>
-                        <Input
-                            id="title"
-                            value={form.data.title}
-                            onChange={(event) =>
-                                form.setData('title', event.target.value)
-                            }
-                            required
-                            aria-invalid={!!form.errors.title}
-                            placeholder="Resource title"
-                        />
-                        <FieldError errors={fieldErrors(errors, 'title')} />
-                    </Field>
+        <form onSubmit={submit} className="flex flex-col gap-6">
+            <FormPageHeading
+                description={heading.description}
+                processing={form.processing}
+                submitLabel={submitLabel}
+                title={heading.title}
+            />
 
-                    <Field data-invalid={!!form.errors.description}>
-                        <FieldTitle id="resource-description-label">
-                            Description
-                        </FieldTitle>
-                        <RichTextEditor
-                            aria-labelledby="resource-description-label"
-                            value={form.data.description}
-                            onChange={(value) =>
-                                form.setData('description', value)
-                            }
-                            aria-invalid={!!form.errors.description}
-                            placeholder="Write the resource details..."
-                        />
-                        <FieldError
-                            errors={fieldErrors(errors, 'description')}
-                        />
-                    </Field>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <Field data-invalid={!!form.errors.year}>
-                            <FieldLabel htmlFor="year">Year</FieldLabel>
+            <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+                <div>
+                    <FieldGroup className="rounded-lg border border-border bg-card p-4">
+                        <Field data-invalid={!!form.errors.title}>
+                            <FieldLabel htmlFor="title">Title</FieldLabel>
                             <Input
-                                id="year"
-                                type="number"
-                                min={1900}
-                                max={2100}
-                                value={form.data.year}
+                                id="title"
+                                value={form.data.title}
                                 onChange={(event) =>
-                                    form.setData('year', event.target.value)
+                                    form.setData('title', event.target.value)
                                 }
-                                aria-invalid={!!form.errors.year}
-                                placeholder="2026"
+                                required
+                                aria-invalid={!!form.errors.title}
+                                placeholder="Resource title"
                             />
-                            <FieldError errors={fieldErrors(errors, 'year')} />
+                            <FieldError errors={fieldErrors(errors, 'title')} />
                         </Field>
 
-                        <Field data-invalid={!!form.errors.url}>
-                            <FieldLabel htmlFor="url">URL</FieldLabel>
-                            <Input
-                                id="url"
-                                type="url"
-                                value={form.data.url}
-                                onChange={(event) =>
-                                    form.setData('url', event.target.value)
-                                }
-                                aria-invalid={!!form.errors.url}
-                                placeholder="https://drive.google.com/resource"
-                            />
-                            <FieldError errors={fieldErrors(errors, 'url')} />
-                        </Field>
-                    </div>
-
-                    <div>
-                        <Button disabled={form.processing}>
-                            {submitLabel}
-                        </Button>
-                    </div>
-                </FieldGroup>
-            </div>
-
-            <aside className="flex flex-col gap-4">
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Classification</FieldLegend>
-                    <FieldGroup>
-                        <Field
-                            data-invalid={!!form.errors.resource_category_id}
-                        >
-                            <FieldTitle id="resource-category-label">
-                                Category
+                        <Field data-invalid={!!form.errors.description}>
+                            <FieldTitle id="resource-description-label">
+                                Description
                             </FieldTitle>
-                            <CategoryCombobox
-                                categories={categories}
-                                labelId="resource-category-label"
-                                selectedId={form.data.resource_category_id}
-                                onChange={(selectedId) =>
-                                    form.setData(
+                            <RichTextEditor
+                                aria-labelledby="resource-description-label"
+                                value={form.data.description}
+                                onChange={(value) =>
+                                    form.setData('description', value)
+                                }
+                                aria-invalid={!!form.errors.description}
+                                placeholder="Write the resource details..."
+                            />
+                            <FieldError
+                                errors={fieldErrors(errors, 'description')}
+                            />
+                        </Field>
+
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <Field data-invalid={!!form.errors.year}>
+                                <FieldLabel htmlFor="year">Year</FieldLabel>
+                                <Input
+                                    id="year"
+                                    type="number"
+                                    min={1900}
+                                    max={2100}
+                                    value={form.data.year}
+                                    onChange={(event) =>
+                                        form.setData('year', event.target.value)
+                                    }
+                                    aria-invalid={!!form.errors.year}
+                                    placeholder="2026"
+                                />
+                                <FieldError
+                                    errors={fieldErrors(errors, 'year')}
+                                />
+                            </Field>
+
+                            <Field data-invalid={!!form.errors.url}>
+                                <FieldLabel htmlFor="url">URL</FieldLabel>
+                                <Input
+                                    id="url"
+                                    type="url"
+                                    value={form.data.url}
+                                    onChange={(event) =>
+                                        form.setData('url', event.target.value)
+                                    }
+                                    aria-invalid={!!form.errors.url}
+                                    placeholder="https://drive.google.com/resource"
+                                />
+                                <FieldError
+                                    errors={fieldErrors(errors, 'url')}
+                                />
+                            </Field>
+                        </div>
+                    </FieldGroup>
+                </div>
+
+                <aside className="flex flex-col gap-4">
+                    <FieldSet className="rounded-lg border p-4">
+                        <FieldLegend>Classification</FieldLegend>
+                        <FieldGroup>
+                            <Field
+                                data-invalid={
+                                    !!form.errors.resource_category_id
+                                }
+                            >
+                                <FieldTitle id="resource-category-label">
+                                    Category
+                                </FieldTitle>
+                                <CategoryCombobox
+                                    categories={categories}
+                                    labelId="resource-category-label"
+                                    selectedId={form.data.resource_category_id}
+                                    onChange={(selectedId) =>
+                                        form.setData(
+                                            'resource_category_id',
+                                            selectedId,
+                                        )
+                                    }
+                                />
+                                <FieldError
+                                    errors={fieldErrors(
+                                        errors,
                                         'resource_category_id',
-                                        selectedId,
-                                    )
-                                }
-                            />
-                            <FieldError
-                                errors={fieldErrors(
-                                    errors,
-                                    'resource_category_id',
-                                )}
-                            />
-                        </Field>
+                                    )}
+                                />
+                            </Field>
 
-                        <Field
-                            data-invalid={!!form.errors.resource_language_id}
-                        >
-                            <FieldTitle id="resource-language-label">
-                                Language
-                            </FieldTitle>
-                            <LanguageCombobox
-                                labelId="resource-language-label"
-                                languages={languages}
-                                selectedId={form.data.resource_language_id}
-                                onChange={(selectedId) =>
-                                    form.setData(
+                            <Field
+                                data-invalid={
+                                    !!form.errors.resource_language_id
+                                }
+                            >
+                                <FieldTitle id="resource-language-label">
+                                    Language
+                                </FieldTitle>
+                                <LanguageCombobox
+                                    labelId="resource-language-label"
+                                    languages={languages}
+                                    selectedId={form.data.resource_language_id}
+                                    onChange={(selectedId) =>
+                                        form.setData(
+                                            'resource_language_id',
+                                            selectedId,
+                                        )
+                                    }
+                                />
+                                <FieldError
+                                    errors={fieldErrors(
+                                        errors,
                                         'resource_language_id',
-                                        selectedId,
-                                    )
-                                }
-                            />
-                            <FieldError
-                                errors={fieldErrors(
-                                    errors,
-                                    'resource_language_id',
-                                )}
-                            />
-                        </Field>
-                    </FieldGroup>
-                </FieldSet>
+                                    )}
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </FieldSet>
 
-                <FieldSet className="rounded-lg border p-4">
-                    <FieldLegend>Publishing</FieldLegend>
-                    <FieldGroup>
-                        <SwitchField
-                            checked={form.data.internal_members_only}
-                            description="Restrict this resource to internal members."
-                            error={errors.internal_members_only}
-                            icon={LockIcon}
-                            id="resource-internal-members-only"
-                            label="Internal Members Only"
-                            name="internal_members_only"
-                            onCheckedChange={(checked) =>
-                                form.setData('internal_members_only', checked)
-                            }
-                        />
-                        <SwitchField
-                            checked={form.data.is_published}
-                            description="Show this resource as published."
-                            error={errors.is_published}
-                            icon={RadioIcon}
-                            id="resource-is-published"
-                            label="Publish"
-                            name="is_published"
-                            onCheckedChange={(checked) =>
-                                form.setData('is_published', checked)
-                            }
-                        />
-
-                        <Field data-invalid={!!form.errors.sort_order}>
-                            <FieldLabel htmlFor="sort_order">Order</FieldLabel>
-                            <Input
-                                id="sort_order"
-                                type="number"
-                                min={0}
-                                value={form.data.sort_order}
-                                onChange={(event) =>
+                    <FieldSet className="rounded-lg border p-4">
+                        <FieldLegend>Publishing</FieldLegend>
+                        <FieldGroup>
+                            <SwitchField
+                                checked={form.data.internal_members_only}
+                                description="Restrict this resource to internal members."
+                                error={errors.internal_members_only}
+                                icon={LockIcon}
+                                id="resource-internal-members-only"
+                                label="Internal Members Only"
+                                name="internal_members_only"
+                                onCheckedChange={(checked) =>
                                     form.setData(
-                                        'sort_order',
-                                        event.target.value,
+                                        'internal_members_only',
+                                        checked,
                                     )
                                 }
-                                aria-invalid={!!form.errors.sort_order}
                             />
-                            <FieldError
-                                errors={fieldErrors(errors, 'sort_order')}
+                            <SwitchField
+                                checked={form.data.is_published}
+                                description="Show this resource as published."
+                                error={errors.is_published}
+                                icon={RadioIcon}
+                                id="resource-is-published"
+                                label="Publish"
+                                name="is_published"
+                                onCheckedChange={(checked) =>
+                                    form.setData('is_published', checked)
+                                }
                             />
-                        </Field>
-                    </FieldGroup>
-                </FieldSet>
 
-                <FeatureImageUpload
-                    error={errors.feature_image}
-                    file={form.data.feature_image}
-                    imagePath={
-                        form.data.remove_feature_image
-                            ? null
-                            : (resource?.feature_image_path ?? null)
-                    }
-                    inputId="feature_image"
-                    legend="Feature Image"
-                    onChange={(file) =>
-                        form.setData((data) => ({
-                            ...data,
-                            feature_image: file,
-                            remove_feature_image: false,
-                        }))
-                    }
-                    onRemove={() =>
-                        form.setData((data) => ({
-                            ...data,
-                            feature_image: null,
-                            remove_feature_image: true,
-                        }))
-                    }
-                />
-            </aside>
+                            <Field data-invalid={!!form.errors.sort_order}>
+                                <FieldLabel htmlFor="sort_order">
+                                    Order
+                                </FieldLabel>
+                                <Input
+                                    id="sort_order"
+                                    type="number"
+                                    min={0}
+                                    value={form.data.sort_order}
+                                    onChange={(event) =>
+                                        form.setData(
+                                            'sort_order',
+                                            event.target.value,
+                                        )
+                                    }
+                                    aria-invalid={!!form.errors.sort_order}
+                                />
+                                <FieldError
+                                    errors={fieldErrors(errors, 'sort_order')}
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </FieldSet>
+
+                    <FeatureImageUpload
+                        error={errors.feature_image}
+                        file={form.data.feature_image}
+                        imagePath={
+                            form.data.remove_feature_image
+                                ? null
+                                : (resource?.feature_image_path ?? null)
+                        }
+                        inputId="feature_image"
+                        legend="Feature Image"
+                        onChange={(file) =>
+                            form.setData((data) => ({
+                                ...data,
+                                feature_image: file,
+                                remove_feature_image: false,
+                            }))
+                        }
+                        onRemove={() =>
+                            form.setData((data) => ({
+                                ...data,
+                                feature_image: null,
+                                remove_feature_image: true,
+                            }))
+                        }
+                    />
+                </aside>
+            </div>
         </form>
     );
 }

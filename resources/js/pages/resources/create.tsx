@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react';
-import Heading from '@/components/heading';
 import ResourceForm from '@/components/resources/resource-form';
 
 type Category = {
@@ -24,11 +23,13 @@ export default function CreateResource({
             <Head title="Add Resource" />
 
             <div className="flex flex-col gap-6 p-6">
-                <Heading title="Add New" description="Create a new resource." />
-
                 <ResourceForm
                     action="/resources"
                     categories={categories}
+                    heading={{
+                        title: 'Add New',
+                        description: 'Create a new resource.',
+                    }}
                     languages={languages}
                     submitLabel="Create"
                 />

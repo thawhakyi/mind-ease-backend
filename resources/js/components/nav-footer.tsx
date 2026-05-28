@@ -45,7 +45,7 @@ export function NavFooter({
                                             <span>{item.title}</span>
                                         </a>
                                     ) : (
-                                        <Link href={item.href} prefetch>
+                                        <Link href={item.href}>
                                             {icon}
                                             <span>{item.title}</span>
                                         </Link>

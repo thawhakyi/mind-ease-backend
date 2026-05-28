@@ -44,8 +44,11 @@ test('authenticated users can view opportunities and news management pages', fun
 test('index page returns paginated items and supports searching and sorting', function () {
     $this->actingAs(User::factory()->create());
 
-    OpportunityNews::create(['title' => 'Alpha Update', 'created_at' => now()->subDays(2)]);
-    OpportunityNews::create(['title' => 'Beta News', 'created_at' => now()->subDays(1)]);
+    $alphaUpdate = OpportunityNews::create(['title' => 'Alpha Update']);
+    $betaNews = OpportunityNews::create(['title' => 'Beta News']);
+
+    $alphaUpdate->forceFill(['created_at' => now()->subDays(2)])->save();
+    $betaNews->forceFill(['created_at' => now()->subDay()])->save();
 
     // Search
     $this->get(route('opportunities-news.index', ['search' => 'Alpha']))
@@ -54,6 +57,16 @@ test('index page returns paginated items and supports searching and sorting', fu
             ->component('opportunities-news/index')
             ->has('items.data', 1)
             ->where('items.data.0.title', 'Alpha Update')
+        );
+
+    // Default sorting by created date asc
+    $this->get(route('opportunities-news.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('opportunities-news/index')
+            ->has('items.data', 2)
+            ->where('items.data.0.title', 'Alpha Update')
+            ->where('items.data.1.title', 'Beta News')
         );
 
     // Sorting by title asc

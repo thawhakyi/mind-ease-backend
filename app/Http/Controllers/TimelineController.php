@@ -15,7 +15,7 @@ class TimelineController extends Controller
         return Inertia::render('timelines/index', [
             'timelines' => Timeline::query()
                 ->orderBy('sort_order')
-                ->latest()
+                ->oldest()
                 ->get()
                 ->map(fn (Timeline $timeline) => [
                     'id' => $timeline->id,
