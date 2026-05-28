@@ -92,16 +92,66 @@ class DashboardController extends Controller
             'stats' => $stats,
             'programUpdates' => $programUpdates,
             'filters' => $request->all(),
-            'options' => Cache::remember('dashboard:filter-options:v1', now()->addHour(), function (): array {
-                return [
-                    'resourceCategories' => ResourceCategory::orderBy('name')->get(['id', 'name']),
-                    'opportunityNewsCategories' => OpportunityNewsCategory::orderBy('name')->get(['id', 'name']),
-                    'serviceLocations' => ServiceLocation::orderBy('name')->get(['id', 'name']),
-                    'countryOffices' => CountryOffice::orderBy('name')->get(['id', 'name']),
-                    'locations' => Location::orderBy('name')->get(['id', 'country_office_id', 'name']),
-                ];
-            }),
+            'options' => $this->dashboardFilterOptions(),
         ]);
+    }
+
+    /**
+     * @return array{
+     *     resourceCategories: array<int, array{id: int, name: string}>,
+     *     opportunityNewsCategories: array<int, array{id: int, name: string}>,
+     *     serviceLocations: array<int, array{id: int, name: string}>,
+     *     countryOffices: array<int, array{id: int, name: string}>,
+     *     locations: array<int, array{id: int, country_office_id: int, name: string}>
+     * }
+     */
+    private function dashboardFilterOptions(): array
+    {
+        return Cache::remember('dashboard:filter-options:v2', now()->addHour(), function (): array {
+            return [
+                'resourceCategories' => ResourceCategory::orderBy('name')
+                    ->get(['id', 'name'])
+                    ->map(fn (ResourceCategory $category): array => [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                    ])
+                    ->values()
+                    ->all(),
+                'opportunityNewsCategories' => OpportunityNewsCategory::orderBy('name')
+                    ->get(['id', 'name'])
+                    ->map(fn (OpportunityNewsCategory $category): array => [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                    ])
+                    ->values()
+                    ->all(),
+                'serviceLocations' => ServiceLocation::orderBy('name')
+                    ->get(['id', 'name'])
+                    ->map(fn (ServiceLocation $location): array => [
+                        'id' => $location->id,
+                        'name' => $location->name,
+                    ])
+                    ->values()
+                    ->all(),
+                'countryOffices' => CountryOffice::orderBy('name')
+                    ->get(['id', 'name'])
+                    ->map(fn (CountryOffice $countryOffice): array => [
+                        'id' => $countryOffice->id,
+                        'name' => $countryOffice->name,
+                    ])
+                    ->values()
+                    ->all(),
+                'locations' => Location::orderBy('name')
+                    ->get(['id', 'country_office_id', 'name'])
+                    ->map(fn (Location $location): array => [
+                        'id' => $location->id,
+                        'country_office_id' => $location->country_office_id,
+                        'name' => $location->name,
+                    ])
+                    ->values()
+                    ->all(),
+            ];
+        });
     }
 
     /**

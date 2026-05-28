@@ -175,3 +175,25 @@ test('dashboard caches filter options to reduce repeated query load', function (
             ->where('options.resourceCategories.0.name', 'Initial Category')
         );
 });
+
+test('dashboard ignores stale filter option cache values that are not lists', function () {
+    $this->actingAs(User::factory()->create());
+
+    Cache::put('dashboard:filter-options:v1', [
+        'resourceCategories' => [
+            'stale' => ['id' => 999, 'name' => 'Stale category'],
+        ],
+        'opportunityNewsCategories' => [],
+        'serviceLocations' => [],
+        'countryOffices' => [],
+        'locations' => [],
+    ], now()->addHour());
+
+    ResourceCategory::create(['name' => 'Fresh Category']);
+
+    $this->get(route('dashboard'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('options.resourceCategories.0.name', 'Fresh Category')
+        );
+});
