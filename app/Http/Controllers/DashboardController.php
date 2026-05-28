@@ -15,6 +15,7 @@ use App\Models\ServiceLocation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -91,13 +92,15 @@ class DashboardController extends Controller
             'stats' => $stats,
             'programUpdates' => $programUpdates,
             'filters' => $request->all(),
-            'options' => [
-                'resourceCategories' => ResourceCategory::orderBy('name')->get(['id', 'name']),
-                'opportunityNewsCategories' => OpportunityNewsCategory::orderBy('name')->get(['id', 'name']),
-                'serviceLocations' => ServiceLocation::orderBy('name')->get(['id', 'name']),
-                'countryOffices' => CountryOffice::orderBy('name')->get(['id', 'name']),
-                'locations' => Location::orderBy('name')->get(['id', 'country_office_id', 'name']),
-            ],
+            'options' => Cache::remember('dashboard:filter-options:v1', now()->addHour(), function (): array {
+                return [
+                    'resourceCategories' => ResourceCategory::orderBy('name')->get(['id', 'name']),
+                    'opportunityNewsCategories' => OpportunityNewsCategory::orderBy('name')->get(['id', 'name']),
+                    'serviceLocations' => ServiceLocation::orderBy('name')->get(['id', 'name']),
+                    'countryOffices' => CountryOffice::orderBy('name')->get(['id', 'name']),
+                    'locations' => Location::orderBy('name')->get(['id', 'country_office_id', 'name']),
+                ];
+            }),
         ]);
     }
 
