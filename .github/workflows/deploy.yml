@@ -58,7 +58,7 @@ jobs:
     needs: preflight
     environment:
       name: production
-      url: https://mindease.thawhakyi.com
+      url: https://mindeaseprogram.dpdns.org
     steps:
       - name: Configure SSH
         run: |

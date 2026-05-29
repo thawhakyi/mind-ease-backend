@@ -1,6 +1,6 @@
 # Mind Ease Admin User Guide
 
-This guide explains how admin users operate the Laravel backend at `https://mindeaseprogram.dpdns.org`. The backend is an authenticated Inertia React admin panel for managing Mind Ease content, provider directory entries, site settings, page visibility, and account security.
+This guide explains how admin users operate the Laravel backend at `https://mindeaseprogram.dpdns.org`. The backend is an authenticated Inertia React admin panel for managing Mind Ease content, resources, counselling service provider entries, site settings, page visibility, and account security.
 
 ## Sign In
 
@@ -34,7 +34,7 @@ The overview cards summarize:
 
 The Program Event Calendar shows scheduled program activity details. Use the Country and Location filters to narrow visible events. Member-only counts highlight records restricted to internal members.
 
-## Navigation And Shared Actions
+## Side Bar Navigation And Sub-menu Actions
 
 ![Program updates list and sidebar navigation](admin-user-guide/03-program-updates-list.png)
 
@@ -43,9 +43,11 @@ The left sidebar groups admin areas by workflow:
 - Overview: Dashboard.
 - Content Management: Program Updates, Opportunities & News, Resources, Timeline.
 - Directory: Counselling Providers.
-- System: Site Settings, Go to Website, Documentation.
+- System: Site Settings
+- Go to Website
+- Documentation
 
-Most list screens use the same admin patterns:
+Most list screens use the same patterns:
 
 - `Add New` opens a create form.
 - Pencil or edit actions open the edit form for an existing record.
@@ -54,8 +56,8 @@ Most list screens use the same admin patterns:
 
 The key visibility switches are consistent across content forms:
 
-- `Publish`: the item can appear through public frontend/API content if enabled.
-- `Internal Members Only`: the item is hidden from guest users and limited to signed-in member access where the frontend honors member-only filtering.
+- `Publish`: the post/page can appear through public frontend/API content if enabled.
+- `Internal Members Only`: the post/page is hidden from guest users and limited to signed-in member only access.
 
 ## Program Updates
 
