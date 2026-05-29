@@ -53,21 +53,42 @@ test('authenticated users can view program update management pages', function ()
         );
 });
 
-test('program updates index shows last added items last by default', function () {
+test('program updates index orders by quarter year, then oldest post date', function () {
     $this->actingAs(User::factory()->create());
 
-    $firstUpdate = ProgramUpdate::create(['title' => 'First update']);
-    $secondUpdate = ProgramUpdate::create(['title' => 'Second update']);
-
-    $firstUpdate->forceFill(['created_at' => now()->subDays(2)])->save();
-    $secondUpdate->forceFill(['created_at' => now()->subDay()])->save();
+    ProgramUpdate::create([
+        'title' => 'Q2 first',
+        'quarter' => 'Quarter 2',
+        'year' => 2026,
+        'date' => '2026-04-01',
+    ]);
+    ProgramUpdate::create([
+        'title' => 'Q1 newer',
+        'quarter' => 'Quarter 1',
+        'year' => 2026,
+        'date' => '2026-03-15',
+    ]);
+    ProgramUpdate::create([
+        'title' => 'Q1 older',
+        'quarter' => 'Quarter 1',
+        'year' => 2026,
+        'date' => '2026-01-10',
+    ]);
+    ProgramUpdate::create([
+        'title' => 'Previous year',
+        'quarter' => 'Quarter 4',
+        'year' => 2025,
+        'date' => '2025-12-01',
+    ]);
 
     $this->get(route('program-updates.index'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('program-updates/index')
-            ->where('programUpdates.0.title', 'First update')
-            ->where('programUpdates.1.title', 'Second update')
+            ->where('programUpdates.0.title', 'Previous year')
+            ->where('programUpdates.1.title', 'Q1 older')
+            ->where('programUpdates.2.title', 'Q1 newer')
+            ->where('programUpdates.3.title', 'Q2 first')
         );
 });
 

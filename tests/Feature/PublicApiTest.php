@@ -505,6 +505,44 @@ test('public post APIs show last added items last by default', function () {
         ->assertJsonPath('data.1.title', 'Second milestone');
 });
 
+test('program updates API orders by quarter year, then oldest post date', function () {
+    ProgramUpdate::create([
+        'title' => 'Q2 first',
+        'quarter' => 'Quarter 2',
+        'year' => 2026,
+        'date' => '2026-04-01',
+        'is_published' => true,
+    ]);
+    ProgramUpdate::create([
+        'title' => 'Q1 newer',
+        'quarter' => 'Quarter 1',
+        'year' => 2026,
+        'date' => '2026-03-15',
+        'is_published' => true,
+    ]);
+    ProgramUpdate::create([
+        'title' => 'Q1 older',
+        'quarter' => 'Quarter 1',
+        'year' => 2026,
+        'date' => '2026-01-10',
+        'is_published' => true,
+    ]);
+    ProgramUpdate::create([
+        'title' => 'Previous year',
+        'quarter' => 'Quarter 4',
+        'year' => 2025,
+        'date' => '2025-12-01',
+        'is_published' => true,
+    ]);
+
+    $this->getJson('/api/v1/program-updates')
+        ->assertOk()
+        ->assertJsonPath('data.0.title', 'Previous year')
+        ->assertJsonPath('data.1.title', 'Q1 older')
+        ->assertJsonPath('data.2.title', 'Q1 newer')
+        ->assertJsonPath('data.3.title', 'Q2 first');
+});
+
 test('session endpoint reports member state from the configured domain allowlist', function () {
     config()->set('services.member_email_domains', ['example.org']);
 

@@ -1,14 +1,14 @@
 # Mind Ease Admin User Guide
 
-This guide explains how admin users operate the Laravel backend at `http://localhost:8000`. The backend is an authenticated Inertia React admin panel for managing Mind Ease content, provider directory entries, site settings, page visibility, and account security.
+This guide explains how admin users operate the Laravel backend at `https://mindeaseprogram.dpdns.org`. The backend is an authenticated Inertia React admin panel for managing Mind Ease content, provider directory entries, site settings, page visibility, and account security.
 
 ## Sign In
 
 ![Login screen](admin-user-guide/01-login.png)
 
-Open `http://localhost:8000/login`.
+Open `https://mindeaseprogram.dpdns.org/login`.
 
-Use the admin email and password provided by the project owner. In the local development database used for this guide, `codex@example.com` with password `password` signs in successfully.
+Use the admin email and password provided by the project owner. In the local development database used for this guide, `email@example.com` with password `password` signs in successfully.
 
 The login page supports:
 
@@ -302,7 +302,6 @@ Use these rules when publishing:
 - Public content should enable `Publish`.
 - Restricted content should enable both `Publish` and `Internal Members Only`.
 - Page-level restrictions in Page Settings can hide or restrict an entire frontend page even if individual content records are published.
-- Records without required classification data may be harder for frontend users to find, even when published.
 
 The public API filters published and member-only content before returning records to the frontend.
 
@@ -315,9 +314,9 @@ Common admin issues:
 - If a page redirects to login, sign in again.
 - If a security page asks for confirmation, enter the current password.
 - If a content item does not appear on the frontend, check `Publish`, `Internal Members Only`, page settings, category/language/location assignments, and frontend caching/build state.
-- If an uploaded image does not display, check the public storage link and file path.
+- If an uploaded image does not display, refresh the browser or sign out and sign in again.
 - If a Viber link or website URL fails validation, enter a full URL such as `https://example.com`.
-- If frontend changes are not reflected locally, run the frontend dev server or rebuild assets with the project commands.
+- If frontend changes are not reflected immediately, wait about 10 minutes to expire frontend cache.
 
 Useful local commands for developers supporting admin users:
 

@@ -24,7 +24,7 @@ class ProgramUpdateController extends Controller
         return Inertia::render('program-updates/index', [
             'programUpdates' => ProgramUpdate::query()
                 ->with('countryOffices:id,name')
-                ->oldest()
+                ->orderedForTimeline()
                 ->get(['id', 'title', 'description', 'quarter', 'year', 'date', 'facilitator', 'event_type', 'internal_members_only', 'is_published', 'created_at'])
                 ->map(fn (ProgramUpdate $programUpdate) => [
                     'id' => $programUpdate->id,

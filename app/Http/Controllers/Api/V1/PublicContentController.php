@@ -46,8 +46,7 @@ class PublicContentController extends Controller
             ])
             ->where('is_published', true)
             ->when(! $this->currentUserIsMember(), fn ($query) => $query->where('internal_members_only', false))
-            ->orderBy('sort_order')
-            ->oldest()
+            ->orderedForTimeline()
             ->paginate(15)
             ->through(fn (ProgramUpdate $programUpdate): array => [
                 'id' => $programUpdate->id,
